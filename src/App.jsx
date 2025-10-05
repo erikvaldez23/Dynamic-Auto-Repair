@@ -7,8 +7,10 @@ import Topbar from "./components/key-components/Topbar";
 import Footer from "./components/key-components/Footer";
 
 // Landing Page
+import Hero from "./components/landing/Hero"
 import Services from "./components/landing/Services"
 import ServicesStrip from "./components/landing/ServicesStrip";
+import CTA from "./components/landing/CTA";
 
 // Sub Pages
 
@@ -45,9 +47,10 @@ function App() {
               path="/"
               element={
                 <>
-                  {/* <Hero /> */}
+                  <Hero />
                   <Services />
                   <ServicesStrip />
+                  <CTA />
                   {/* <Intro /> */}
                   {/* <About /> */}
                   {/* <Offer /> */}

@@ -1,3 +1,4 @@
+// src/components/sections/Services.jsx
 import React from "react";
 import {
   Box,
@@ -5,6 +6,7 @@ import {
   Typography,
   Grid,
   Link as MuiLink,
+  Button,
   useTheme,
   useMediaQuery,
 } from "@mui/material";
@@ -27,14 +29,6 @@ const TitleWrap = styled(Box)(({ theme }) => ({
   alignItems: "baseline",
   gap: theme.spacing(2),
   marginBottom: theme.spacing(3),
-}));
-
-const TitleAccent = styled("span")(() => ({
-  display: "inline-block",
-  width: 56,
-  height: 4,
-  borderRadius: 4,
-  background: `linear-gradient(90deg, ${ACCENT}, ${ACCENT_SOFT})`,
 }));
 
 const Tile = styled(MuiLink)(({ theme }) => ({
@@ -64,7 +58,7 @@ const Tile = styled(MuiLink)(({ theme }) => ({
     position: "absolute",
     inset: 0,
     background:
-      `linear-gradient(180deg, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.45) 30%, rgba(0,0,0,0.35) 100%)`,
+      "linear-gradient(180deg, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.45) 30%, rgba(0,0,0,0.35) 100%)",
     zIndex: 2,
   },
   "& .label": {
@@ -83,20 +77,34 @@ const Tile = styled(MuiLink)(({ theme }) => ({
     background: `linear-gradient(90deg, ${ACCENT}, ${ACCENT_SOFT})`,
   },
 
-  // hover: soft accent glow behind the image/tile
   "&:hover": {
     boxShadow: `
-      0 18px 60px ${alpha("#000", 0.5)},           /* deeper drop shadow */
-      0 0 0 1px ${alpha(ACCENT, 0.25)},            /* subtle gold outline */
-      0 35px 90px ${alpha(ACCENT, 0.28)}           /* soft accent bloom */
+      0 18px 60px ${alpha("#000", 0.5)},
+      0 0 0 1px ${alpha(ACCENT, 0.25)},
+      0 35px 90px ${alpha(ACCENT, 0.28)}
     `,
   },
   "&:hover .img": { filter: "saturate(1.05)" },
 }));
 
+// View All button
+const ViewAllBtn = styled(Button)(({ theme }) => ({
+  textTransform: "none",
+  fontWeight: 900,
+  borderRadius: 12,
+  paddingInline: theme.spacing(2.6),
+  paddingBlock: theme.spacing(1.2),
+  color: "#0e0f11",
+  background: `linear-gradient(180deg, ${ACCENT} 0%, ${ACCENT_SOFT} 100%)`,
+  boxShadow: `0 10px 26px ${alpha("#000", 0.35)}`,
+  "&:hover": {
+    background: `linear-gradient(180deg, ${ACCENT_SOFT} 0%, ${ACCENT} 100%)`,
+    boxShadow: `0 14px 34px ${alpha("#000", 0.45)}`,
+  },
+}));
 
 /* ----------------------------- Layout helper --------------------------- */
-// A responsive CSS grid that mirrors the screenshot: one large left tile, four smaller right tiles (2x2)
+// One large left tile, four smaller right tiles (2x2)
 const Mosaic = styled("div")(({ theme }) => ({
   display: "grid",
   gap: theme.spacing(2.25),
@@ -135,32 +143,27 @@ export default function Services({ items }) {
   const fallback = [
     {
       title: "A/C & Heating",
-      image:
-        "/services/a-c.jpg",
+      image: "/services/a-c.jpg",
       href: "/services/ac-heating",
     },
     {
       title: "Check Engine Light",
-      image:
-        "/services/check-engine.jpg",
+      image: "/services/check-engine.jpg",
       href: "/services/check-engine",
     },
     {
       title: "Oil Change",
-      image:
-        "/services/oil-change.jpg",
+      image: "/services/oil-change.jpg",
       href: "/services/oil-change",
     },
     {
       title: "Suspension",
-      image:
-        "/services/suspension.jpg",
+      image: "/services/suspension.jpg",
       href: "/services/suspension",
     },
     {
       title: "Battery/Alternator",
-      image:
-        "/services/alternator.jpg",
+      image: "/services/alternator.jpg",
       href: "/services/battery-alternator",
     },
   ];
@@ -171,10 +174,27 @@ export default function Services({ items }) {
     <Section>
       <Container maxWidth="xl">
         <TitleWrap>
-          <Typography variant={isMdUp ? "h3" : "h4"} sx={{ fontWeight: 900 }}>
+          <Typography
+            variant={isMdUp ? "h3" : "h4"}
+            sx={{
+              fontWeight: 900,
+              position: "relative",
+              display: "inline-block",
+              pb: 2, // space for the line
+              "&::after": {
+                content: '""',
+                position: "absolute",
+                left: 0,
+                bottom: 0,
+                width: 56,
+                height: 8,
+                borderRadius: 4,
+                background: `linear-gradient(90deg, ${ACCENT}, ${ACCENT_SOFT})`,
+              },
+            }}
+          >
             Service Highlight
           </Typography>
-          <TitleAccent />
         </TitleWrap>
 
         <Mosaic>
@@ -195,7 +215,11 @@ export default function Services({ items }) {
 
           {/* Right 2x2 tiles */}
           {data.slice(1).map((item, i) => (
-            <Tile key={item.title} href={item.href} sx={areaStyles[`t${i + 1}`]}> 
+            <Tile
+              key={item.title}
+              href={item.href}
+              sx={areaStyles[`t${i + 1}`]}
+            >
               <Box
                 className="img"
                 sx={{ backgroundImage: `url(${item.image})` }}
@@ -210,6 +234,18 @@ export default function Services({ items }) {
             </Tile>
           ))}
         </Mosaic>
+
+        {/* View All Services button */}
+        <Box
+          sx={{
+            mt: 3,
+            display: "flex",
+            justifyContent: { xs: "center", md: "flex-end" },
+          }}
+        >
+          {/* Use href for plain <a>. If you prefer React Router: component={RouterLink} to="/services" */}
+          <ViewAllBtn href="/services">View All Services</ViewAllBtn>
+        </Box>
       </Container>
     </Section>
   );

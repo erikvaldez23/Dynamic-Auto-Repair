@@ -146,11 +146,24 @@ const NAV = [
 ];
 
 const SERVICES_ITEMS = [
-  { label: "Oil Change", to: "/services/oil-change" },
-  { label: "Brake Repair", to: "/services/brakes" },
   { label: "AC & Heating", to: "/services/ac-heating" },
-  { label: "Diagnostics", to: "/services/diagnostics" },
-  { label: "Tires & Alignment", to: "/services/tires-alignment" },
+  { label: "Alignments", to: "/services/alignments" },
+  { label: "Batteries / Alternators", to: "/services/batteries" },
+  { label: "Brakes", to: "/services/brakes" },
+  { label: "Computer Diagnostics", to: "/services/computer-diagnostics" },
+  { label: "Check Engine Light", to: "/services/check-engine-light" },
+  { label: "Cooling System", to: "/services/cooling-system" },
+  { label: "Engine Service", to: "/services/engine-service" },
+  { label: "Fleet Services", to: "/services/fleet-services" },
+  { label: "Free Repair Estimates", to: "/services/free-repair-estimates" },
+  { label: "Fuel System", to: "/services/fuel-system" },
+  { label: "Multi-Point Inspection / Pre-Purchase Inspection", to: "/services/multi-point-inspection" },
+  { label: "Oil & Filter Change", to: "/services/oil-change" },
+  { label: "Scheduled Maintenance", to: "/services/scheduled-maintenance" },
+  { label: "State Inspection", to: "/services/state-inspection" },
+  { label: "Suspension & Steering", to: "/services/suspension-steering" },
+  { label: "Tires", to: "/services/tires" },
+  { label: "Tune-Ups", to: "/services/tune-ups" },
 ];
 
 const PHONE = "469-969-0043";
@@ -208,7 +221,7 @@ export default function TopbarModern() {
                 component="img"
                 src="/logo.png"
                 alt="Dynamic Auto Repair"
-                sx={{ height: 34, width: "auto", display: { xs: "none", sm: "block" } }}
+                sx={{ height: 50, width: "auto", display: { xs: "none", sm: "block" } }}
               />
               <Typography
                 variant="h6"
@@ -300,10 +313,7 @@ export default function TopbarModern() {
                               mt: 1.2,
                               borderRadius: 2,
                               minWidth: 240,
-                              background:
-                                theme.palette.mode === "dark"
-                                  ? "rgba(20,22,25,0.96)"
-                                  : "rgba(255,255,255,0.98)",
+                              background: "rgba(255,255,255,0.02)",
                               border: `1px solid ${
                                 theme.palette.mode === "dark"
                                   ? alpha("#fff", 0.08)
@@ -327,7 +337,7 @@ export default function TopbarModern() {
                                 px: 2,
                                 fontWeight: 600,
                                 letterSpacing: 0.2,
-                                color: theme.palette.text.primary,
+                                color: "#fff",
                                 borderLeft: "3px solid transparent",
                                 transition: "all .18s ease",
                                 "&:hover": {
