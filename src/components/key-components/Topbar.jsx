@@ -27,17 +27,21 @@ import {
 import { styled, alpha } from "@mui/material/styles";
 import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
 import CallIcon from "@mui/icons-material/Call";
-import AccessTimeRoundedIcon from "@mui/icons-material/AccessTimeRounded";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import ExpandMoreRoundedIcon from "@mui/icons-material/ExpandMoreRounded";
+import InstagramIcon from "@mui/icons-material/Instagram";
+import FacebookIcon from "@mui/icons-material/Facebook";
 import { Link as RouterLink, useLocation } from "react-router-dom";
 
 /* ----------------------------- Brand Tokens ----------------------------- */
 const ACCENT = "#f2c230";
 const ACCENT_HOVER = "#ffd95a";
 
+/* Put your real profile links here */
+const INSTAGRAM_URL = "https://instagram.com/your-instagram";
+const FACEBOOK_URL = "https://facebook.com/your-facebook";
+
 /* ------------------------------- Styled UI ------------------------------ */
-/** Starts transparent; on scroll (.elevated) we set CSS vars for blur + strokes */
 const GlassBar = styled(AppBar)(({ theme }) => ({
   position: "sticky",
   top: 0,
@@ -112,7 +116,7 @@ const NavLink = styled(MuiLink, {
 
 /* Icon-only call */
 const PhoneLinkIcon = styled(IconButton)(() => ({
-  color: ACCENT,
+  color: "#fff",
   padding: 8,
   "&:hover": {
     color: ACCENT_HOVER,
@@ -120,6 +124,16 @@ const PhoneLinkIcon = styled(IconButton)(() => ({
   },
   "&:focusVisible": {
     backgroundColor: "transparent",
+  },
+}));
+
+/* Social icons (sit to the right of phone) */
+const SocialIcon = styled(IconButton)(({ theme }) => ({
+  color: alpha("#fff", 0.9),
+  padding: 8,
+  "&:hover": {
+    color: ACCENT_HOVER,
+    backgroundColor: alpha("#fff", 0.06),
   },
 }));
 
@@ -167,7 +181,7 @@ const SERVICES_ITEMS = [
 ];
 
 const PHONE = "469-969-0043";
-const HOURS = "M–F 8:30a–6p • Sat 8:30a–4p";
+// const HOURS = "M–F 8:30a–6p • Sat 8:30a–4p";
 
 /* ------------------------------- Component ------------------------------- */
 export default function TopbarModern() {
@@ -177,7 +191,7 @@ export default function TopbarModern() {
   const { pathname } = useLocation();
   const elevate = useScrollTrigger({ disableHysteresis: true, threshold: 4 });
 
-  // --- Services hover menu state/logic (matches your hover dropdown pattern) ---
+  // --- Services hover menu state/logic ---
   const [servicesAnchorEl, setServicesAnchorEl] = React.useState(null);
   const servicesOpen = Boolean(servicesAnchorEl);
   const hoverCloseTimer = React.useRef(null);
@@ -191,7 +205,6 @@ export default function TopbarModern() {
   };
 
   const queueCloseServices = () => {
-    // small delay prevents flicker when moving from trigger to menu
     hoverCloseTimer.current = setTimeout(() => {
       setServicesAnchorEl(null);
     }, 120);
@@ -208,13 +221,7 @@ export default function TopbarModern() {
     <GlassBar elevation={elevate ? 2 : 0} className={elevate ? "elevated" : ""}>
       <BarSurface>
         <Container maxWidth="xl">
-          <Toolbar
-            disableGutters
-            sx={{
-              minHeight: 72,
-              position: "relative",
-            }}
-          >
+          <Toolbar disableGutters sx={{ minHeight: 72, position: "relative" }}>
             {/* Left: Logo */}
             <LogoBox component={RouterLink} to="/">
               <Box
@@ -264,7 +271,6 @@ export default function TopbarModern() {
                       );
                     }
 
-                    // --- Services trigger with hover behavior + caret icon ---
                     return (
                       <Box
                         key={item.to}
@@ -277,11 +283,7 @@ export default function TopbarModern() {
                           to={item.to}
                           active={pathname.startsWith("/services") ? 1 : 0}
                           underline="none"
-                          sx={{
-                            display: "flex",
-                            alignItems: "center",
-                            gap: 0.5,
-                          }}
+                          sx={{ display: "flex", alignItems: "center", gap: 0.5 }}
                         >
                           {item.label}
                           <ExpandMoreRoundedIcon
@@ -358,23 +360,9 @@ export default function TopbarModern() {
               </Box>
             )}
 
-            {/* Right: Hours + Call icon */}
+            {/* Right: Phone + Socials (desktop) */}
             {isMdUp ? (
-              <Stack direction="row" spacing={1.5} alignItems="center" sx={{ ml: "auto" }}>
-                <Tooltip title="Business Hours">
-                  <Stack
-                    direction="row"
-                    spacing={1}
-                    alignItems="center"
-                    sx={{ color: alpha("#fff", 0.9) }}
-                  >
-                    <AccessTimeRoundedIcon fontSize="small" sx={{ opacity: 0.9 }} />
-                    <Typography variant="body2" sx={{ fontWeight: 700 }}>
-                      {HOURS}
-                    </Typography>
-                  </Stack>
-                </Tooltip>
-                <Divider orientation="vertical" flexItem sx={{ mx: 1, opacity: 0.12 }} />
+              <Stack direction="row" spacing={0.5} alignItems="center" sx={{ ml: "auto" }}>
                 <PhoneLinkIcon
                   href={`tel:${PHONE.replace(/[^0-9]/g, "")}`}
                   aria-label={`Call ${PHONE}`}
@@ -382,6 +370,26 @@ export default function TopbarModern() {
                 >
                   <CallIcon />
                 </PhoneLinkIcon>
+
+                {/* Social icons to the RIGHT of phone */}
+                <SocialIcon
+                  aria-label="Instagram"
+                  component="a"
+                  href={INSTAGRAM_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <InstagramIcon />
+                </SocialIcon>
+                <SocialIcon
+                  aria-label="Facebook"
+                  component="a"
+                  href={FACEBOOK_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <FacebookIcon />
+                </SocialIcon>
               </Stack>
             ) : (
               <IconButton
@@ -441,12 +449,7 @@ export default function TopbarModern() {
           <Divider sx={{ my: 2 }} />
 
           <Stack spacing={1.25}>
-            <Stack direction="row" spacing={1} alignItems="center">
-              <AccessTimeRoundedIcon fontSize="small" />
-              <Typography variant="body2" fontWeight={700}>
-                {HOURS}
-              </Typography>
-            </Stack>
+            {/* Keep phone CTA on mobile */}
             <PhoneCTA
               fullWidth
               startIcon={<CallIcon />}
@@ -454,6 +457,28 @@ export default function TopbarModern() {
             >
               {PHONE}
             </PhoneCTA>
+
+            {/* Optional: add socials in drawer too */}
+            <Stack direction="row" spacing={1}>
+              <SocialIcon
+                aria-label="Instagram"
+                component="a"
+                href={INSTAGRAM_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <InstagramIcon />
+              </SocialIcon>
+              <SocialIcon
+                aria-label="Facebook"
+                component="a"
+                href={FACEBOOK_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <FacebookIcon />
+              </SocialIcon>
+            </Stack>
           </Stack>
         </Box>
       </Drawer>

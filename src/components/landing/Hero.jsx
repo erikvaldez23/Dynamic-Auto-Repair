@@ -47,34 +47,34 @@ const Section = styled(Box)(({ theme }) => ({
       top: `-${BAR_H_MD}px`,
       height: `calc(100% + ${BAR_H_MD}px)`,
     },
-    backgroundImage: "url(/flag-bg.jpg)",
+    // backgroundImage: "url(/flag-bg.jpg)",
     backgroundSize: "cover",
     backgroundPosition: "center",
     zIndex: 0,
-    filter: "grayscale(1) brightness(0.45) contrast(1.05)",
+    // filter: "grayscale(1) brightness(0.45) contrast(1.05)",
     transform: "scale(1.02)", // prevent subpixel seams on some GPUs
   },
 
   // Dark veil overlay for readability — also extended above
-  "&::after": {
-    content: '""',
-    position: "absolute",
-    left: 0,
-    right: 0,
-    top: `-${BAR_H_XS}px`,
-    height: `calc(100% + ${BAR_H_XS}px)`,
-    [theme.breakpoints.up("md")]: {
-      top: `-${BAR_H_MD}px`,
-      height: `calc(100% + ${BAR_H_MD}px)`,
-    },
-    zIndex: 1,
-    pointerEvents: "none",
-    background: `
-      linear-gradient(180deg, rgba(0,0,0,0.70) 0%, rgba(0,0,0,0.45) 38%, rgba(0,0,0,0.22) 100%),
-      radial-gradient(120% 80% at 10% -20%, rgba(255,255,255,0.06), transparent 60%),
-      radial-gradient(120% 80% at 100% -10%, rgba(255,255,255,0.04), transparent 55%)
-    `,
-  },
+  // "&::after": {
+  //   content: '""',
+  //   position: "absolute",
+  //   left: 0,
+  //   right: 0,
+  //   top: `-${BAR_H_XS}px`,
+  //   height: `calc(100% + ${BAR_H_XS}px)`,
+  //   [theme.breakpoints.up("md")]: {
+  //     top: `-${BAR_H_MD}px`,
+  //     height: `calc(100% + ${BAR_H_MD}px)`,
+  //   },
+  //   zIndex: 1,
+  //   pointerEvents: "none",
+  //   background: `
+  //     linear-gradient(180deg, rgba(0,0,0,0.70) 0%, rgba(0,0,0,0.45) 38%, rgba(0,0,0,0.22) 100%),
+  //     radial-gradient(120% 80% at 10% -20%, rgba(255,255,255,0.06), transparent 60%),
+  //     radial-gradient(120% 80% at 100% -10%, rgba(255,255,255,0.04), transparent 55%)
+  //   `,
+  // },
 }));
 
 const GridWrap = styled("div")(({ theme }) => ({

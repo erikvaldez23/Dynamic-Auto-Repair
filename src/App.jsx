@@ -13,6 +13,7 @@ import ServicesStrip from "./components/landing/ServicesStrip";
 import CTA from "./components/landing/CTA";
 
 // Sub Pages
+import SubPages from "./components/sub-pages/SubPage"
 
 const theme = createTheme({
   palette: {
@@ -58,6 +59,7 @@ function App() {
                 </>
               }
             />
+             <Route path="/services/:serviceId" element={<SubPages />} />
             {/* <Route path="/about" element={<AboutPage />} /> */}
           </Routes>
           <Footer />
