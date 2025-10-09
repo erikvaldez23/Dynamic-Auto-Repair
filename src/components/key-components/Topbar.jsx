@@ -14,7 +14,6 @@ import {
   ListItem,
   ListItemButton,
   ListItemText,
-  Tooltip,
   useScrollTrigger,
   useTheme,
   useMediaQuery,
@@ -33,50 +32,61 @@ import InstagramIcon from "@mui/icons-material/Instagram";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import { Link as RouterLink, useLocation } from "react-router-dom";
 
+// Business info (same project)
+import BusinessInfo from "../landing/business-info/BusinessInfo";
+
 /* ----------------------------- Brand Tokens ----------------------------- */
 const ACCENT = "#f2c230";
 const ACCENT_HOVER = "#ffd95a";
+const TOOLBAR_HEIGHT = 72;
 
-/* Put your real profile links here */
+/* Socials */
 const INSTAGRAM_URL = "https://instagram.com/your-instagram";
 const FACEBOOK_URL = "https://facebook.com/your-facebook";
 
 /* ------------------------------- Styled UI ------------------------------ */
 const GlassBar = styled(AppBar)(({ theme }) => ({
-  position: "sticky",
+  position: "fixed",
   top: 0,
+  zIndex: theme.zIndex.appBar + 2, // stay above hero & BusinessInfo
   background: "transparent",
+  backgroundColor: "transparent",
   boxShadow: "none",
 
   "--bg": "transparent",
   "--stroke": "transparent",
   "--rad1": 0,
   "--rad2": 0,
+
   backdropFilter: "none",
   WebkitBackdropFilter: "none",
   transition:
     "backdrop-filter .25s ease, -webkit-backdrop-filter .25s ease, border-color .25s ease",
 
+  "& .bar-surface": { background: "transparent", borderBottom: "none" },
+
   "&.elevated": {
     "--bg": alpha(theme.palette.mode === "dark" ? "#0b0c0e" : "#f9f9fb", 0.18),
     "--stroke": alpha(
-      theme.palette.common.white,
-      theme.palette.mode === "dark" ? 0.08 : 0.18
+      theme.palette.mode === "dark" ? "#fff" : "#000",
+      theme.palette.mode === "dark" ? 0.08 : 0.12
     ),
     "--rad1": 0.06,
     "--rad2": 0.04,
     backdropFilter: "saturate(140%) blur(10px)",
     WebkitBackdropFilter: "saturate(140%) blur(10px)",
+    "& .bar-surface": {
+      background: `
+        linear-gradient(180deg, var(--bg), transparent 140%),
+        radial-gradient(90% 140% at 8% -40%, rgba(255,255,255,var(--rad1)) 0%, transparent 60%),
+        radial-gradient(70% 120% at 92% -40%, rgba(255,255,255,var(--rad2)) 0%, transparent 60%)
+      `,
+      borderBottom: "1px solid var(--stroke)",
+    },
   },
 }));
 
-const BarSurface = styled(Box)(() => ({
-  background: `
-    linear-gradient(180deg, var(--bg), transparent 140%),
-    radial-gradient(90% 140% at 8% -40%, rgba(255,255,255,var(--rad1)) 0%, transparent 60%),
-    radial-gradient(70% 120% at 92% -40%, rgba(255,255,255,var(--rad2)) 0%, transparent 60%)
-  `,
-}));
+const BarSurface = styled(Box)({});
 
 const LogoBox = styled(Box)(() => ({
   display: "flex",
@@ -114,27 +124,17 @@ const NavLink = styled(MuiLink, {
   }),
 }));
 
-/* Icon-only call */
 const PhoneLinkIcon = styled(IconButton)(() => ({
   color: "#fff",
   padding: 8,
-  "&:hover": {
-    color: ACCENT_HOVER,
-    backgroundColor: "transparent",
-  },
-  "&:focusVisible": {
-    backgroundColor: "transparent",
-  },
+  "&:hover": { color: ACCENT_HOVER, backgroundColor: "transparent" },
+  "&:focusVisible": { backgroundColor: "transparent" },
 }));
 
-/* Social icons (sit to the right of phone) */
 const SocialIcon = styled(IconButton)(({ theme }) => ({
   color: alpha("#fff", 0.9),
   padding: 8,
-  "&:hover": {
-    color: ACCENT_HOVER,
-    backgroundColor: alpha("#fff", 0.06),
-  },
+  "&:hover": { color: ACCENT_HOVER, backgroundColor: alpha("#fff", 0.06) },
 }));
 
 const PhoneCTA = styled(Button)(({ theme }) => ({
@@ -181,7 +181,6 @@ const SERVICES_ITEMS = [
 ];
 
 const PHONE = "469-969-0043";
-// const HOURS = "M–F 8:30a–6p • Sat 8:30a–4p";
 
 /* ------------------------------- Component ------------------------------- */
 export default function TopbarModern() {
@@ -189,9 +188,11 @@ export default function TopbarModern() {
   const isMdUp = useMediaQuery(theme.breakpoints.up("md"));
   const [open, setOpen] = React.useState(false);
   const { pathname } = useLocation();
-  const elevate = useScrollTrigger({ disableHysteresis: true, threshold: 4 });
 
-  // --- Services hover menu state/logic ---
+  // Keep bar transparent longer over the hero
+  const elevate = useScrollTrigger({ disableHysteresis: true, threshold: 120 });
+
+  // Services hover menu
   const [servicesAnchorEl, setServicesAnchorEl] = React.useState(null);
   const servicesOpen = Boolean(servicesAnchorEl);
   const hoverCloseTimer = React.useRef(null);
@@ -205,9 +206,7 @@ export default function TopbarModern() {
   };
 
   const queueCloseServices = () => {
-    hoverCloseTimer.current = setTimeout(() => {
-      setServicesAnchorEl(null);
-    }, 120);
+    hoverCloseTimer.current = setTimeout(() => setServicesAnchorEl(null), 120);
   };
 
   const cancelQueuedClose = () => {
@@ -218,191 +217,189 @@ export default function TopbarModern() {
   };
 
   return (
-    <GlassBar elevation={elevate ? 2 : 0} className={elevate ? "elevated" : ""}>
-      <BarSurface>
-        <Container maxWidth="xl">
-          <Toolbar disableGutters sx={{ minHeight: 72, position: "relative" }}>
-            {/* Left: Logo */}
-            <LogoBox component={RouterLink} to="/">
-              <Box
-                component="img"
-                src="/logo.png"
-                alt="Dynamic Auto Repair"
-                sx={{ height: 50, width: "auto", display: { xs: "none", sm: "block" } }}
-              />
-              <Typography
-                variant="h6"
-                sx={{
-                  fontWeight: 900,
-                  color: alpha("#fff", 0.98),
-                  display: { xs: "block", sm: "none" },
-                }}
-              >
-                Dynamic Auto
-              </Typography>
-            </LogoBox>
+    <>
+      {/* Fixed, transparent-before-scroll top bar */}
+      <GlassBar
+        color="transparent"
+        elevation={elevate ? 2 : 0}
+        className={elevate ? "elevated" : ""}
+      >
+        <BarSurface className="bar-surface">
+          <Container maxWidth="xl">
+            <Toolbar disableGutters sx={{ minHeight: TOOLBAR_HEIGHT, position: "relative" }}>
+              {/* Left: Logo */}
+              <LogoBox component={RouterLink} to="/">
+                <Box
+                  component="img"
+                  src="/logo.png"
+                  alt="Dynamic Auto Repair"
+                  sx={{ height: 50, width: "auto", display: { xs: "none", sm: "block" } }}
+                />
+                <Typography
+                  variant="h6"
+                  sx={{ fontWeight: 900, color: alpha("#fff", 0.98), display: { xs: "block", sm: "none" } }}
+                >
+                  Dynamic Auto
+                </Typography>
+              </LogoBox>
 
-            {/* Center: Navigation */}
-            {isMdUp && (
-              <Box
-                sx={{
-                  position: "absolute",
-                  left: "50%",
-                  top: 0,
-                  transform: "translateX(-50%)",
-                  height: "100%",
-                  display: "flex",
-                  alignItems: "center",
-                }}
-              >
-                <Stack direction="row" spacing={1.5} alignItems="center">
-                  {NAV.map((item) => {
-                    if (!item.hasHoverMenu) {
+              {/* Center: Navigation */}
+              {isMdUp && (
+                <Box
+                  sx={{
+                    position: "absolute",
+                    left: "50%",
+                    top: 0,
+                    transform: "translateX(-50%)",
+                    height: "100%",
+                    display: "flex",
+                    alignItems: "center",
+                  }}
+                >
+                  <Stack direction="row" spacing={1.5} alignItems="center">
+                    {NAV.map((item) => {
+                      if (!item.hasHoverMenu) {
+                        return (
+                          <NavLink
+                            key={item.to}
+                            component={RouterLink}
+                            to={item.to}
+                            active={pathname === item.to ? 1 : 0}
+                            underline="none"
+                          >
+                            {item.label}
+                          </NavLink>
+                        );
+                      }
+
                       return (
-                        <NavLink
+                        <Box
                           key={item.to}
-                          component={RouterLink}
-                          to={item.to}
-                          active={pathname === item.to ? 1 : 0}
-                          underline="none"
+                          onMouseEnter={openServices}
+                          onMouseLeave={queueCloseServices}
+                          sx={{ position: "relative", display: "flex", alignItems: "center" }}
                         >
-                          {item.label}
-                        </NavLink>
-                      );
-                    }
-
-                    return (
-                      <Box
-                        key={item.to}
-                        onMouseEnter={openServices}
-                        onMouseLeave={queueCloseServices}
-                        sx={{ position: "relative", display: "flex", alignItems: "center" }}
-                      >
-                        <NavLink
-                          component={RouterLink}
-                          to={item.to}
-                          active={pathname.startsWith("/services") ? 1 : 0}
-                          underline="none"
-                          sx={{ display: "flex", alignItems: "center", gap: 0.5 }}
-                        >
-                          {item.label}
-                          <ExpandMoreRoundedIcon
-                            sx={{
-                              ml: 0.25,
-                              fontSize: 22,
-                              opacity: 0.9,
-                              transition: "transform .2s ease",
-                              transform: servicesOpen ? "rotate(180deg)" : "none",
-                            }}
-                          />
-                        </NavLink>
-
-                        {/* Hover menu */}
-                        <Menu
-                          anchorEl={servicesAnchorEl}
-                          open={servicesOpen}
-                          onClose={queueCloseServices}
-                          TransitionComponent={Grow}
-                          MenuListProps={{
-                            onMouseEnter: cancelQueuedClose,
-                            onMouseLeave: queueCloseServices,
-                            sx: { py: 1 },
-                          }}
-                          anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
-                          transformOrigin={{ vertical: "top", horizontal: "left" }}
-                          PaperProps={{
-                            sx: {
-                              mt: 1.2,
-                              borderRadius: 2,
-                              minWidth: 240,
-                              background: "rgba(255,255,255,0.02)",
-                              border: `1px solid ${
-                                theme.palette.mode === "dark"
-                                  ? alpha("#fff", 0.08)
-                                  : alpha("#000", 0.08)
-                              }`,
-                              backdropFilter: "blur(16px)",
-                              boxShadow:
-                                "0 24px 64px rgba(0,0,0,0.34), inset 0 1px 0 rgba(255,255,255,0.06)",
-                              overflow: "hidden",
-                            },
-                          }}
-                        >
-                          {SERVICES_ITEMS.map((s) => (
-                            <MenuItem
-                              key={s.to}
-                              component={RouterLink}
-                              to={s.to}
-                              onClick={() => setServicesAnchorEl(null)}
+                          <NavLink
+                            component={RouterLink}
+                            to={item.to}
+                            active={pathname.startsWith("/services") ? 1 : 0}
+                            underline="none"
+                            sx={{ display: "flex", alignItems: "center", gap: 0.5 }}
+                          >
+                            {item.label}
+                            <ExpandMoreRoundedIcon
                               sx={{
-                                py: 1.2,
-                                px: 2,
-                                fontWeight: 600,
-                                letterSpacing: 0.2,
-                                color: "#fff",
-                                borderLeft: "3px solid transparent",
-                                transition: "all .18s ease",
-                                "&:hover": {
-                                  backgroundColor: alpha(ACCENT, 0.08),
-                                  borderLeftColor: ACCENT,
-                                  transform: "translateX(6px)",
-                                },
+                                ml: 0.25,
+                                fontSize: 22,
+                                opacity: 0.9,
+                                transition: "transform .2s ease",
+                                transform: servicesOpen ? "rotate(180deg)" : "none",
                               }}
-                            >
-                              {s.label}
-                            </MenuItem>
-                          ))}
-                        </Menu>
-                      </Box>
-                    );
-                  })}
+                            />
+                          </NavLink>
+
+                          {/* Hover menu */}
+                          <Menu
+                            anchorEl={servicesAnchorEl}
+                            open={servicesOpen}
+                            onClose={queueCloseServices}
+                            TransitionComponent={Grow}
+                            MenuListProps={{
+                              onMouseEnter: cancelQueuedClose,
+                              onMouseLeave: queueCloseServices,
+                              sx: { py: 1 },
+                            }}
+                            anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
+                            transformOrigin={{ vertical: "top", horizontal: "left" }}
+                            PaperProps={{
+                              sx: {
+                                mt: 1.2,
+                                borderRadius: 2,
+                                minWidth: 240,
+                                background: "rgba(255,255,255,0.02)",
+                                border: `1px solid ${
+                                  theme.palette.mode === "dark" ? alpha("#fff", 0.08) : alpha("#000", 0.08)
+                                }`,
+                                backdropFilter: "blur(16px)",
+                                boxShadow: "0 24px 64px rgba(0,0,0,0.34), inset 0 1px 0 rgba(255,255,255,0.06)",
+                                overflow: "hidden",
+                              },
+                            }}
+                          >
+                            {SERVICES_ITEMS.map((s) => (
+                              <MenuItem
+                                key={s.to}
+                                component={RouterLink}
+                                to={s.to}
+                                onClick={() => setServicesAnchorEl(null)}
+                                sx={{
+                                  py: 1.2,
+                                  px: 2,
+                                  fontWeight: 600,
+                                  letterSpacing: 0.2,
+                                  color: "#fff",
+                                  borderLeft: "3px solid transparent",
+                                  transition: "all .18s ease",
+                                  "&:hover": {
+                                    backgroundColor: alpha(ACCENT, 0.08),
+                                    borderLeftColor: ACCENT,
+                                    transform: "translateX(6px)",
+                                  },
+                                }}
+                              >
+                                {s.label}
+                              </MenuItem>
+                            ))}
+                          </Menu>
+                        </Box>
+                      );
+                    })}
+                  </Stack>
+                </Box>
+              )}
+
+              {/* Right: Phone + Socials (desktop) */}
+              {isMdUp ? (
+                <Stack direction="row" spacing={0.5} alignItems="center" sx={{ ml: "auto" }}>
+                  <PhoneLinkIcon
+                    href={`tel:${PHONE.replace(/[^0-9]/g, "")}`}
+                    aria-label={`Call ${PHONE}`}
+                    disableRipple
+                  >
+                    <CallIcon />
+                  </PhoneLinkIcon>
+                  <SocialIcon aria-label="Instagram" component="a" href={INSTAGRAM_URL} target="_blank" rel="noopener noreferrer">
+                    <InstagramIcon />
+                  </SocialIcon>
+                  <SocialIcon aria-label="Facebook" component="a" href={FACEBOOK_URL} target="_blank" rel="noopener noreferrer">
+                    <FacebookIcon />
+                  </SocialIcon>
                 </Stack>
-              </Box>
-            )}
+              ) : (
+                <IconButton aria-label="Open menu" onClick={() => setOpen(true)} sx={{ ml: "auto", color: "#fff", p: 1.25 }}>
+                  <MenuRoundedIcon />
+                </IconButton>
+              )}
+            </Toolbar>
+          </Container>
+        </BarSurface>
+      </GlassBar>
 
-            {/* Right: Phone + Socials (desktop) */}
-            {isMdUp ? (
-              <Stack direction="row" spacing={0.5} alignItems="center" sx={{ ml: "auto" }}>
-                <PhoneLinkIcon
-                  href={`tel:${PHONE.replace(/[^0-9]/g, "")}`}
-                  aria-label={`Call ${PHONE}`}
-                  disableRipple
-                >
-                  <CallIcon />
-                </PhoneLinkIcon>
-
-                {/* Social icons to the RIGHT of phone */}
-                <SocialIcon
-                  aria-label="Instagram"
-                  component="a"
-                  href={INSTAGRAM_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <InstagramIcon />
-                </SocialIcon>
-                <SocialIcon
-                  aria-label="Facebook"
-                  component="a"
-                  href={FACEBOOK_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <FacebookIcon />
-                </SocialIcon>
-              </Stack>
-            ) : (
-              <IconButton
-                aria-label="Open menu"
-                onClick={() => setOpen(true)}
-                sx={{ ml: "auto", color: "#fff", p: 1.25 }}
-              >
-                <MenuRoundedIcon />
-              </IconButton>
-            )}
-          </Toolbar>
+      {/* *** FIXED Business Info OVERLAY (doesn't push the hero down) *** */}
+      <Box
+        sx={{
+          position: "fixed",
+          top: `${TOOLBAR_HEIGHT}px`,      // directly under the AppBar
+          left: 0,
+          right: 0,
+          zIndex: (t) => t.zIndex.appBar + 1, // under AppBar, above hero
+          px: 2,
+        }}
+      >
+        <Container maxWidth="xl" sx={{ display: "grid", placeItems: "center" }}>
+          <BusinessInfo />
         </Container>
-      </BarSurface>
+      </Box>
 
       {/* Mobile Drawer */}
       <Drawer
@@ -432,15 +429,8 @@ export default function TopbarModern() {
           <List sx={{ py: 0 }}>
             {NAV.map((item) => (
               <ListItem key={item.to} disablePadding>
-                <ListItemButton
-                  component={RouterLink}
-                  to={item.to}
-                  onClick={() => setOpen(false)}
-                >
-                  <ListItemText
-                    primary={item.label}
-                    primaryTypographyProps={{ fontWeight: 800 }}
-                  />
+                <ListItemButton component={RouterLink} to={item.to} onClick={() => setOpen(false)}>
+                  <ListItemText primary={item.label} primaryTypographyProps={{ fontWeight: 800 }} />
                 </ListItemButton>
               </ListItem>
             ))}
@@ -449,39 +439,20 @@ export default function TopbarModern() {
           <Divider sx={{ my: 2 }} />
 
           <Stack spacing={1.25}>
-            {/* Keep phone CTA on mobile */}
-            <PhoneCTA
-              fullWidth
-              startIcon={<CallIcon />}
-              href={`tel:${PHONE.replace(/[^0-9]/g, "")}`}
-            >
+            <PhoneCTA fullWidth startIcon={<CallIcon />} href={`tel:${PHONE.replace(/[^0-9]/g, "")}`}>
               {PHONE}
             </PhoneCTA>
-
-            {/* Optional: add socials in drawer too */}
             <Stack direction="row" spacing={1}>
-              <SocialIcon
-                aria-label="Instagram"
-                component="a"
-                href={INSTAGRAM_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
+              <SocialIcon aria-label="Instagram" component="a" href={INSTAGRAM_URL} target="_blank" rel="noopener noreferrer">
                 <InstagramIcon />
               </SocialIcon>
-              <SocialIcon
-                aria-label="Facebook"
-                component="a"
-                href={FACEBOOK_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
+              <SocialIcon aria-label="Facebook" component="a" href={FACEBOOK_URL} target="_blank" rel="noopener noreferrer">
                 <FacebookIcon />
               </SocialIcon>
             </Stack>
           </Stack>
         </Box>
       </Drawer>
-    </GlassBar>
+    </>
   );
 }

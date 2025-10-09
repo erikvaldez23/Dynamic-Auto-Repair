@@ -7,6 +7,7 @@ import Topbar from "./components/key-components/Topbar";
 import Footer from "./components/key-components/Footer";
 
 // Landing Page
+import VideoHero from './components/landing/VideoHero'
 import Hero from "./components/landing/Hero"
 import Services from "./components/landing/Services"
 import ServicesStrip from "./components/landing/ServicesStrip";
@@ -48,6 +49,7 @@ function App() {
               path="/"
               element={
                 <>
+                  <VideoHero />
                   <Hero />
                   <Services />
                   <ServicesStrip />
