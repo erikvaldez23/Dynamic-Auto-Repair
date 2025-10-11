@@ -1,10 +1,11 @@
 /* =========================
-   Business Info — Fixed Bar
+   Business Info — Overlay (NOT sticky)
+   Place the overlay inside a parent (e.g., hero) with position: relative
    ========================= */
 
 .business-info-overlay {
-  /* stays in place while the page scrolls */
-  position: fixed;
+  /* Positioned relative to the nearest positioned ancestor (not viewport) */
+  position: absolute;
   top: 70px;
   left: 50%;
   transform: translateX(-50%);
@@ -24,7 +25,7 @@
   color: white;
   text-align: center;
   background: transparent;
-  z-index: 1000;
+  z-index: 10; /* enough to sit above hero media, but not global */
   font-family: "Poppins", sans-serif;
   font-size: 2rem;
   font-weight: 500;
@@ -58,7 +59,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 8px 16px;              /* a bit more space to breathe around divider */
+  padding: 8px 16px;              /* space to breathe around divider */
   border-radius: 6px;
   transition: transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
 }
@@ -73,7 +74,7 @@
   width: 2px;                      /* thickness of the line */
   background: var(--divider);
   opacity: 0.95;
-  transform: translateX(-8px);     /* nudges line into the gap between items */
+  transform: translateX(-8px);     /* nudge into the gap between items */
   border-radius: 2px;
   box-shadow: 0 0 0.5px rgba(242, 194, 48, 0.6), 0 0 6px rgba(242, 194, 48, 0.2);
 }
@@ -95,10 +96,10 @@
    ========================= */
 @media (max-width: 768px) {
   .business-info-overlay {
-    /* Pin to bottom on phones for reachability */
-    top: auto;
-    bottom: max(env(safe-area-inset-bottom), 12px);
-
+    /* no fixed pinning on mobile either */
+    top: 12px;              /* feel free to adjust within the hero */
+    left: 50%;
+    transform: translateX(-50%);
     justify-content: center;
     padding: 10px;
     font-size: 1rem;

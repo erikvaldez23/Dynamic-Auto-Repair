@@ -2,6 +2,7 @@
 import React, { useMemo } from "react";
 import {
   Box,
+  Container,
   Stack,
   Typography,
   Button,
@@ -12,34 +13,26 @@ import { styled, alpha } from "@mui/material/styles";
 
 const ACCENT = "#f2c230";
 
-/* ---------- Styled shell (glass-ready but subtle) ---------- */
+/* ---------- Full-bleed background wrapper (text sits on page) ---------- */
 const Section = styled(Box)(({ theme }) => ({
-  width: "min(1200px, 92vw)",
-  marginInline: "auto",
-  marginTop: theme.spacing(3),
-  marginBottom: theme.spacing(2),
-  borderRadius: 16,
-  padding: theme.spacing(2.5),
-  background:
-    "linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02))",
-  border: "1px solid rgba(255,255,255,.10)",
-  backdropFilter: "blur(6px)",
+  width: "100%",
+  position: "relative",
+  paddingBlock: theme.spacing(6),
   color: alpha("#fff", 0.96),
 }));
 
-/* ---------- 60/40 grid (stacks on small screens) ---------- */
+/* ---------- 60/40 grid inside an xl container ---------- */
 const ContentGrid = styled(Box)(({ theme }) => ({
   display: "grid",
-  gap: theme.spacing(2.5),
+  gap: theme.spacing(3.5),
   alignItems: "start",
-  gridTemplateColumns: "1fr",           // mobile
+  gridTemplateColumns: "1fr", // mobile
   [theme.breakpoints.up("md")]: {
-    gridTemplateColumns: "3fr 2fr",     // 60% / 40%
+    gridTemplateColumns: "3fr 2fr", // 60 / 40
   },
 }));
 
 /* ---------- Content registry (edit/extend me) ---------- */
-/** Keys must match your route slugs (/services/:serviceId) */
 export const OVERVIEW_REGISTRY = {
   "ac-heating": {
     title: "A/C & Heating",
@@ -49,14 +42,14 @@ export const OVERVIEW_REGISTRY = {
     ],
     problemsHeading: "8 Common A/C problems in any vehicle",
     problems: [
-      "Improper refrigerant level",
-      "Refrigerant contamination",
-      "Unresponsive pressure switches",
-      "Damaged compressor",
-      "Broken belt",
-      "Clutch issues",
-      "Leaks",
-      "A/C control head malfunctions",
+      "- Improper refrigerant level",
+      "- Refrigerant contamination",
+      "- Unresponsive pressure switches",
+      "- Damaged compressor",
+      "- Broken belt",
+      "- Clutch issues",
+      "- Leaks",
+      "- A/C control head malfunctions",
     ],
     warningsHeading: "Some warning signs for a failing A/C system",
     warnings: [
@@ -68,7 +61,6 @@ export const OVERVIEW_REGISTRY = {
     imageAlt: "A/C manifold gauges on vehicle",
     cta: { label: "Schedule Appointment", href: "/quote" },
   },
-
   brakes: {
     title: "Brakes",
     intro: [
@@ -92,7 +84,6 @@ export const OVERVIEW_REGISTRY = {
     imageAlt: "Brake rotor and caliper",
     cta: { label: "Get Free Estimate", href: "/quote" },
   },
-
   alignments: {
     title: "Alignments",
     intro: [
@@ -100,22 +91,13 @@ export const OVERVIEW_REGISTRY = {
       "We inspect suspension/steering before dialing in factory specs.",
     ],
     problemsHeading: "Symptoms of poor alignment",
-    problems: [
-      "Uneven tire wear",
-      "Vehicle pulls or drifts",
-      "Off-center steering wheel",
-    ],
+    problems: ["Uneven tire wear", "Vehicle pulls or drifts", "Off-center steering wheel"],
     warningsHeading: "Good times to align",
-    warnings: [
-      "After tire or suspension work",
-      "After a pothole/curb hit",
-      "Annually for preventive care",
-    ],
+    warnings: ["After tire or suspension work", "After a pothole/curb hit", "Annually for preventive care"],
     image: "/services/overview/alignments.jpg",
     imageAlt: "Vehicle on an alignment rack",
     cta: { label: "Book Alignment", href: "/quote" },
   },
-
   "oil-filter-change": {
     title: "Oil & Filter Change",
     intro: [
@@ -134,7 +116,6 @@ export const OVERVIEW_REGISTRY = {
     imageAlt: "Fresh oil being poured",
     cta: { label: "Schedule Service", href: "/quote" },
   },
-
   tires: {
     title: "Tires",
     intro: [
@@ -144,17 +125,11 @@ export const OVERVIEW_REGISTRY = {
     problemsHeading: "Common tire services",
     problems: ["Flat repair (patch/plug)", "Rotation & balance", "TPMS sensors"],
     warningsHeading: "Signs you need service",
-    warnings: [
-      "Vibration at highway speeds",
-      "Uneven or rapid wear",
-      "Low-pressure warnings",
-    ],
+    warnings: ["Vibration at highway speeds", "Uneven or rapid wear", "Low-pressure warnings"],
     image: "/services/overview/tires.jpg",
     imageAlt: "Stacked car tires",
     cta: { label: "See Tire Options", href: "/quote" },
   },
-
-  // Fallback if a service has no custom content yet
   _default: {
     title: "Service Overview",
     intro: [
@@ -172,10 +147,7 @@ export const OVERVIEW_REGISTRY = {
 };
 
 /* ---------- Component ---------- */
-export default function ServiceOverview({
-  serviceId,
-  registry = OVERVIEW_REGISTRY,
-}) {
+export default function ServiceOverview({ serviceId, registry = OVERVIEW_REGISTRY }) {
   const cfg = registry[serviceId] || registry._default;
 
   const data = useMemo(
@@ -194,121 +166,123 @@ export default function ServiceOverview({
   );
 
   return (
-    <Section className="glass-section">
-      <ContentGrid>
-        {/* 60%: description */}
-        <Box>
-          <Stack spacing={1.5}>
-            <Typography
-              variant="h5"
-              fontWeight={800}
-              sx={{ color: "#fff", letterSpacing: 0.2 }}
-            >
-              {data.title}
-            </Typography>
-
-            {/* Intro paragraphs */}
-            {data.intro.map((p, i) => (
-              <Typography key={i} sx={{ color: alpha("#fff", 0.95) }}>
-                {p}
-              </Typography>
-            ))}
-
-            {/* Problems */}
-            {data.problems?.length > 0 && (
-              <Stack spacing={0.75} sx={{ mt: 1 }}>
-                {data.problemsHeading && (
-                  <Typography fontWeight={800} sx={{ color: "#fff" }}>
-                    {data.problemsHeading}
-                  </Typography>
-                )}
-                <List dense disablePadding sx={{ pl: 2 }}>
-                  {data.problems.map((x, i) => (
-                    <ListItem
-                      key={i}
-                      sx={{
-                        display: "list-item",
-                        p: 0,
-                        mb: 0.5,
-                        color: alpha("#fff", 0.95),
-                      }}
-                    >
-                      {x}
-                    </ListItem>
-                  ))}
-                </List>
-              </Stack>
-            )}
-
-            {/* Warnings (numbered) */}
-            {data.warnings?.length > 0 && (
-              <Stack spacing={0.75} sx={{ mt: 1 }}>
-                {data.warningsHeading && (
-                  <Typography fontWeight={800} sx={{ color: "#fff" }}>
-                    {data.warningsHeading}
-                  </Typography>
-                )}
-                <Box component="ol" sx={{ pl: 3, m: 0 }}>
-                  {data.warnings.map((x, i) => (
-                    <Box
-                      component="li"
-                      key={i}
-                      sx={{ mb: 0.75, color: alpha("#fff", 0.95) }}
-                    >
-                      {x}
-                    </Box>
-                  ))}
-                </Box>
-              </Stack>
-            )}
-
-            {/* CTA */}
-            <Box sx={{ pt: 1.5 }}>
-              <Button
-                variant="contained"
-                disableElevation
-                onClick={() => (window.location.href = data.cta.href)}
-                sx={{
-                  backgroundColor: ACCENT,
-                  color: "#111",
-                  fontWeight: 800,
-                  borderRadius: 2,
-                  px: 2.25,
-                  "&:hover": { backgroundColor: "#e8b820" },
-                }}
+    <Section>
+      <Container maxWidth="xl">
+        <ContentGrid>
+          {/* 60%: description on the page background */}
+          <Box>
+            <Stack spacing={1.5}>
+              <Typography
+                variant="h4"
+                fontWeight={900}
+                sx={{ color: "#fff", letterSpacing: 0.2, fontSize: "4rem" }}
               >
-                {data.cta.label}
-              </Button>
-            </Box>
-          </Stack>
-        </Box>
+                {data.title}
+              </Typography>
 
-        {/* 40%: image */}
-        <Box
-          sx={{
-            borderRadius: 2,
-            overflow: "hidden",
-            aspectRatio: "16 / 10",
-            backgroundColor: alpha("#000", 0.4),
-          }}
-        >
-          {data.image && (
-            <img
-              src={data.image}
-              alt={data.imageAlt}
-              loading="lazy"
-              decoding="async"
-              style={{
-                width: "100%",
-                height: "100%",
-                objectFit: "cover",
-                objectPosition: "center",
-                display: "block",
-              }}
-            />
-          )}
-        </Box>
-      </ContentGrid>
+              {/* Intro paragraphs */}
+              {data.intro.map((p, i) => (
+                <Typography key={i} sx={{ color: alpha("#fff", 0.95) }}>
+                  {p}
+                </Typography>
+              ))}
+
+              {/* Problems */}
+              {data.problems?.length > 0 && (
+                <Stack spacing={0.75} sx={{ mt: 1 }}>
+                  {data.problemsHeading && (
+                    <Typography fontWeight={800} sx={{ color: "#fff" }}>
+                      {data.problemsHeading}
+                    </Typography>
+                  )}
+                  <List dense disablePadding sx={{ pl: 2 }}>
+                    {data.problems.map((x, i) => (
+                      <ListItem
+                        key={i}
+                        sx={{
+                          display: "list-item",
+                          p: 0,
+                          mb: 0.5,
+                          color: alpha("#fff", 0.95),
+                        }}
+                      >
+                        {x}
+                      </ListItem>
+                    ))}
+                  </List>
+                </Stack>
+              )}
+
+              {/* Warnings (numbered) */}
+              {data.warnings?.length > 0 && (
+                <Stack spacing={0.75} sx={{ mt: 1 }}>
+                  {data.warningsHeading && (
+                    <Typography fontWeight={800} sx={{ color: "#fff" }}>
+                      {data.warningsHeading}
+                    </Typography>
+                  )}
+                  <Box component="ol" sx={{ pl: 3, m: 0 }}>
+                    {data.warnings.map((x, i) => (
+                      <Box
+                        component="li"
+                        key={i}
+                        sx={{ mb: 0.75, color: alpha("#fff", 0.95) }}
+                      >
+                        {x}
+                      </Box>
+                    ))}
+                  </Box>
+                </Stack>
+              )}
+
+              {/* CTA */}
+              <Box sx={{ pt: 1.5 }}>
+                <Button
+                  variant="contained"
+                  disableElevation
+                  onClick={() => (window.location.href = data.cta.href)}
+                  sx={{
+                    backgroundColor: ACCENT,
+                    color: "#111",
+                    fontWeight: 800,
+                    borderRadius: 2,
+                    px: 2.25,
+                    "&:hover": { backgroundColor: "#e8b820" },
+                  }}
+                >
+                  {data.cta.label}
+                </Button>
+              </Box>
+            </Stack>
+          </Box>
+
+          {/* 40%: image with 3/4 aspect ratio */}
+          <Box
+            sx={{
+              borderRadius: 2,
+              overflow: "hidden",
+              aspectRatio: "3 / 4",
+              backgroundColor: alpha("#000", 0.4),
+            }}
+          >
+            {data.image && (
+              <img
+                src={data.image}
+                alt={data.imageAlt}
+                loading="lazy"
+                decoding="async"
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  objectFit: "cover",
+                  objectPosition: "center",
+                  display: "block",
+                }}
+              />
+            )}
+          </Box>
+        </ContentGrid>
+      </Container>
     </Section>
   );
 }

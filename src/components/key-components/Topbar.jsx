@@ -396,9 +396,6 @@ export default function TopbarModern() {
           px: 2,
         }}
       >
-        <Container maxWidth="xl" sx={{ display: "grid", placeItems: "center" }}>
-          <BusinessInfo />
-        </Container>
       </Box>
 
       {/* Mobile Drawer */}

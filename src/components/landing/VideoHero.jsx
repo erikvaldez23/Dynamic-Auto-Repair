@@ -2,6 +2,7 @@
 import React, { useRef, useState, useEffect } from "react";
 import { Box, Button, Typography } from "@mui/material";
 import { styled, alpha } from "@mui/material/styles";
+import BusinessInfo from "./business-info/BusinessInfo";
 
 /* ------------------------------ Defaults ------------------------------ */
 const BASE_URL = (import.meta?.env?.BASE_URL ?? "/").replace(/\/+/g, "/");
@@ -85,9 +86,9 @@ const RightCTA = styled(Box)(({ theme }) => ({
 /* ------------------------ Staggered Heading ------------------------ */
 function StaggerHeading() {
   const indents = [
-    "0",                                 // PRECISION
-    "clamp(12px, 6vw, 80px)",            // PROTECTION
-    "clamp(24px, 12vw, 160px)",          // PERFORMANCE
+    "0", // PRECISION
+    "clamp(12px, 6vw, 80px)", // PROTECTION
+    "clamp(24px, 12vw, 160px)", // PERFORMANCE
   ];
 
   const baseTypo = {
@@ -100,15 +101,39 @@ function StaggerHeading() {
 
   return (
     <Box>
-      <Typography variant="h1" sx={{ ...baseTypo, lineHeight: 1, paddingLeft: indents[0], textTransform: "uppercase" }}>
+      <Typography
+        variant="h1"
+        sx={{
+          ...baseTypo,
+          lineHeight: 1,
+          paddingLeft: indents[0],
+          textTransform: "uppercase",
+        }}
+      >
         PRECISION
       </Typography>
 
-      <Typography variant="h1" sx={{ ...baseTypo, paddingLeft: indents[1], textTransform: "uppercase", mt: "4px" }}>
+      <Typography
+        variant="h1"
+        sx={{
+          ...baseTypo,
+          paddingLeft: indents[1],
+          textTransform: "uppercase",
+          mt: "4px",
+        }}
+      >
         PROTECTION
       </Typography>
 
-      <Typography variant="h1" sx={{ ...baseTypo, paddingLeft: indents[2], textTransform: "uppercase", mt: "4px" }}>
+      <Typography
+        variant="h1"
+        sx={{
+          ...baseTypo,
+          paddingLeft: indents[2],
+          textTransform: "uppercase",
+          mt: "4px",
+        }}
+      >
         PERFORMANCE
       </Typography>
     </Box>
@@ -164,7 +189,7 @@ export default function HeroVideoBackground({
       </Video>
 
       {overlay && <Overlay strength={overlayStrength} />}
-
+      <BusinessInfo />
       {/* Foreground anchors */}
       <Content>
         {children ? (

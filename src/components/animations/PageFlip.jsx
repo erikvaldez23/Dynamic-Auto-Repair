@@ -1,60 +1,70 @@
-// src/components/animations/PageFlip.jsx
-import React from "react";
+// src/components/animations/ScrollLift.jsx
+import React, { useRef } from "react";
 import { Box } from "@mui/material";
-import { styled } from "@mui/material/styles";
-import { motion } from "framer-motion";
-
-/** Scene adds the 3D perspective once for everything inside */
-export const FlipScene = styled(Box, {
-  shouldForwardProp: (p) => p !== "perspective",
-})(({ perspective = 1200 }) => ({
-  position: "relative",
-  perspective,                 // distance of the “camera”
-  transformStyle: "preserve-3d",
-}));
+import { motion, useScroll, useTransform } from "framer-motion";
 
 /**
- * PageFlip
- * - Wrap a single section (e.g., your Hero)
- * - Flips in from the bottom edge like a page
+ * ScrollLift v2
+ * - Hero stays static.
+ * - This creates a new layer above the hero and slides children up over it.
+ * - No transforms/opacity applied to the hero or its ancestors.
  */
-export function PageFlip({
+export default function ScrollLift({
   children,
-  initialAngle = 88,           // starting angle (deg)
-  origin = "50% 100%",         // bottom-center pivot
-  duration = 0.9,
-  delay = 0,
-  once = true,                 // play only once when in view
-  shadow = true,               // subtle dynamic shadow while flipping
+  stageVH = 180,          // total scroll distance this effect occupies
+  range = [0, 0.3],       // portion of that distance used for the motion
+  addShadow = true,
 }) {
+  const ref = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start start", "end start"],
+  });
+
+  // Slide from off-screen bottom to 0
+  const y = useTransform(scrollYProgress, range, ["100vh", "0vh"], { clamp: true });
+
   return (
     <Box
-      component={motion.div}
-      initial={{ rotateX: initialAngle, y: 40, opacity: 0, transformOrigin: origin }}
-      whileInView={{ rotateX: 0, y: 0, opacity: 1 }}
-      viewport={{ once, amount: 0.25 }}
-      transition={{ duration, delay, ease: [0.22, 1, 0.36, 1] }}
+      ref={ref}
       sx={{
-        transformStyle: "preserve-3d",
-        willChange: "transform, opacity",
         position: "relative",
-        // optional soft shadow that fades away as the page opens
-        ...(shadow && {
-          "&::after": {
-            content: '""',
-            position: "absolute",
-            inset: 0,
-            pointerEvents: "none",
-            background:
-              "linear-gradient(180deg, rgba(0,0,0,0.24), rgba(0,0,0,0.10) 40%, rgba(0,0,0,0) 70%)",
-            opacity: 0.6,
-            transition: "opacity .6s ease",
-          },
-          "&[style*='rotateX(0deg)']::after": { opacity: 0 },
-        }),
+        height: `${stageVH}vh`,
+        marginTop: "-100vh",  // place this block on top of the full-viewport hero
+        zIndex: 2,            // ensure it sits OVER the hero
+        pointerEvents: "none",// lift layer doesn't block scrolling
       }}
     >
-      {children}
+      {/* sticky viewport host */}
+      <Box
+        sx={{
+          position: "sticky",
+          top: 0,
+          height: "100vh",
+          overflow: "visible",
+          pointerEvents: "none",
+        }}
+      >
+        {/* actual sliding content */}
+        <Box
+          component={motion.div}
+          style={{ y }}
+          sx={{
+            position: "absolute",
+            inset: 0,
+            display: "grid",
+            alignContent: "start",
+            pointerEvents: "auto", // re-enable interactions for children
+            background: "transparent",
+            ...(addShadow && {
+              boxShadow:
+                "0 -30px 80px rgba(0,0,0,0.45), 0 -8px 30px rgba(0,0,0,0.35)",
+            }),
+          }}
+        >
+          {children}
+        </Box>
+      </Box>
     </Box>
   );
 }

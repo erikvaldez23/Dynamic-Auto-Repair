@@ -20,6 +20,7 @@ const PricingComponent   = lazy(() => import("./content/Pricing"));
 const HowItWorks         = lazy(() => import("./content/HowItWorks"));
 const FAQSection         = lazy(() => import("./content/FAQ"));
 const Overview         = lazy(() => import("./content/Overview"));
+const CTA         = lazy(() => import("../key-components/CTA"));
 // const CallToAction    = lazy(() => import("./SubCTA"));
 // const Contact         = lazy(() => import("./SubContact"));
 // const ImageCarousel   = lazy(() => import("./ImageCarousel"));
@@ -64,109 +65,116 @@ const services = {
     title: "AC & Heating",
     description:
       "Stay comfortable in every season with expert AC and heating diagnostics, repair, and recharge.",
-    sections: ["Overview","HeroGallery", "ServicesBullets", "Pricing", "HowItWorks", "FAQ", "CTA", "Contact"],
+    sections: ["CTA", "Overview", "HeroGallery", "ServicesBullets", "Pricing", "HowItWorks", "FAQ", "Contact"],
   },
   alignments: {
     title: "Alignments",
     description:
       "Improve handling, tire wear, and safety with precision four-wheel alignments.",
-    sections: ["HeroGallery", "ServicesBullets", "Pricing", "FAQ", "CTA", "Contact"],
+    sections: ["CTA", "HeroGallery", "ServicesBullets", "Pricing", "FAQ", "Contact"],
   },
   "batteries-alternators": {
     title: "Batteries / Alternators",
     description:
       "Quick testing and replacement to keep your vehicle starting strong and charging properly.",
-    sections: ["HeroGallery", "ServicesBullets", "Pricing", "FAQ", "CTA", "Contact"],
+    sections: ["CTA", "HeroGallery", "ServicesBullets", "Pricing", "FAQ", "Contact"],
   },
   brakes: {
     title: "Brakes",
     description:
       "From pads and rotors to hydraulics—get confident stopping power with quality parts.",
-    sections: ["HeroGallery", "ServicesBullets", "Pricing", "HowItWorks", "FAQ", "CTA", "Contact"],
+    sections: ["CTA", "HeroGallery", "ServicesBullets", "Pricing", "HowItWorks", "FAQ", "Contact"],
   },
   "computer-diagnostics": {
     title: "Computer Diagnostics",
     description:
       "Pinpoint issues fast with advanced OBD-II and manufacturer-level diagnostics.",
-    sections: ["HeroGallery", "ServicesBullets", "FAQ", "CTA", "Contact"],
+    sections: ["CTA", "HeroGallery", "ServicesBullets", "FAQ", "Contact"],
   },
   "check-engine-light": {
     title: "Check Engine Light",
     description:
       "We identify the cause behind your CEL and provide a clear, actionable repair plan.",
-    sections: ["HeroGallery", "ServicesBullets", "FAQ", "CTA", "Contact"],
+    sections: ["CTA", "HeroGallery", "ServicesBullets", "FAQ", "Contact"],
   },
   "cooling-system": {
     title: "Cooling System",
     description:
       "Radiators, water pumps, hoses, and thermostats—keep your engine running cool.",
-    sections: ["HeroGallery", "ServicesBullets", "Pricing", "FAQ", "CTA", "Contact"],
+    sections: ["CTA", "HeroGallery", "ServicesBullets", "Pricing", "FAQ", "Contact"],
   },
   "engine-service": {
     title: "Engine Service",
     description:
       "From tune-ups to major repairs—comprehensive engine diagnostics and restoration.",
-    sections: ["HeroGallery", "ServicesBullets", "HowItWorks", "FAQ", "CTA", "Contact"],
+    sections: ["CTA", "HeroGallery", "ServicesBullets", "HowItWorks", "FAQ", "Contact"],
   },
   "fleet-services": {
     title: "Fleet Services",
     description:
       "Fast, reliable maintenance and repairs tailored for business fleets to minimize downtime.",
-    sections: ["HeroGallery", "ServicesBullets", "FAQ", "CTA", "Contact"],
+    sections: ["CTA", "HeroGallery", "ServicesBullets", "FAQ", "Contact"],
   },
   "free-repair-estimates": {
     title: "Free Repair Estimates",
     description:
       "Transparent, upfront estimates—no surprises. Get clarity before any work begins.",
-    sections: ["HeroGallery", "CTA", "Contact"],
+    sections: ["CTA", "HeroGallery", "Contact"],
   },
   "fuel-system": {
     title: "Fuel System",
     description:
       "Fuel pumps, injectors, and cleaning services to restore performance and mileage.",
-    sections: ["HeroGallery", "ServicesBullets", "Pricing", "FAQ", "CTA", "Contact"],
+    sections: ["CTA", "HeroGallery", "ServicesBullets", "Pricing", "FAQ", "Contact"],
   },
   "multi-point-inspection": {
     title: "Multi-Point / Pre-Purchase Inspection",
     description:
       "A comprehensive inspection that covers safety, wear, leaks, and road-test findings.",
-    sections: ["HeroGallery", "ServicesBullets", "FAQ", "CTA", "Contact"],
+    sections: ["CTA", "HeroGallery", "ServicesBullets", "FAQ", "Contact"],
   },
   "oil-filter-change": {
     title: "Oil & Filter Change",
     description:
       "Premium oil and filters, torque-spec drain plugs, and inspection—done right, fast.",
-    sections: ["HeroGallery", "ServicesBullets", "Pricing", "FAQ", "CTA", "Contact"],
+    sections: ["CTA", "HeroGallery", "ServicesBullets", "Pricing", "FAQ", "Contact"],
   },
   "scheduled-maintenance": {
     title: "Scheduled Maintenance",
     description:
       "Stay on schedule with OEM-recommended services that protect performance and warranty.",
-    sections: ["HeroGallery", "ServicesBullets", "Pricing", "FAQ", "CTA", "Contact"],
+    sections: ["CTA", "HeroGallery", "ServicesBullets", "Pricing", "FAQ", "Contact"],
   },
   "state-inspection": {
     title: "State Inspection",
     description:
       "Quick, compliant inspections to keep you legal and safe on the road.",
-    sections: ["HeroGallery", "FAQ", "CTA", "Contact"],
+    sections: ["CTA", "HeroGallery", "FAQ", "Contact"],
   },
   "suspension-steering": {
     title: "Suspension & Steering",
     description:
       "Shocks, struts, control arms, and racks—restore ride comfort and control.",
-    sections: ["HeroGallery", "ServicesBullets", "Pricing", "FAQ", "CTA", "Contact"],
+    sections: ["CTA", "HeroGallery", "ServicesBullets", "Pricing", "FAQ", "Contact"],
   },
   tires: {
     title: "Tires",
     description:
       "Mounting, balancing, rotation, and TPMS—maximize tread life and safety.",
-    sections: ["HeroGallery", "ServicesBullets", "Pricing", "FAQ", "CTA", "Contact"],
+    sections: ["CTA", "HeroGallery", "ServicesBullets", "Pricing", "FAQ", "Contact"],
   },
 };
+
 
 /* ---------------------- Section Component Switch ---------------------- */
 const SectionSwitch = ({ name, serviceId }) => {
   switch (name) {
+    case "CTA":
+      return (
+        <InViewMount>
+          <CTA serviceId={serviceId} />
+        </InViewMount>
+      );
     case "HeroGallery":
       return (
         <InViewMount>
@@ -320,7 +328,7 @@ export default function ServicePage() {
           sx={{
             mb: 1,
             fontWeight: 800,
-            fontSize: { xs: "1.8rem", sm: "2.4rem", md: "3rem", lg: "3.4rem" },
+            fontSize: { xs: "1.8rem", sm: "2.4rem", md: "3rem", lg: "5rem" },
           }}
         >
           {service.title}

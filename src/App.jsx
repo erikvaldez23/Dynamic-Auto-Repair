@@ -15,6 +15,7 @@ import CTA from "./components/key-components/CTA";
 
 // Sub Pages
 import SubPages from "./components/sub-pages/SubPage";
+import AboutPage from "./components/sub-pages/about/About"
 
 const theme = createTheme({
   palette: {
@@ -51,18 +52,14 @@ function App() {
                 <>
                   <VideoHero />
                   <Hero />
-                  <Services />
                   <ServicesStrip />
+                  <Services />
                   <CTA />
-                  {/* <Intro /> */}
-                  {/* <About /> */}
-                  {/* <Offer /> */}
-                  {/* <Apply /> */}
                 </>
               }
             />
             <Route path="/services/:serviceId" element={<SubPages />} />
-            {/* <Route path="/about" element={<AboutPage />} /> */}
+            <Route path="/about" element={<AboutPage />} />
           </Routes>
           <Footer />
         </Router>
