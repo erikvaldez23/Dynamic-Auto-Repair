@@ -43,7 +43,7 @@ const BusinessInfo = () => {
         >
           <FaPhone className="business-icon" />
           <Typography variant="h6" className="business-text">
-            +1 (972) 362-8468
+            +1 (469) 969-0043
           </Typography>
         </Box>
         <Box
@@ -53,7 +53,7 @@ const BusinessInfo = () => {
         >
           <FaEnvelope className="business-icon" />
           <Typography variant="h6" className="business-text">
-            info@tinttekplus.com
+            ryan@dynamicautorepair.com
           </Typography>
         </Box>
         <Box
@@ -73,7 +73,7 @@ const BusinessInfo = () => {
         >
           <FaClock className="business-icon" />
           <Typography variant="h6" className="business-text">
-            Mon - Sat, 9am - 6pm
+            Mon - Fri, 8:30am - 6pm
           </Typography>
         </Box>
       </Box>

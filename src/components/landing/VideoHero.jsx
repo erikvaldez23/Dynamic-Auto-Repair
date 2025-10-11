@@ -1,18 +1,16 @@
+// src/components/landing/HeroVideoBackground.jsx
 import React, { useRef, useState, useEffect } from "react";
-import { Box, Container, Typography, Button } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import { styled, alpha } from "@mui/material/styles";
-import BusinessInfo from "./business-info/BusinessInfo";
 
 /* ------------------------------ Defaults ------------------------------ */
-// If you deploy with a non-root base (e.g., GitHub Pages), BASE_URL ensures
-// paths to /public assets resolve correctly. Put your files in /public/videos & /public/images.
 const BASE_URL = (import.meta?.env?.BASE_URL ?? "/").replace(/\/+/g, "/");
 
 const DEFAULTS = {
-  src: `/tesla-video.mov`, // place /public/videos/hero.mp4
-  poster: `${BASE_URL}images/hero.jpg`, // place /public/images/hero.jpg
+  src: `/tesla-video.mov`,
+  poster: `${BASE_URL}images/hero.jpg`,
   heading: "Precision. Protection. Performance.",
-  subheading: "Expert window tinting & paint protection film.",
+  // subheading: "Expert window tinting & paint protection film.",
   ctaLabel: "Get a Free Quote",
   height: "100svh",
   overlay: true,
@@ -21,42 +19,14 @@ const DEFAULTS = {
 
 const NOOP = () => {};
 
-/**
- * HeroVideoBackground
- * ------------------------------------------------------------
- * Full-bleed hero with a background video that covers the entire
- * component area. Optimized for desktop + mobile (iOS/Safari included).
- *
- * Props
- * - src: string (required) – video source (.mp4 recommended)
- * - poster: string (optional) – fallback image for initial frame
- * - heading: string (optional)
- * - subheading: string (optional)
- * - ctaLabel: string (optional)
- * - onCtaClick: () => void (optional)
- * - height: CSS length (default: "100svh")
- * - overlay: boolean (default: true)
- * - overlayStrength: number 0..1 (default: 0.55) – darkness of overlay
- * - children: ReactNode – custom content in place of default text/CTA
- *
- * Usage
- * <HeroVideoBackground
- *   src="/videos/hero.mp4"
- *   poster="/images/hero-poster.jpg"
- *   heading="Precision. Protection. Performance."
- *   subheading="Expert window tinting & paint protection film"
- *   ctaLabel="Get a Free Quote"
- *   onCtaClick={() => navigate('/contact')}
- * />
- */
-
+/* ------------------------------ Styled ------------------------------ */
 const Root = styled(Box)(({ theme }) => ({
   position: "relative",
   width: "100%",
-  minHeight: "100svh", // safe on iOS Safari
+  minHeight: "100svh",
   overflow: "hidden",
   backgroundColor: "#000",
-  color: alpha("#fff", 0.95),
+  color: alpha("#f2c230", 0.95),
 }));
 
 const Video = styled("video")(() => ({
@@ -65,46 +35,91 @@ const Video = styled("video")(() => ({
   width: "100%",
   height: "100%",
   objectFit: "cover",
-  // Improves performance on some GPUs and prevents subpixel seams
   transform: "translateZ(0)",
 }));
 
 const Overlay = styled(Box)(({ strength = 0.55 }) => ({
   position: "absolute",
   inset: 0,
-  background:
-    `linear-gradient(180deg, rgba(0,0,0,${Math.min(
-      strength + 0.25,
-      0.92
-    )}) 0%, rgba(0,0,0,${strength}) 40%, rgba(0,0,0,${Math.max(
-      strength - 0.2,
-      0
-    )}) 100%),
-     radial-gradient(circle at top left, rgba(39,148,210,0.18), transparent 48%),
-     radial-gradient(circle at bottom right, rgba(77,184,240,0.12), transparent 52%)`,
+  background: `linear-gradient(180deg, rgba(0,0,0,${Math.min(
+    strength + 0.25,
+    0.92
+  )}) 0%, rgba(0,0,0,${strength}) 40%, rgba(0,0,0,${Math.max(
+    strength - 0.2,
+    0
+  )}) 100%),
+  radial-gradient(circle at top left, rgba(39,148,210,0.18), transparent 48%),
+  radial-gradient(circle at bottom right, rgba(77,184,240,0.12), transparent 52%)`,
   pointerEvents: "none",
 }));
 
-const Content = styled(Container)(({ theme }) => ({
+/** Foreground canvas — relative so we can anchor corners inside it */
+const Content = styled(Box)(({ theme }) => ({
   position: "relative",
   zIndex: 2,
   minHeight: "inherit",
-  display: "grid",
-  placeItems: "center",
-  textAlign: "center",
-  paddingBlock: theme.spacing(12),
+  width: "100%",
 }));
 
-const TextWrap = styled(Box)(({ theme }) => ({
-  maxWidth: 880,
+/** Bottom-left block (headline + subheading) */
+const LeftBlock = styled(Box)(({ theme }) => ({
+  position: "absolute",
+  left: "clamp(12px, 3vw, 10px)",
+  bottom: "clamp(16px, 6vh, 12px)",
+  maxWidth: "min(960px, 92vw)",
   display: "grid",
-  gap: theme.spacing(3),
+  gap: theme.spacing(2),
+  textAlign: "left",
 }));
 
+/** Bottom-right CTA block */
+const RightCTA = styled(Box)(({ theme }) => ({
+  position: "absolute",
+  right: "clamp(12px, 3vw, 40px)",
+  bottom: "clamp(16px, 6vh, 72px)",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "flex-end",
+}));
+
+/* ------------------------ Staggered Heading ------------------------ */
+function StaggerHeading() {
+  const indents = [
+    "0",                                 // PRECISION
+    "clamp(12px, 6vw, 80px)",            // PROTECTION
+    "clamp(24px, 12vw, 160px)",          // PERFORMANCE
+  ];
+
+  const baseTypo = {
+    fontWeight: 900,
+    letterSpacing: { xs: -0.5, md: -1 },
+    lineHeight: 1.02,
+    fontSize: { xs: "clamp(26px, 8vw, 40px)", md: "clamp(46px, 8vw, 98px)" },
+    textShadow: "0 2px 16px rgba(0,0,0,0.6)",
+  };
+
+  return (
+    <Box>
+      <Typography variant="h1" sx={{ ...baseTypo, lineHeight: 1, paddingLeft: indents[0], textTransform: "uppercase" }}>
+        PRECISION
+      </Typography>
+
+      <Typography variant="h1" sx={{ ...baseTypo, paddingLeft: indents[1], textTransform: "uppercase", mt: "4px" }}>
+        PROTECTION
+      </Typography>
+
+      <Typography variant="h1" sx={{ ...baseTypo, paddingLeft: indents[2], textTransform: "uppercase", mt: "4px" }}>
+        PERFORMANCE
+      </Typography>
+    </Box>
+  );
+}
+
+/* ------------------------------ Component ------------------------------ */
 export default function HeroVideoBackground({
   src = DEFAULTS.src,
   poster = DEFAULTS.poster,
-  heading = DEFAULTS.heading,
+  heading = DEFAULTS.heading, // kept for API compat (unused by stagger)
   subheading = DEFAULTS.subheading,
   ctaLabel = DEFAULTS.ctaLabel,
   onCtaClick = NOOP,
@@ -117,13 +132,11 @@ export default function HeroVideoBackground({
   const [canPlay, setCanPlay] = useState(false);
 
   useEffect(() => {
-    // On iOS, autoplay works only if muted + playsInline; we also
-    // try to call play() once metadata is loaded to ensure it starts.
     const v = videoRef.current;
     if (!v) return;
     const onLoadedMeta = () => {
       v.muted = true;
-      v.play().catch(() => {/* ignore if browser blocks */});
+      v.play().catch(() => {});
     };
     const onCanPlay = () => setCanPlay(true);
     v.addEventListener("loadedmetadata", onLoadedMeta);
@@ -145,48 +158,42 @@ export default function HeroVideoBackground({
         playsInline
         preload="auto"
         poster={poster}
-        // If source fails, keep a subtle black background via Root
         onError={() => setCanPlay(false)}
       >
-        {/* Provide at least one MP4 source; you can add WebM/OGG as needed */}
         {src && <source src={src} type="video/mp4" />}
       </Video>
 
-      {/* Optional dark/brand overlay */}
       {overlay && <Overlay strength={overlayStrength} />}
 
-      {/* Foreground content */}
-      <Content maxWidth="xl">
+      {/* Foreground anchors */}
+      <Content>
         {children ? (
           children
         ) : (
-          <TextWrap>
-            {heading && (
-              <Typography
-                component="h1"
-                variant="h2"
-                fontWeight={900}
-                sx={{
-                  letterSpacing: -0.5,
-                  textShadow: "0 2px 16px rgba(0,0,0,0.65)",
-                }}
-              >
-                {heading}
-              </Typography>
-            )}
+          <>
+            {/* Bottom-left: headline + subheading */}
+            <LeftBlock>
+              <StaggerHeading />
 
-            {subheading && (
-              <Typography
-                component="p"
-                variant="h6"
-                sx={{ opacity: 0.9, maxWidth: 820, marginInline: "auto" }}
-              >
-                {subheading}
-              </Typography>
-            )}
+              {subheading && (
+                <Typography
+                  component="p"
+                  variant="h6"
+                  sx={{
+                    opacity: 0.92,
+                    maxWidth: 820,
+                    mt: 1,
+                    textShadow: "0 1px 10px rgba(0,0,0,0.5)",
+                  }}
+                >
+                  {subheading}
+                </Typography>
+              )}
+            </LeftBlock>
 
+            {/* Bottom-right: CTA */}
             {ctaLabel && (
-              <Box sx={{ mt: 1.5 }}>
+              <RightCTA>
                 <Button
                   variant="contained"
                   size="large"
@@ -198,17 +205,17 @@ export default function HeroVideoBackground({
                     py: 1.25,
                     borderRadius: 2,
                     boxShadow: "0 14px 40px rgba(0,0,0,0.35)",
+                    whiteSpace: "nowrap",
                   }}
                 >
                   {ctaLabel}
                 </Button>
-              </Box>
+              </RightCTA>
             )}
-          </TextWrap>
+          </>
         )}
       </Content>
 
-      {/* If video hasn't started yet, keep a subtle black gradient so text is readable */}
       {!canPlay && overlay && <Overlay strength={overlayStrength} />}
     </Root>
   );

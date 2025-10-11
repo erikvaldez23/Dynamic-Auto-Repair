@@ -1,95 +1,152 @@
+/* =========================
+   Business Info — Fixed Bar
+   ========================= */
+
 .business-info-overlay {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 100%;
-    max-width: 1200px;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    flex-wrap: wrap; /* Allow wrapping */
-    padding: 10px 20px;
-    color: white;
-    text-align: center;
-    background: transparent;
-    z-index: 10;
-    font-family: "Poppins", sans-serif;
-    font-size: 2rem;
-    font-weight: 500;
-    gap: 10px;
+  /* stays in place while the page scrolls */
+  position: fixed;
+  top: 70px;
+  left: 50%;
+  transform: translateX(-50%);
+
+  /* sizing */
+  width: min(1200px, 96vw);
+  max-width: 1200px;
+
+  /* layout */
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+
+  /* look & feel */
+  color: white;
+  text-align: center;
+  background: transparent;
+  z-index: 1000;
+  font-family: "Poppins", sans-serif;
+  font-size: 2rem;
+  font-weight: 500;
+
+  /* interaction: allow inner items to be clickable without blocking scroll */
+  pointer-events: none;
+
+  /* brand token for dividers */
+  --divider: #f2c230;
 }
 
-/* Targets icons inside the business info */
+/* Re-enable interaction inside the bar */
+.business-info-item,
+.business-info-item * {
+  pointer-events: auto;
+}
+
+/* Icons inside the business info */
 .business-info-overlay svg {
+  font-size: 1rem;
+  margin-right: 6px;
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+
+/* Items */
+.business-info-item {
+  position: relative;             /* needed for the divider pseudo-element */
+  flex: 1;
+  min-width: 160px;               /* prevents overlap */
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 16px;              /* a bit more space to breathe around divider */
+  border-radius: 6px;
+  transition: transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Vertical divider before every item that follows another */
+.business-info-item + .business-info-item::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 8px;                        /* inset so it doesn't touch rounded corners */
+  bottom: 8px;
+  width: 2px;                      /* thickness of the line */
+  background: var(--divider);
+  opacity: 0.95;
+  transform: translateX(-8px);     /* nudges line into the gap between items */
+  border-radius: 2px;
+  box-shadow: 0 0 0.5px rgba(242, 194, 48, 0.6), 0 0 6px rgba(242, 194, 48, 0.2);
+}
+
+/* Hover effects */
+.business-info-item:hover {
+  transform: scale(1.05);
+  background: rgba(0, 0, 0, 0.3);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.business-info-item:hover svg {
+  color: #f2c230;
+  transform: rotate(5deg);
+}
+
+/* =========================
+   Responsive (<= 768px)
+   ========================= */
+@media (max-width: 768px) {
+  .business-info-overlay {
+    /* Pin to bottom on phones for reachability */
+    top: auto;
+    bottom: max(env(safe-area-inset-bottom), 12px);
+
+    justify-content: center;
+    padding: 10px;
+    font-size: 1rem;
+    flex-direction: row;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .business-info-item {
+    display: none; /* hide all by default on small screens */
+  }
+
+  .business-info-item.phone-only,
+  .business-info-item.email-only {
+    display: flex;
+    max-width: 90vw;
+    font-size: 0.95rem;
+    padding: 6px 12px;
+    background: rgba(0, 0, 0, 0.6);
+    border-radius: 6px;
+    align-items: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap; /* prevent line breaks */
+  }
+
+  .business-info-item svg {
     font-size: 1rem;
     margin-right: 6px;
-    transition: transform 0.3s ease, color 0.3s ease;
-}
-
-/* Ensures items adjust properly */
-.business-info-item {
-    flex: 1;
-    min-width: 160px; /* Adjusted to prevent overlap */
-    text-align: center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 6px;
-    transition: transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
-}
-
-/* Hover effects for the business info items */
-.business-info-item:hover {
-    transform: scale(1.05);
-    background: rgba(0, 0, 0, 0.3); /* Subtle dark background */
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-}
-
-/* Optional: Change icon color or add a small rotation on hover */
-.business-info-item:hover svg {
-    color: #2794d2;
-    transform: rotate(5deg);
-}
-
-
-
-/* ✅ Hide the component on smaller screens */
-@media (max-width: 768px) {
-    .business-info-overlay {
-      justify-content: center;
-      padding: 10px;
-      font-size: 1rem;
-      flex-direction: row; /* Ensure horizontal layout */
-      gap: 12px;
-      flex-wrap: wrap; /* Optional: allow wrap if screen is very narrow */
-    }
-  
-    .business-info-item {
-      display: none; /* Hide all by default */
-    }
-  
-    .business-info-item.phone-only,
-    .business-info-item.email-only {
-      display: flex;
-      max-width: 90vw;
-      font-size: 0.95rem;
-      padding: 6px 12px;
-      background: rgba(0, 0, 0, 0.6);
-      border-radius: 6px;
-      align-items: center;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap; /* Prevent line breaks */
-    }
-  
-    .business-info-item svg {
-      font-size: 1rem;
-      margin-right: 6px;
-    }
-  
-    .business-text {
-      font-size: 0.75rem !important;
-      line-height: 1.2;
-    }
   }
-  
+
+  .business-text {
+    font-size: 0.75rem !important;
+    line-height: 1.2;
+  }
+
+  /* Hide dividers on mobile (looks cramped with 1–2 chips) */
+  .business-info-item::before {
+    display: none;
+  }
+}
+
+/* =========================
+   Accessibility
+   ========================= */
+@media (prefers-reduced-motion: reduce) {
+  .business-info-overlay *,
+  .business-info-item {
+    transition: none !important;
+  }
+}

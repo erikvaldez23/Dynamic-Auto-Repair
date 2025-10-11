@@ -7,14 +7,14 @@ import Topbar from "./components/key-components/Topbar";
 import Footer from "./components/key-components/Footer";
 
 // Landing Page
-import VideoHero from './components/landing/VideoHero'
-import Hero from "./components/landing/Hero"
-import Services from "./components/landing/Services"
+import VideoHero from "./components/landing/VideoHero";
+import Hero from "./components/landing/Hero";
+import Services from "./components/landing/Services";
 import ServicesStrip from "./components/landing/ServicesStrip";
-import CTA from "./components/landing/CTA";
+import CTA from "./components/key-components/CTA";
 
 // Sub Pages
-import SubPages from "./components/sub-pages/SubPage"
+import SubPages from "./components/sub-pages/SubPage";
 
 const theme = createTheme({
   palette: {
@@ -61,7 +61,7 @@ function App() {
                 </>
               }
             />
-             <Route path="/services/:serviceId" element={<SubPages />} />
+            <Route path="/services/:serviceId" element={<SubPages />} />
             {/* <Route path="/about" element={<AboutPage />} /> */}
           </Routes>
           <Footer />
