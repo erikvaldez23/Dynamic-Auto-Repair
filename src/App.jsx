@@ -16,6 +16,7 @@ import CTA from "./components/key-components/CTA";
 // Sub Pages
 import SubPages from "./components/sub-pages/SubPage";
 import AboutPage from "./components/sub-pages/about/About"
+import PrivacyPolicy from "./components/sub-pages/PrivacyPolicy";
 
 const theme = createTheme({
   palette: {
@@ -60,6 +61,7 @@ function App() {
             />
             <Route path="/services/:serviceId" element={<SubPages />} />
             <Route path="/about" element={<AboutPage />} />
+            <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           </Routes>
           <Footer />
         </Router>

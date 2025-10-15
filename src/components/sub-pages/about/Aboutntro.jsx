@@ -48,7 +48,7 @@ export default function AboutSplit60_40({
       <Container maxWidth="xl">
         <GridWrap>
           {/* ------------------------------- Left: Copy ------------------------------ */}
-          <Box sx={{ textAlign: { xs: "left", md: align } }}>
+          <Box sx={{ textAlign: { xs: "center", md: "left" } }}>
             <Stack spacing={3} sx={{ maxWidth: 820, mx: { xs: 0, md: align === "center" ? "auto" : 0 } }}>
               <Typography
                 variant="h3"

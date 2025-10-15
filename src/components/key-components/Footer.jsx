@@ -145,7 +145,7 @@ const Footer = () => {
             dynamicautorepair.com
           </Link>
           <Link
-            href="/privacy-policy"
+            href="/#/privacy-policy"
             color="inherit"
             underline="hover"
             sx={{ fontSize: isMobile ? "13px" : "14px" }}
