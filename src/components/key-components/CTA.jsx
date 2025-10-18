@@ -19,9 +19,11 @@ const BG = "#f2c230";      // section background
 const CTA_DARK = "#000";   // primary button
 const TEXT_LIGHT = "#000";
 
-/* ---- Copy registry (keys MUST match /services/:serviceId) ---- */
+/* Match button widths across variants */
+const BTN_WIDTH = { xs: "100%", sm: 220, md: 240 };
+
+/* ---- Copy registry ---- */
 const CTA_REGISTRY = {
-  // Auto repair services (your new project)
   "ac-heating": {
     headline: "Restore Cold Air & Comfort",
     body:
@@ -108,12 +110,7 @@ const CTA_REGISTRY = {
       "Mounting, road-force balance, rotations, repairs, and TPMS—plus tire options for any budget.",
   },
 
-  // Fallback
-  _default: {
-    headline: "CTA Header",
-    body:
-      "CTA Description",
-  },
+  _default: { headline: "CTA Header", body: "CTA Description" },
 };
 
 export default function CallToAction({
@@ -223,8 +220,11 @@ export default function CallToAction({
               justifyContent: "center",
               flexWrap: "wrap",
               mt: 3,
+              width: { xs: "min(92vw, 560px)", sm: "auto" },
+              mx: "auto",
             }}
           >
+            {/* Primary — solid black */}
             <Button
               component={motion.button}
               initial={{ scale: 0.95 }}
@@ -233,6 +233,7 @@ export default function CallToAction({
               whileTap={{ scale: 0.97 }}
               onClick={handlePrimary}
               sx={{
+                width: BTN_WIDTH,                 // equal width
                 backgroundColor: CTA_DARK,
                 color: "#fff",
                 fontWeight: 900,
@@ -246,20 +247,23 @@ export default function CallToAction({
               Get a Free Quote
             </Button>
 
+            {/* Secondary — clear background, black text, black border */}
             <Button
-              variant="outlined"
               onClick={() => (window.location.href = phoneHref)}
               sx={{
+                width: BTN_WIDTH,                 // equal width
                 borderRadius: "30px",
                 px: { xs: 3, md: 4 },
                 py: { xs: 1.2, md: 1.4 },
                 fontWeight: 900,
-                color: "#111",
-                borderColor: alpha("#000", 0.35),
-                background: alpha("#fff", 0.35),
+                color: "#000",
+                border: "2px solid #000",
+                backgroundColor: "transparent",
+                textTransform: "uppercase",
+                fontSize: { xs: "1rem", md: "1.05rem" },
                 "&:hover": {
-                  borderColor: alpha("#000", 0.6),
-                  background: alpha("#fff", 0.55),
+                  borderColor: "#000",
+                  backgroundColor: alpha("#000", 0.06), // tiny tint on hover (still feels clear)
                 },
               }}
             >

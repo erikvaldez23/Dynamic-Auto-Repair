@@ -18,6 +18,9 @@ const DEFAULTS = {
   overlayStrength: 0.55,
 };
 
+const ACCENT = "#f2c230";
+const ACCENT_HOVER = "#ffd95a";
+
 const NOOP = () => {};
 
 /* ------------------------------ Styled ------------------------------ */
@@ -27,7 +30,7 @@ const Root = styled(Box)(({ theme }) => ({
   minHeight: "100svh",
   overflow: "hidden",
   backgroundColor: "#000",
-  color: alpha("#f2c230", 0.95),
+  color: alpha(ACCENT, 0.95),
 }));
 
 const Video = styled("video")(() => ({
@@ -152,6 +155,7 @@ export default function HeroVideoBackground({
   overlay = DEFAULTS.overlay,
   overlayStrength = DEFAULTS.overlayStrength,
   children,
+  onLearnMore = NOOP, // optional: handler for Learn More
 }) {
   const videoRef = useRef(null);
   const [canPlay, setCanPlay] = useState(false);
@@ -190,6 +194,7 @@ export default function HeroVideoBackground({
 
       {overlay && <Overlay strength={overlayStrength} />}
       <BusinessInfo />
+
       {/* Foreground anchors */}
       <Content>
         {children ? (
@@ -216,13 +221,41 @@ export default function HeroVideoBackground({
               )}
             </LeftBlock>
 
-            {/* Bottom-right: CTA */}
-            {ctaLabel && (
-              <RightCTA>
+            {/* Bottom-right: CTAs */}
+            <RightCTA sx={{ gap: 1.25, flexWrap: "wrap" }}>
+              {/* Learn More — transparent + blurred with yellow border/text */}
+              <Button
+                aria-label="Learn more"
+                onClick={onLearnMore}
+                sx={{
+                  fontWeight: 800,
+                  textTransform: "none",
+                  px: 2.75,
+                  py: 1.1,
+                  borderRadius: 2,
+                  backdropFilter: "blur(8px)",
+                  WebkitBackdropFilter: "blur(8px)",
+                  backgroundColor: "rgba(0,0,0,0.18)",
+                  border: `2px solid ${ACCENT}`,
+                  color: ACCENT,
+                  boxShadow: "0 14px 40px rgba(0,0,0,0.35)",
+                  "&:hover": {
+                    backgroundColor: "rgba(0,0,0,0.32)",
+                    borderColor: ACCENT_HOVER,
+                    color: ACCENT_HOVER,
+                  },
+                }}
+              >
+                Learn More
+              </Button>
+
+              {/* Primary CTA */}
+              {ctaLabel && (
                 <Button
                   variant="contained"
                   size="large"
                   onClick={onCtaClick}
+                  aria-label={ctaLabel}
                   sx={{
                     fontWeight: 800,
                     textTransform: "none",
@@ -235,8 +268,8 @@ export default function HeroVideoBackground({
                 >
                   {ctaLabel}
                 </Button>
-              </RightCTA>
-            )}
+              )}
+            </RightCTA>
           </>
         )}
       </Content>

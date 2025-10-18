@@ -131,7 +131,7 @@ const FormCard = styled(Box)(({ theme }) => ({
 const Frame = styled("iframe")(({ theme }) => ({
   display: "block",
   width: "100%",
-  height: "520px",
+  height: "620px",
   border: 0,
   background: "#fff",
   [theme.breakpoints.down("md")]: {

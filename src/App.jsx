@@ -5,6 +5,7 @@ import "./App.css";
 // Key Components
 import Topbar from "./components/key-components/Topbar";
 import Footer from "./components/key-components/Footer";
+import Contact from "./components/key-components/Contact"
 
 // Landing Page
 import VideoHero from "./components/landing/VideoHero";
@@ -62,6 +63,7 @@ function App() {
             <Route path="/services/:serviceId" element={<SubPages />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+            <Route path="/contact" element={<Contact />} />
           </Routes>
           <Footer />
         </Router>
