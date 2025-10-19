@@ -77,14 +77,22 @@ const LeftBlock = styled(Box)(({ theme }) => ({
 }));
 
 /** Bottom-right CTA block */
+/** Bottom-right CTA block */
 const RightCTA = styled(Box)(({ theme }) => ({
   position: "absolute",
   right: "clamp(12px, 3vw, 40px)",
   bottom: "clamp(16px, 6vh, 72px)",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "flex-end",
+  display: "grid",
+  gap: theme.spacing(1.25),
+  // equal widths:
+  gridTemplateColumns: "1fr",
+  [theme.breakpoints.up("sm")]: {
+    gridTemplateColumns: "1fr 1fr",
+  },
+  // optional: limit total width so both look balanced
+  width: "min(520px, 92vw)",
 }));
+
 
 /* ------------------------ Staggered Heading ------------------------ */
 function StaggerHeading() {
@@ -125,7 +133,7 @@ function StaggerHeading() {
           mt: "4px",
         }}
       >
-        PROTECTION
+        RELIABILITY
       </Typography>
 
       <Typography

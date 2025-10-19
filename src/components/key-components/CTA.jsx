@@ -69,11 +69,6 @@ const CTA_REGISTRY = {
     body:
       "Fast, reliable maintenance and repairs with business-friendly scheduling to minimize downtime.",
   },
-  "free-repair-estimates": {
-    headline: "Free, Transparent Estimates",
-    body:
-      "Tell us the concern, get a clear plan and pricing before any work begins.",
-  },
   "fuel-system": {
     headline: "Performance & MPG Restored",
     body:
@@ -152,12 +147,12 @@ export default function CallToAction({
   };
 
   return (
-    <motion.div
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, amount: 0.3 }}
-      variants={containerVariants}
-    >
+    // <motion.div
+    //   initial="hidden"
+    //   whileInView="visible"
+    //   viewport={{ once: true, amount: 0.3 }}
+    //   variants={containerVariants}
+    // >
       <Box
         sx={{
           position: "relative",
@@ -179,12 +174,12 @@ export default function CallToAction({
         }}
       >
         {/* subtle overlay */}
-        <motion.div
+        {/* <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 0.45 }}
           transition={{ duration: 1 }}
           style={{ position: "absolute", inset: 0, zIndex: 1 }}
-        />
+        /> */}
 
         <Box sx={{ position: "relative", zIndex: 2, maxWidth: 1100, width: "100%" }}>
           <Typography
@@ -301,6 +296,6 @@ export default function CallToAction({
           </Dialog>
         )}
       </Box>
-    </motion.div>
+    // </motion.div>
   );
 }

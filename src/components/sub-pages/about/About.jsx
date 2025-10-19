@@ -6,6 +6,7 @@ import AboutIntro from './Aboutntro'
 import AboutBanner from './AboutBanner'
 import Mission from './Mission'
 import Pillars from './Pillars'
+import Contact from '../../key-components/Contact'
 
 export default function AboutPage() {
   return (
@@ -16,6 +17,7 @@ export default function AboutPage() {
       <Mission />
       <Pillars />
       <AboutBanner />
+      <Contact />
     </>
   );
 }

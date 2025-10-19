@@ -139,17 +139,6 @@ export const SERVICE_BULLETS_REGISTRY = {
     extras: ["Custom SLAs on request"],
     accent: "#f2c230",
   },
-  "free-repair-estimates": {
-    heading: "What You Get",
-    bullets: [
-      "Inspection & fault verification",
-      "Line-item estimate with parts/labor",
-      "Options by urgency & budget",
-      "Warranty terms explained clearly",
-    ],
-    extras: ["No obligation—transparent pricing"],
-    accent: "#f2c230",
-  },
   "fuel-system": {
     heading: "Fuel System Service",
     bullets: [

@@ -169,7 +169,6 @@ const SERVICES_ITEMS = [
   { label: "Cooling System", to: "/services/cooling-system" },
   { label: "Engine Service", to: "/services/engine-service" },
   { label: "Fleet Services", to: "/services/fleet-services" },
-  { label: "Free Repair Estimates", to: "/services/free-repair-estimates" },
   { label: "Fuel System", to: "/services/fuel-system" },
   { label: "Multi-Point Inspection / Pre-Purchase Inspection", to: "/services/multi-point-inspection" },
   { label: "Oil & Filter Change", to: "/services/oil-change" },

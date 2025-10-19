@@ -53,12 +53,12 @@ export default function AboutBanner({
   };
 
   return (
-    <motion.div
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, amount: 0.3 }}
-      variants={containerVariants}
-    >
+    // <motion.div
+    //   initial="hidden"
+    //   whileInView="visible"
+    //   viewport={{ once: true, amount: 0.3 }}
+    //   variants={containerVariants}
+    // >
       <Box
         sx={{
           position: "relative",
@@ -78,7 +78,7 @@ export default function AboutBanner({
         }}
       >
         {/* subtle UNDERLAY (doesn't block text or clicks) */}
-        <motion.div
+        {/* <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 0.45 }}
           transition={{ duration: 1 }}
@@ -90,7 +90,7 @@ export default function AboutBanner({
             background:
               "radial-gradient(60% 100% at 50% 0%, rgba(255,255,255,.18), transparent 60%)",
           }}
-        />
+        /> */}
 
         {/* content ABOVE the underlay */}
         <Box sx={{ position: "relative", zIndex: 1, maxWidth: 1100, width: "100%" }}>
@@ -211,6 +211,6 @@ export default function AboutBanner({
           </Dialog>
         )}
       </Box>
-    </motion.div>
+    // </motion.div>
   );
 }

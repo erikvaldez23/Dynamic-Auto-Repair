@@ -244,7 +244,7 @@ export default function Services({ items }) {
           }}
         >
           {/* Use href for plain <a>. If you prefer React Router: component={RouterLink} to="/services" */}
-          <ViewAllBtn href="/services">View All Services</ViewAllBtn>
+          <ViewAllBtn href="/#/services">View All Services</ViewAllBtn>
         </Box>
       </Container>
     </Section>

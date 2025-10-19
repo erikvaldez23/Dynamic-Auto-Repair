@@ -18,6 +18,8 @@ import ScheduleRoundedIcon from "@mui/icons-material/ScheduleRounded";
 import MailRoundedIcon from "@mui/icons-material/MailRounded";
 import ArrowForwardRoundedIcon from "@mui/icons-material/ArrowForwardRounded";
 
+import ContactHero from "./ContactHero";
+
 const ACCENT = "#f2c230";
 const ACCENT_HOVER = "#ffd95a";
 
@@ -155,6 +157,9 @@ export default function Contact({
   const upMd = useMediaQuery(theme.breakpoints.up("md"));
 
   return (
+    <>
+      <ContactHero />
+
       <Section>
         <Container maxWidth="xl">
           <GridWrap>
@@ -249,5 +254,6 @@ export default function Contact({
           </GridWrap>
         </Container>
       </Section>
+    </>
   );
 }

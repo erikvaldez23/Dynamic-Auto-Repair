@@ -1,324 +1,213 @@
-// src/components/hero/ServiceHero.jsx
+// src/components/ImageCarousel.jsx
 import React, { useMemo } from "react";
-import {
-  Box,
-  Stack,
-  Chip,
-  Button,
-  Typography,
-  useMediaQuery,
-  Breadcrumbs,
-  Link as MuiLink,
-} from "@mui/material";
-import { styled, alpha } from "@mui/material/styles";
+import { useParams } from "react-router-dom";
+import { Box, IconButton, useMediaQuery, useTheme } from "@mui/material";
 import { motion } from "framer-motion";
-import { Link as RouterLink } from "react-router-dom";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
-/* ----------------------------- Design Tokens ----------------------------- */
-// Default accent (can be overridden per service in registry)
-const ACCENT_DEFAULT = "#f2c230"; // Dynamic Auto Repair yellow
-
-// Subtle backdrop gradient used over media
-const BG_GRADIENT = `
-  linear-gradient(180deg, rgba(0,0,0,0.72) 0%, rgba(0,0,0,0.35) 38%, rgba(0,0,0,0.20) 56%, rgba(0,0,0,0.28) 100%),
-  radial-gradient(1200px 600px at 10% -10%, rgba(242,194,48,.18), transparent 55%),
-  radial-gradient(1000px 500px at 105% 120%, rgba(242,194,48,.10), transparent 60%)
-`;
-
-/* --------------------------------- Shell -------------------------------- */
-const Section = styled(Box)(({ theme }) => ({
-  position: "relative",
-  width: "100%",
-  minHeight: "42vh",
-  maxHeight: "760px",
-  display: "grid",
-  placeItems: "center",
-  overflow: "hidden",
-  borderRadius: 24,
-  isolation: "isolate",
-  // make it breathe from page edges on small screens
-  margin: "0 auto",
-}));
-
-const MediaLayer = styled(Box)({
-  position: "absolute",
-  inset: 0,
-  zIndex: 0,
-  overflow: "hidden",
-});
-
-const Overlay = styled(Box)(({ theme }) => ({
-  position: "absolute",
-  inset: 0,
-  zIndex: 1,
-  background: BG_GRADIENT,
-  // Prevent GPU seams
-  transform: "translateZ(0)",
-}));
-
-const ContentWrap = styled(motion.div)(({ theme }) => ({
-  position: "relative",
-  zIndex: 2,
-  width: "min(1200px, 92vw)",
-  marginInline: "auto",
-  display: "grid",
-  gap: theme.spacing(2.5),
-}));
-
-const GlassCard = styled(motion.div)(({ theme }) => ({
-  display: "grid",
-  gap: theme.spacing(2),
-  width: "100%",
-  padding: theme.spacing(3),
-  borderRadius: 20,
-  backdropFilter: "blur(8px)",
-  background: "linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02))",
-  border: "1px solid rgba(255,255,255,0.12)",
-  color: alpha("#fff", 0.98),
-}));
-
-const TagRow = styled(Stack)(({ theme }) => ({
-  flexWrap: "wrap",
-  gap: theme.spacing(1),
-}));
-
-/* ----------------------------- Service Registry ----------------------------- */
-/** Customize per service: title, description, media, accent, chips */
-export const SERVICE_HERO_REGISTRY = {
+/* -------------------- Service catalog with explicit images -------------------- */
+const SERVICE_CATALOG = {
   "ac-heating": {
     title: "AC & Heating",
-    description:
-      "Stay comfortable all year. Expert AC recharge, heater diagnostics, and climate control repairs.",
-    media: { image: "/services/hero/ac-heating.jpg" },
-    accent: "#f2c230",
-    chips: ["AC Recharge", "Leak Tests", "Cabin Filters"],
+    images: ["/services/ac-heating/1.jpg","/services/ac-heating/2.jpg","/services/ac-heating/3.jpg","/services/ac-heating/4.jpg"],
   },
   alignments: {
     title: "Alignments",
-    description:
-      "Sharper handling and longer tire life with precision four-wheel alignments.",
-    media: { image: "/services/hero/alignments.jpg" },
-    accent: "#f2c230",
-    chips: ["Four-Wheel", "Steering Center", "Specs Report"],
-  },
-  brakes: {
-    title: "Brakes",
-    description:
-      "Pads, rotors, hydraulics—everything for confident, quiet stopping.",
-    media: { video: "/services/hero/brakes.mp4", poster: "/services/hero/brakes.jpg" },
-    accent: "#f2c230",
-    chips: ["Pads & Rotors", "Brake Flush", "ABS Diagnostics"],
+    images: ["/services/alignments/1.jpg","/services/alignments/2.jpg","/services/alignments/3.jpg","/services/alignments/4.jpg"],
   },
   "batteries-alternators": {
     title: "Batteries / Alternators",
-    description:
-      "Fast testing and replacement to keep your vehicle starting and charging right.",
-    media: { image: "/services/hero/batteries.jpg" },
-    accent: "#f2c230",
-    chips: ["Load Test", "Alternator", "Starter"],
+    images: ["/services/batteries-alternators/1.jpg","/services/batteries-alternators/2.jpg","/services/batteries-alternators/3.jpg","/services/batteries-alternators/4.jpg"],
+  },
+  brakes: {
+    title: "Brakes",
+    images: ["/services/brakes/1.jpg","/services/brakes/2.jpg","/services/brakes/3.jpg","/services/brakes/4.jpg"],
   },
   "computer-diagnostics": {
     title: "Computer Diagnostics",
-    description: "Advanced OBD-II and manufacturer-level scanning for clear answers.",
-    media: { image: "/services/hero/diagnostics.jpg" },
-    accent: "#f2c230",
-    chips: ["Scan & Verify", "Live Data", "Action Plan"],
+    images: ["/services/computer-diagnostics/1.jpg","/services/computer-diagnostics/2.jpg","/services/computer-diagnostics/3.jpg","/services/computer-diagnostics/4.jpg"],
   },
-  // ...add the rest as you like (cooling-system, fuel-system, tires, etc.)
+  "check-engine-light": {
+    title: "Check Engine Light",
+    images: ["/services/check-engine-light/1.jpg","/services/check-engine-light/2.jpg","/services/check-engine-light/3.jpg","/services/check-engine-light/4.jpg"],
+  },
+  "cooling-system": {
+    title: "Cooling System",
+    images: ["/services/cooling-system/1.jpg","/services/cooling-system/2.jpg","/services/cooling-system/3.jpg","/services/cooling-system/4.jpg"],
+  },
+  "engine-service": {
+    title: "Engine Service",
+    images: ["/services/engine-service/1.jpg","/services/engine-service/2.jpg","/services/engine-service/3.jpg","/services/engine-service/4.jpg"],
+  },
+  "fleet-services": {
+    title: "Fleet Services",
+    images: ["/services/fleet-services/1.jpg","/services/fleet-services/2.jpg","/services/fleet-services/3.jpg","/services/fleet-services/4.jpg"],
+  },
+  "fuel-system": {
+    title: "Fuel System",
+    images: ["/services/fuel-system/1.jpg","/services/fuel-system/2.jpg","/services/fuel-system/3.jpg","/services/fuel-system/4.jpg"],
+  },
+  "multi-point-inspection": {
+    title: "Multi-Point Inspection / Pre-Purchase Inspection",
+    images: ["/services/multi-point-inspection/1.jpg","/services/multi-point-inspection/2.jpg","/services/multi-point-inspection/3.jpg","/services/multi-point-inspection/4.jpg"],
+  },
+  "oil-filter-change": {
+    title: "Oil & Filter Change",
+    images: ["/services/oil-filter-change/1.jpg","/services/oil-filter-change/2.jpg","/services/oil-filter-change/3.jpg","/services/oil-filter-change/4.jpg"],
+  },
+  "scheduled-maintenance": {
+    title: "Scheduled Maintenance",
+    images: ["/services/scheduled-maintenance/1.jpg","/services/scheduled-maintenance/2.jpg","/services/scheduled-maintenance/3.jpg","/services/scheduled-maintenance/4.jpg"],
+  },
+  "state-inspection": {
+    title: "State Inspection",
+    images: ["/services/state-inspection/1.jpg","/services/state-inspection/2.jpg","/services/state-inspection/3.jpg","/services/state-inspection/4.jpg"],
+  },
+  "suspension-steering": {
+    title: "Suspension & Steering",
+    images: ["/services/suspension-steering/1.jpg","/services/suspension-steering/2.jpg","/services/suspension-steering/3.jpg","/services/suspension-steering/4.jpg"],
+  },
+  tires: {
+    title: "Tires",
+    images: ["/services/tires/1.jpg","/services/tires/2.jpg","/services/tires/3.jpg","/services/tires/4.jpg"],
+  },
+  "tune-ups": {
+    title: "Tune-Ups",
+    images: ["/services/tune-ups/1.jpg","/services/tune-ups/2.jpg","/services/tune-ups/3.jpg","/services/tune-ups/4.jpg"],
+  },
 };
 
-/* --------------------------------- Component --------------------------------- */
-export default function ServiceHero({
-  serviceId,
-  // you can override registry at call-site if needed
-  registry = SERVICE_HERO_REGISTRY,
-  // action handlers
-  onPrimary = () => (window.location.href = "tel:+14699690043"),
-  onSecondary = () => (window.location.href = "/quote"),
-}) {
-  const isSm = useMediaQuery("(max-width:600px)");
-  const cfg = registry[serviceId];
+/** Accessible custom arrows */
+const Arrow = ({ className, onClick, dir = "next" }) => (
+  <IconButton
+    aria-label={dir === "next" ? "Next slide" : "Previous slide"}
+    onClick={onClick}
+    className={className}
+    sx={{
+      zIndex: 3,
+      color: "#fff",
+      "&::before": { display: "none" },
+      bgcolor: "rgba(0,0,0,0.45)",
+      backdropFilter: "blur(2px)",
+      "&:hover": { bgcolor: "rgba(0,0,0,0.65)" },
+      boxShadow: "0 6px 24px rgba(0,0,0,0.35)",
+      width: 40,
+      height: 40,
+      borderRadius: "999px",
+    }}
+  />
+);
 
-  // Fallback to a harmless default if route key is missing
-  const data = useMemo(
-    () =>
-      cfg || {
-        title: "Auto Service",
-        description:
-          "Professional diagnostics, transparent estimates, and quality repairs.",
-        media: { image: "/services/hero/default.jpg" },
-        accent: ACCENT_DEFAULT,
-        chips: ["Transparent", "Warranty-Backed", "Certified Techs"],
-      },
-    [cfg]
+const ImageCarousel = () => {
+  const theme = useTheme();
+  const isMdDown = useMediaQuery(theme.breakpoints.down("md"));
+  const isSmDown = useMediaQuery(theme.breakpoints.down("sm"));
+  const { serviceId } = useParams();
+
+  /** Resolve the service; if missing, fall back to a sensible default */
+  const resolvedKey = useMemo(() => {
+    if (serviceId && SERVICE_CATALOG[serviceId]) return serviceId;
+    return "ac-heating";
+  }, [serviceId]);
+
+  const meta = SERVICE_CATALOG[resolvedKey];
+
+  // ✅ Only use explicitly provided images (no auto-build paths)
+  const images = Array.isArray(meta.images) ? meta.images : [];
+
+  /** Slider settings tuned for desktop/tablet/phone */
+  const sliderSettings = useMemo(
+    () => ({
+      infinite: true,
+      speed: 500,
+      autoplay: true,
+      autoplaySpeed: 3000,
+      pauseOnHover: true,
+      arrows: true,
+      nextArrow: <Arrow dir="next" />,
+      prevArrow: <Arrow dir="prev" />,
+      lazyLoad: "ondemand",
+      swipeToSlide: true,
+      adaptiveHeight: true,
+      centerMode: !isMdDown,
+      centerPadding: isSmDown ? "0px" : isMdDown ? "40px" : "80px",
+      slidesToShow: isSmDown ? 1 : isMdDown ? 2 : 3,
+      responsive: [
+        { breakpoint: 960, settings: { slidesToShow: 2, centerMode: false } },
+        { breakpoint: 600, settings: { slidesToShow: 1, centerMode: false } },
+      ],
+    }),
+    [isMdDown, isSmDown]
   );
 
-  const accent = data.accent || ACCENT_DEFAULT;
+  /** Framer container for staggered mount */
+  const containerVariants = { hidden: {}, visible: { transition: { staggerChildren: 0.15 } } };
+
+  // Optional: gentle guard so the slider doesn't break if a service has no images
+  const slides = images.length > 0 ? images : ["/placeholder.jpg"];
 
   return (
-    <Section sx={{ mt: { xs: 1, md: 2 }, minHeight: { xs: "46vh", md: "52vh" } }}>
-      {/* Background media */}
-      <MediaLayer aria-hidden>
-        {data.media?.video ? (
-          <video
-            src={data.media.video}
-            poster={data.media.poster}
-            autoPlay
-            loop
-            muted
-            playsInline
-            preload="metadata"
-            style={{
-              width: "100%",
-              height: "100%",
-              objectFit: "cover",
-              objectPosition: "center",
-              display: "block",
-            }}
-          />
-        ) : (
-          <img
-            src={data.media?.image}
-            alt=""
-            loading="eager"
-            decoding="async"
-            style={{
-              width: "100%",
-              height: "100%",
-              objectFit: "cover",
-              objectPosition: "center",
-              display: "block",
-            }}
-          />
-        )}
-      </MediaLayer>
-
-      <Overlay />
-
-      {/* Content */}
-      <ContentWrap
-        initial={{ opacity: 0, y: 18 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+    <motion.div
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: false, amount: 0.25 }}
+      variants={containerVariants}
+    >
+      <Box
+        sx={{
+          position: "relative",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          textAlign: "center",
+          color: "#000",
+          overflow: "hidden",
+          px: { xs: 1.5, sm: 2, md: 3 },
+        }}
       >
-        {/* Breadcrumbs */}
-        <Breadcrumbs
-          sx={{
-            color: alpha("#fff", 0.9),
-            textShadow: "0 1px 2px rgba(0,0,0,.4)",
-            fontSize: 13,
-          }}
-          separator="›"
-        >
-          <MuiLink component={RouterLink} to="/" underline="hover" color="inherit">
-            Home
-          </MuiLink>
-          <MuiLink component={RouterLink} to="/services" underline="hover" color="inherit">
-            Services
-          </MuiLink>
-          <Typography component="span" sx={{ opacity: 0.9 }}>
-            {data.title}
-          </Typography>
-        </Breadcrumbs>
-
-        {/* Headline card */}
-        <GlassCard
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.08, duration: 0.5 }}
-        >
-          <Typography
-            variant={isSm ? "h4" : "h3"}
-            fontWeight={900}
-            sx={{ lineHeight: 1.1 }}
-          >
-            {data.title}
-          </Typography>
-
-          <Typography
-            variant="h6"
-            sx={{
-              opacity: 0.92,
-              maxWidth: 940,
-              lineHeight: 1.5,
-            }}
-          >
-            {data.description}
-          </Typography>
-
-          {!!data.chips?.length && (
-            <TagRow direction="row">
-              {data.chips.map((c, i) => (
-                <Chip
-                  key={i}
-                  label={c}
-                  sx={{
-                    color: "#111",
-                    fontWeight: 700,
-                    letterSpacing: 0.2,
-                    bgcolor: alpha(accent, 0.96),
-                    border: `1px solid ${alpha("#000", 0.2)}`,
-                    "& .MuiChip-label": { px: 1.25, py: 0.5 },
-                  }}
-                />
+        <Box sx={{ position: "relative", zIndex: 1, width: "100%", maxWidth: 1500 }}>
+          <Box sx={{ py: { xs: 2, md: 3 } }}>
+            <Slider {...sliderSettings}>
+              {slides.map((src, idx) => (
+                <Box key={idx} sx={{ px: { xs: 1, sm: 1.5, md: 2 } }}>
+                  <Box
+                    component="img"
+                    src={src}
+                    alt={`${meta.title} image ${idx + 1}`}
+                    loading="lazy"
+                    onError={(e) => {
+                      const target = e.currentTarget;
+                      if (target.src.includes("placeholder.jpg")) return;
+                      target.src = "/placeholder.jpg";
+                    }}
+                    sx={{
+                      width: "100%",
+                      aspectRatio: { xs: "4 / 3", md: "2 / 3" },
+                      objectFit: "cover",
+                      display: "block",
+                      borderRadius: "24px",
+                      boxShadow: "0 6px 20px rgba(0,0,0,0.18)",
+                      transition: "transform .35s ease, box-shadow .35s ease",
+                      userSelect: "none",
+                      WebkitUserDrag: "none",
+                      "&:hover": {
+                        transform: "scale(1.02)",
+                        boxShadow: "0 10px 28px rgba(0,0,0,0.28)",
+                        cursor: "pointer",
+                      },
+                    }}
+                  />
+                </Box>
               ))}
-            </TagRow>
-          )}
-
-          <Stack direction="row" spacing={1.5} sx={{ pt: 0.5, flexWrap: "wrap" }}>
-            <Button
-              onClick={onPrimary}
-              variant="contained"
-              disableElevation
-              sx={{
-                borderRadius: 2,
-                px: 2.5,
-                py: 1.1,
-                fontWeight: 800,
-                bgcolor: accent,
-                color: "#111",
-                "&:hover": { bgcolor: alpha(accent, 0.9) },
-              }}
-            >
-              Call Now
-            </Button>
-            <Button
-              onClick={onSecondary}
-              variant="outlined"
-              sx={{
-                borderRadius: 2,
-                px: 2.25,
-                py: 1.05,
-                fontWeight: 800,
-                color: alpha("#fff", 0.98),
-                borderColor: alpha("#fff", 0.35),
-                backdropFilter: "blur(2px)",
-                "&:hover": {
-                  borderColor: alpha("#fff", 0.6),
-                  background: alpha("#fff", 0.06),
-                },
-              }}
-            >
-              Get Free Estimate
-            </Button>
-          </Stack>
-        </GlassCard>
-
-        {/* Accent underline (subtle, brand-colored) */}
-        <Box
-          component={motion.div}
-          initial={{ scaleX: 0, opacity: 0 }}
-          animate={{ scaleX: 1, opacity: 1 }}
-          transition={{ delay: 0.2, duration: 0.55 }}
-          sx={{
-            height: 5,
-            width: 88,
-            borderRadius: 3,
-            background: accent,
-            boxShadow: `0 0 8px ${alpha(accent, 0.6)}, 0 0 16px ${alpha(accent, 0.4)}`,
-          }}
-        />
-      </ContentWrap>
-    </Section>
+            </Slider>
+          </Box>
+        </Box>
+      </Box>
+    </motion.div>
   );
-}
+};
+
+export default ImageCarousel;
