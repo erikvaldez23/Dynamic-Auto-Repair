@@ -20,6 +20,7 @@ import AboutPage from "./components/sub-pages/about/About"
 import PrivacyPolicy from "./components/sub-pages/PrivacyPolicy";
 import AllServices from "./components/sub-pages/services/AllServices";
 import ContactPage from "./components/sub-pages/contact/ContactPage"
+import Testimonials from "./components/landing/Testimonials";
 
 const theme = createTheme({
   palette: {
@@ -56,7 +57,7 @@ function App() {
                 <>
                   <VideoHero />
                   <Contact />
-
+                  <Testimonials />
                   {/* <Hero /> */}
                   <ServicesStrip />
                   <Services />

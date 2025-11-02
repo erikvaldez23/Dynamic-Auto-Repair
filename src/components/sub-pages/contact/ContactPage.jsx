@@ -17,6 +17,7 @@ import RoomRoundedIcon from "@mui/icons-material/RoomRounded";
 import ScheduleRoundedIcon from "@mui/icons-material/ScheduleRounded";
 import MailRoundedIcon from "@mui/icons-material/MailRounded";
 import ArrowForwardRoundedIcon from "@mui/icons-material/ArrowForwardRounded";
+import Banner from "../../key-components/CTA";
 
 import ContactHero from "./ContactHero";
 
@@ -128,9 +129,9 @@ const InfoRow = ({ icon, title, children }) => (
 const Frame = styled("iframe")(({ theme }) => ({
   display: "block",
   width: "100%",
-  height: "100%",   // ✅ fill the card
-  flex: 1,          // ✅ take remaining vertical space
-  minHeight: 0,     // ✅ important so it can shrink/expand in grid
+  height: "100%", // ✅ fill the card
+  flex: 1, // ✅ take remaining vertical space
+  minHeight: 0, // ✅ important so it can shrink/expand in grid
   border: 0,
   background: "#fff",
   borderRadius: 12, // matches the card radius
@@ -167,7 +168,10 @@ export default function Contact({
             <Card>
               <Stack spacing={2} sx={{ flex: 1, minHeight: 0 }}>
                 <Heading variant="h2">{companyName}</Heading>
-                <Typography variant="body1" sx={{ opacity: 0.9, maxWidth: 720 }}>
+                <Typography
+                  variant="body1"
+                  sx={{ opacity: 0.9, maxWidth: 720 }}
+                >
                   {blurb}
                 </Typography>
 
@@ -201,21 +205,36 @@ export default function Contact({
                   <InfoRow icon={<ScheduleRoundedIcon />} title="Hours">
                     <Stack spacing={0.25}>
                       {hours.map((r, i) => (
-                        <Typography key={i} variant="body2" sx={{ opacity: 0.9 }}>
-                          <strong style={{ opacity: 0.95 }}>{r.d}:</strong> {r.h}
+                        <Typography
+                          key={i}
+                          variant="body2"
+                          sx={{ opacity: 0.9 }}
+                        >
+                          <strong style={{ opacity: 0.95 }}>{r.d}:</strong>{" "}
+                          {r.h}
                         </Typography>
                       ))}
                     </Stack>
                   </InfoRow>
                 </Stack>
 
-                <Stack direction="row" spacing={1.25} sx={{ mt: "auto", width: "100%" }}>
+                <Stack
+                  direction="row"
+                  spacing={1.25}
+                  sx={{ mt: "auto", width: "100%" }}
+                >
                   <CTA
                     size="large"
                     startIcon={<CallRoundedIcon />}
                     href={phoneHref}
                     fullWidth
-                    sx={{ flex: "1 1 0", minWidth: 0, justifyContent: "center", px: 2.6, py: 1.2 }}
+                    sx={{
+                      flex: "1 1 0",
+                      minWidth: 0,
+                      justifyContent: "center",
+                      px: 2.6,
+                      py: 1.2,
+                    }}
                   >
                     Call Now
                   </CTA>
@@ -227,7 +246,13 @@ export default function Contact({
                     target="_blank"
                     rel="noreferrer"
                     fullWidth
-                    sx={{ flex: "1 1 0", minWidth: 0, justifyContent: "center", px: 2.6, py: 1.2 }}
+                    sx={{
+                      flex: "1 1 0",
+                      minWidth: 0,
+                      justifyContent: "center",
+                      px: 2.6,
+                      py: 1.2,
+                    }}
                   >
                     Get Directions
                   </GhostBtn>
@@ -238,7 +263,7 @@ export default function Contact({
             {/* Right: Contact / Booking Form (full-bleed) */}
             <Card
               sx={{
-                p: 0,               // ✅ remove padding so iframe can be edge-to-edge
+                p: 0, // ✅ remove padding so iframe can be edge-to-edge
                 overflow: "hidden", // ✅ clip iframe to rounded corners
                 display: "flex",
                 minHeight: 0,
@@ -254,6 +279,7 @@ export default function Contact({
           </GridWrap>
         </Container>
       </Section>
+      <Banner />
     </>
   );
 }

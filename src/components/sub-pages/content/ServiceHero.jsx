@@ -125,7 +125,7 @@ const ImageCarousel = () => {
       autoplay: true,
       autoplaySpeed: 3000,
       pauseOnHover: true,
-      arrows: true,
+      arrows: false,
       nextArrow: <Arrow dir="next" />,
       prevArrow: <Arrow dir="prev" />,
       lazyLoad: "ondemand",
@@ -166,6 +166,7 @@ const ImageCarousel = () => {
           color: "#000",
           overflow: "hidden",
           px: { xs: 1.5, sm: 2, md: 3 },
+          pt: 15
         }}
       >
         <Box sx={{ position: "relative", zIndex: 1, width: "100%", maxWidth: 1500 }}>

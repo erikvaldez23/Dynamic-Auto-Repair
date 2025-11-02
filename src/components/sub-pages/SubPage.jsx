@@ -14,7 +14,7 @@ import Topbar from "../key-components/Topbar";
 import Footer from "../key-components/Footer";
 
 /* --------------------------- Lazy sections --------------------------- */
-const HeroGallery        = lazy(() => import("./hero/ServiceHero"));
+const HeroGallery        = lazy(() => import("./content/ServiceHero"));
 const ServicesBullets    = lazy(() => import("./content/ServicesBullets"));
 const PricingComponent   = lazy(() => import("./content/Pricing"));
 const HowItWorks         = lazy(() => import("./content/HowItWorks"));

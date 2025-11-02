@@ -121,7 +121,7 @@ function StaggerHeading() {
           textTransform: "uppercase",
         }}
       >
-        PRECISION
+        HONESTY
       </Typography>
 
       <Typography
