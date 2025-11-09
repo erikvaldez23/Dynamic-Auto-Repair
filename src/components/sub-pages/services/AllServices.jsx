@@ -120,7 +120,7 @@ const SERVICES = [
 ].map(({ title, slug }) => ({
   title,
   slug,
-  href: `/services/${slug}`,
+  href: `/#/services/${slug}`,
   // Use a consistent hero image path per service; keep /public/placeholder.jpg as fallback asset
   image: `/services/${slug}/cover.jpg`,
 }));

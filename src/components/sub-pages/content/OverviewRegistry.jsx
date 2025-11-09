@@ -1,19 +1,20 @@
 export const OVERVIEW_HTML = {
 "ac-heating": {
+  slug: "ac-heating",
   title: "Auto A/C & Heating Repair",
+  subtitle: "Certified diagnostics, recharge, and climate control repair in Dallas–Fort Worth.",
   leftHtml: `
     <!-- spacing wrapper -->
     <div style="display:flex; flex-direction:column; row-gap:14px;">
-
       <h1 style="margin:0 0 .5rem 0;">Car A/C &amp; Heating Repair in Dallas, TX</h1>
 
       <p>
-        Stay comfortable year-round with expert <strong>auto air conditioning and heater repair</strong> in Dallas.
+        Stay comfortable year-round with expert <strong>auto air conditioning and heater repair in Dallas</strong>.
         At Dynamic Auto Repair, we quickly diagnose <em>no-cool</em>, weak heat, strange smells, intermittent cooling,
         and noisy compressors—then fix the root cause with quality parts and clear pricing.
       </p>
 
-      <h3 style="margin-top:10px;">Common A/C &amp; Heating Problems We Fix</h3>
+      <h2 style="margin-top:10px;">Common A/C &amp; Heating Problems We Fix</h2>
       <ul class="two-col" style="margin:2px 0 6px 0;">
         <li>Low/incorrect refrigerant; A/C recharge needed (R-134a or R-1234yf)</li>
         <li>Refrigerant contamination or moisture in the system</li>
@@ -25,7 +26,7 @@ export const OVERVIEW_HTML = {
         <li>A/C control head or wiring faults</li>
       </ul>
 
-      <h3 style="margin-top:12px;">Warning Signs Your Car’s A/C or Heat Is Failing</h3>
+      <h2 style="margin-top:12px;">Warning Signs Your Car’s A/C or Heat Is Failing</h2>
       <ul style="margin:2px 0 6px 0;">
         <li><strong>Unusual noises</strong> — grinding, squealing, or clicking when the A/C runs</li>
         <li><strong>Bad odors</strong> — musty smell at start-up (possible contamination or mold)</li>
@@ -34,7 +35,7 @@ export const OVERVIEW_HTML = {
         <li><strong>Foggy windows</strong> — weak defrost or heater core concerns</li>
       </ul>
 
-      <h3 style="margin-top:12px;">Our A/C &amp; Heating Services</h3>
+      <h2 style="margin-top:12px;">Our A/C &amp; Heating Services</h2>
       <ul class="two-col" style="margin:2px 0 6px 0;">
         <li>Complete A/C diagnostics &amp; performance testing</li>
         <li>Electronic leak detection &amp; certified refrigerant recharge</li>
@@ -44,13 +45,43 @@ export const OVERVIEW_HTML = {
         <li>Cooling system check to support heater performance</li>
       </ul>
 
-      <p style="margin-top:6px;">
-        <a class="cta" href="/quote">Schedule A/C or Heating Service</a>
+      <h2 style="margin-top:12px;">Why Dallas Drivers Choose Dynamic Auto Repair</h2>
+      <ul style="margin:2px 0 6px 0;">
+        <li><strong>Local experts</strong> in high-heat Texas conditions</li>
+        <li><strong>Up-to-date equipment</strong> for R-134a and R-1234yf systems</li>
+        <li><strong>OEM-quality parts</strong> and transparent estimates</li>
+        <li><strong>Fast turnaround</strong> with clear communication</li>
+        <li><strong>Backed work</strong> with parts &amp; labor warranty</li>
+      </ul>
+
+      <h2 style="margin-top:12px;">What to Expect</h2>
+      <ol style="margin:2px 0 6px 0; padding-left:18px;">
+        <li>Performance test &amp; visual inspection</li>
+        <li>Electronic leak detection and pressure/temperature checks</li>
+        <li>Root-cause diagnosis (components &amp; electrical)</li>
+        <li>Written estimate with options</li>
+        <li>Factory-level repair, recharge, and final performance test</li>
+      </ol>
+        <p style="margin-top:6px;">
+        <a class="cta" href="/quote">Schedule Brake Inspection</a>
       </p>
     </div>
   `,
   image: "/placeholder.jpg",
-  imageAlt: "Auto A/C manifold gauges diagnosing a vehicle in Dallas, TX",
+  imageAlt: "Technician using A/C manifold gauges on a vehicle in Dallas, TX",
+  image2: "/placeholder.jpg",
+  imageAlt2: "Close-up of R-1234yf manifold set during auto air conditioning service",
+  metaTitle: "Car A/C Recharge & Heating Repair in Dallas, TX | Dynamic Auto Repair",
+  metaDescription: "Certified auto A/C recharge (R-134a & R-1234yf), heater repair, leak detection, compressors, condensers, and climate control diagnostics in Dallas–Fort Worth. Same-day testing, clear pricing, and warranty.",
+  metaKeywords: [
+    "car ac recharge dallas",
+    "auto air conditioning repair",
+    "r-1234yf recharge",
+    "ac compressor replacement",
+    "heater core repair",
+    "auto ac service near me",
+    "dallas tx mechanic ac"
+  ],
 },
 
 brakes: {

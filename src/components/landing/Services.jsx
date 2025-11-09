@@ -4,11 +4,11 @@ import {
   Box,
   Container,
   Typography,
-  Grid,
-  Link as MuiLink,
   Button,
   useTheme,
   useMediaQuery,
+  Link as MuiLink,
+  Grid,
 } from "@mui/material";
 import { styled, alpha } from "@mui/material/styles";
 
@@ -77,14 +77,16 @@ const Tile = styled(MuiLink)(({ theme }) => ({
     background: `linear-gradient(90deg, ${ACCENT}, ${ACCENT_SOFT})`,
   },
 
-  "&:hover": {
-    boxShadow: `
-      0 18px 60px ${alpha("#000", 0.5)},
-      0 0 0 1px ${alpha(ACCENT, 0.25)},
-      0 35px 90px ${alpha(ACCENT, 0.28)}
-    `,
+  "@media (hover:hover)": {
+    "&:hover": {
+      boxShadow: `
+        0 18px 60px ${alpha("#000", 0.5)},
+        0 0 0 1px ${alpha(ACCENT, 0.25)},
+        0 35px 90px ${alpha(ACCENT, 0.28)}
+      `,
+    },
+    "&:hover .img": { filter: "saturate(1.05)" },
   },
-  "&:hover .img": { filter: "saturate(1.05)" },
 }));
 
 // View All button
@@ -103,8 +105,7 @@ const ViewAllBtn = styled(Button)(({ theme }) => ({
   },
 }));
 
-/* ----------------------------- Layout helper --------------------------- */
-// One large left tile, four smaller right tiles (2x2)
+/* ----------------------------- Desktop mosaic -------------------------- */
 const Mosaic = styled("div")(({ theme }) => ({
   display: "grid",
   gap: theme.spacing(2.25),
@@ -129,43 +130,23 @@ const areaStyles = {
   t4: { gridArea: "t4" },
 };
 
+/* ------------------------- Mobile sizing constants --------------------- */
+const CARD_W_MOBILE = 320; // consistent width for every card
+const CARD_H_MOBILE = 420; // consistent height for every card
+const SLIDE_GAP = 12;      // horizontal gap between cards
+
 /* ------------------------------- Component ----------------------------- */
-/**
- * Props:
- * - items: array of { title, image, href }
- *   The first item is the large left tile; next four fill the right grid.
- */
 export default function Services({ items }) {
   const theme = useTheme();
   const isMdUp = useMediaQuery(theme.breakpoints.up("md"));
 
   // Defaults (replace with your real image URLs)
   const fallback = [
-    {
-      title: "A/C & Heating",
-      image: "/services/a-c.jpg",
-      href: "/services/ac-heating",
-    },
-    {
-      title: "Check Engine Light",
-      image: "/services/check-engine.jpg",
-      href: "/services/check-engine",
-    },
-    {
-      title: "Oil Change",
-      image: "/services/oil-change.jpg",
-      href: "/services/oil-change",
-    },
-    {
-      title: "Suspension",
-      image: "/services/suspension.jpg",
-      href: "/services/suspension",
-    },
-    {
-      title: "Battery/Alternator",
-      image: "/services/alternator.jpg",
-      href: "/services/battery-alternator",
-    },
+    { title: "A/C & Heating", image: "/services/a-c.jpg", href: "/services/ac-heating" },
+    { title: "Check Engine Light", image: "/services/check-engine.jpg", href: "/services/check-engine" },
+    { title: "Oil Change", image: "/services/oil-change.jpg", href: "/services/oil-change" },
+    { title: "Suspension", image: "/services/suspension.jpg", href: "/services/suspension" },
+    { title: "Battery/Alternator", image: "/services/alternator.jpg", href: "/services/battery-alternator" },
   ];
 
   const data = (items && items.length >= 5 ? items : fallback).slice(0, 5);
@@ -180,7 +161,7 @@ export default function Services({ items }) {
               fontWeight: 900,
               position: "relative",
               display: "inline-block",
-              pb: 2, // space for the line
+              pb: 2,
               "&::after": {
                 content: '""',
                 position: "absolute",
@@ -197,43 +178,85 @@ export default function Services({ items }) {
           </Typography>
         </TitleWrap>
 
-        <Mosaic>
-          {/* Large left tile */}
-          <Tile href={data[0].href} sx={areaStyles.hero}>
-            <Box
-              className="img"
-              sx={{ backgroundImage: `url(${data[0].image})` }}
-            />
-            <Box className="veil" />
-            <Box className="label">
-              <Typography variant="h5" fontWeight={900}>
-                {data[0].title}
-              </Typography>
-              <div className="underline" />
-            </Box>
-          </Tile>
-
-          {/* Right 2x2 tiles */}
-          {data.slice(1).map((item, i) => (
-            <Tile
-              key={item.title}
-              href={item.href}
-              sx={areaStyles[`t${i + 1}`]}
-            >
-              <Box
-                className="img"
-                sx={{ backgroundImage: `url(${item.image})` }}
-              />
+        {isMdUp ? (
+          /* ---------- Desktop Mosaic ---------- */
+          <Mosaic>
+            <Tile href={data[0].href} sx={areaStyles.hero}>
+              <Box className="img" sx={{ backgroundImage: `url(${data[0].image})` }} />
               <Box className="veil" />
               <Box className="label">
-                <Typography variant="subtitle1" fontWeight={900}>
-                  {item.title}
+                <Typography variant="h5" fontWeight={900}>
+                  {data[0].title}
                 </Typography>
                 <div className="underline" />
               </Box>
             </Tile>
-          ))}
-        </Mosaic>
+
+            {data.slice(1).map((item, i) => (
+              <Tile key={item.title} href={item.href} sx={areaStyles[`t${i + 1}`]}>
+                <Box className="img" sx={{ backgroundImage: `url(${item.image})` }} />
+                <Box className="veil" />
+                <Box className="label">
+                  <Typography variant="subtitle1" fontWeight={900}>
+                    {item.title}
+                  </Typography>
+                  <div className="underline" />
+                </Box>
+              </Tile>
+            ))}
+          </Mosaic>
+        ) : (
+          /* ---------- Mobile: SAME STRIP LOGIC AS BenefitsFourColumns ---------- */
+          <Grid
+            container
+            columns={{ xs: 12 }}
+            wrap="nowrap"
+            spacing={0}
+            sx={{
+              overflowX: "auto",
+              scrollSnapType: "x mandatory",
+              px: 1, // page padding
+              pb: 1,
+              columnGap: `${SLIDE_GAP}px`, // visual gap between cards
+              // nice scrollbar (optional)
+              "::-webkit-scrollbar": { height: 8 },
+              "::-webkit-scrollbar-thumb": {
+                backgroundColor: "rgba(255,255,255,0.18)",
+                borderRadius: 8,
+              },
+            }}
+          >
+            {data.map((item) => (
+              <Grid
+                key={item.title}
+                item
+                xs="auto"
+                sx={{
+                  scrollSnapAlign: "start",
+                  minWidth: `${CARD_W_MOBILE}px`,
+                  // keep every card EXACTLY the same size
+                  "& > .card-frame": {
+                    width: `${CARD_W_MOBILE}px`,
+                    height: `${CARD_H_MOBILE}px`,
+                  },
+                }}
+              >
+                <Box className="card-frame">
+                  <Tile href={item.href} sx={{ height: "100%" }}>
+                    <Box className="img" sx={{ backgroundImage: `url(${item.image})` }} />
+                    <Box className="veil" />
+                    <Box className="label">
+                      <Typography variant="subtitle1" fontWeight={900} sx={{ maxWidth: 240 }}>
+                        {item.title}
+                      </Typography>
+                      <div className="underline" />
+                    </Box>
+                  </Tile>
+                </Box>
+              </Grid>
+            ))}
+          </Grid>
+        )}
 
         {/* View All Services button */}
         <Box
@@ -243,7 +266,6 @@ export default function Services({ items }) {
             justifyContent: { xs: "center", md: "flex-end" },
           }}
         >
-          {/* Use href for plain <a>. If you prefer React Router: component={RouterLink} to="/services" */}
           <ViewAllBtn href="/#/services">View All Services</ViewAllBtn>
         </Box>
       </Container>

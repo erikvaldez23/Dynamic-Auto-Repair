@@ -66,6 +66,7 @@ const Content = styled(Box)(({ theme }) => ({
 }));
 
 /** Bottom-left block (headline + subheading) */
+/** Bottom-left block (headline + subheading) */
 const LeftBlock = styled(Box)(({ theme }) => ({
   position: "absolute",
   left: "clamp(12px, 3vw, 10px)",
@@ -74,7 +75,18 @@ const LeftBlock = styled(Box)(({ theme }) => ({
   display: "grid",
   gap: theme.spacing(2),
   textAlign: "left",
+
+  // ⬇️ On mobile, move the whole block to the center of the viewport
+  [theme.breakpoints.down("sm")]: {
+    left: "50%",
+    top: "50%",
+    bottom: "auto",
+    transform: "translate(-50%, -50%)",
+    maxWidth: "min(92vw, 560px)",
+    paddingInline: theme.spacing(1.5), // small gutter so indents don't clip
+  },
 }));
+
 
 /** Bottom-right CTA block */
 /** Bottom-right CTA block */
@@ -97,7 +109,7 @@ const RightCTA = styled(Box)(({ theme }) => ({
 /* ------------------------ Staggered Heading ------------------------ */
 function StaggerHeading() {
   const indents = [
-    "0", // PRECISION
+    "0", // HONESTY
     "clamp(12px, 6vw, 80px)", // PROTECTION
     "clamp(24px, 12vw, 160px)", // PERFORMANCE
   ];
@@ -106,7 +118,7 @@ function StaggerHeading() {
     fontWeight: 900,
     letterSpacing: { xs: -0.5, md: -1 },
     lineHeight: 1.02,
-    fontSize: { xs: "clamp(26px, 8vw, 40px)", md: "clamp(46px, 8vw, 98px)" },
+    fontSize: { xs: "clamp(36px, 8vw, 40px)", md: "clamp(46px, 8vw, 78px)" },
     textShadow: "0 2px 16px rgba(0,0,0,0.6)",
   };
 

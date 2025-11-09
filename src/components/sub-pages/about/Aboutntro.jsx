@@ -3,11 +3,14 @@ import React from "react";
 import { Box, Container, Typography, Stack } from "@mui/material";
 import { styled, alpha } from "@mui/material/styles";
 
+/* ------------------------------- Tokens -------------------------------- */
+const ACCENT = "#f2c230";
+
 /* ------------------------------ Styled Shell ------------------------------ */
-const Section = styled(Box)(({ theme }) => ({
+const Section = styled("section")(({ theme }) => ({
   width: "100%",
-  color: "#fff",
-  paddingBlock: theme.spacing(8),
+  paddingBlock: theme.spacing(12),
+  color: alpha("#fff", 0.96),
 }));
 
 const GridWrap = styled(Box)(({ theme }) => ({
@@ -17,6 +20,8 @@ const GridWrap = styled(Box)(({ theme }) => ({
   alignItems: "center",
   [theme.breakpoints.down("md")]: {
     gridTemplateColumns: "1fr",
+    textAlign: "center",
+    justifyItems: "center",
   },
 }));
 
@@ -26,47 +31,142 @@ const ImageFrame = styled(Box)(({ theme }) => ({
   aspectRatio: "4 / 3",
   borderRadius: 20,
   overflow: "hidden",
-  background: theme.palette.mode === "dark" ? alpha("#fff", 0.04) : alpha("#000", 0.04),
-  border: `1px solid ${alpha(theme.palette.common.black, 0.08)}`,
-  boxShadow: theme.palette.mode === "dark" ? "0 12px 40px rgba(0,0,0,.5)" : "0 12px 40px rgba(0,0,0,.12)",
+  background: theme.palette.mode === "dark" ? alpha("#fff", 0.05) : alpha("#000", 0.05),
+  border: `1px solid ${
+    theme.palette.mode === "dark" ? alpha("#fff", 0.08) : alpha(theme.palette.common.black, 0.08)
+  }`,
+  boxShadow:
+    theme.palette.mode === "dark"
+      ? "0 30px 80px rgba(0,0,0,.55)"
+      : "0 30px 80px rgba(0,0,0,.16)",
+  "&::after": {
+    content: '""',
+    position: "absolute",
+    inset: 0,
+    background: "linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,0))",
+    pointerEvents: "none",
+  },
 }));
 
+const Kicker = styled(Typography)(({ theme }) => ({
+  fontSize: "0.85rem",
+  letterSpacing: 2,
+  textTransform: "uppercase",
+  color: alpha("#fff", 0.7),
+}));
+
+const Title = styled(Typography)(({ theme }) => ({
+  fontWeight: 900,
+  letterSpacing: -0.5,
+  lineHeight: 1.02,
+  fontSize: "clamp(2.25rem, 3.2vw + 1rem, 3.75rem)",
+  color: "#fff",
+  textAlign: "left",
+  [theme.breakpoints.down("md")]: { textAlign: "center" },
+}));
+
+/* Desktop/tablet inline accent (to the right of the title) */
+const InlineAccent = styled("span")(({ theme }) => ({
+  display: "inline-block",
+  height: 5,
+  width: 56,
+  background: ACCENT,
+  borderRadius: 2,
+  transform: "translateY(-2px)",
+  marginLeft: theme.spacing(1.25),
+  verticalAlign: "middle",
+  [theme.breakpoints.down("md")]: { display: "none" }, // hide on mobile
+}));
+
+/* Mobile block accent (below the title) */
+const BlockAccent = styled("span")(({ theme }) => ({
+  height: 5,
+  width: 56,
+  background: ACCENT,
+  borderRadius: 3,
+}));
+
+/* Flex wrapper that centers the mobile accent perfectly */
+const AccentRowMobile = styled(Box)(({ theme }) => ({
+  display: "none",
+  [theme.breakpoints.down("md")]: {
+    display: "flex",
+    justifyContent: "center",
+    marginTop: theme.spacing(1.5),
+    marginBottom: theme.spacing(2),
+  },
+}));
+
+/* --------------------------------- Component -------------------------------- */
 export default function AboutSplit60_40({
   title = "About Dynamic Auto Repair",
-  introBold = "Are you looking for a competent auto repair specialist for your vehicle?",
+  introBold = "Expert auto repair and maintenance—transparent, timely, and done right the first time.",
   paragraphs = [
-    "Do you need to do some restorative work on your automobile? Or maybe you are just in search of an expert auto repair service that can service your car regularly and help you prolong its life? Then you need to end your search right now because you are in the right place.",
-    "Dynamic Auto Repair is a car repair service that specializes in various types of automobile repair. Whether you are looking to change the oil of your vehicle or carry out comprehensive troubleshooting and servicing, you can rely on our expertise and professionalism to get the job done in no time.",
-    "Our passion for cars knows no bounds, and it is one of the factors that continue to drive our business, and the reason our clients can always count on us to deliver top‑notch services at the most affordable prices.",
+    "Whether you need routine service, diagnostics, or complex repair, our ASE-trained technicians treat your vehicle like it’s their own. We pair modern tooling with meticulous attention to detail for results you can trust.",
+    "From oil changes and brake service to alignments and comprehensive troubleshooting, we explain the work clearly and provide upfront pricing—so you’re never surprised on pick-up.",
+    "Drivers choose Dynamic Auto Repair for craftsmanship, communication, and long-term reliability. It’s how we keep you safe, efficient, and road-ready.",
   ],
   image = "/placeholder.jpg",
-  imageAlt = "Dynamic Auto Repair shop and team",
+  imageAlt = "Dynamic Auto Repair shop team working on a vehicle",
   align = "center",
+  kicker = "Honesty • Reliability • Transparency",
+  city = "", // e.g., "Dallas, TX" (optional—used for SEO if provided)
 }) {
+  const seoSuffix = city ? ` | ${city}` : "";
+
   return (
-    <Section>
+    <Section aria-label="About Dynamic Auto Repair" itemScope itemType="https://schema.org/AutoRepair">
       <Container maxWidth="xl">
         <GridWrap>
           {/* ------------------------------- Left: Copy ------------------------------ */}
           <Box sx={{ textAlign: { xs: "center", md: "left" } }}>
-            <Stack spacing={3} sx={{ maxWidth: 820, mx: { xs: 0, md: align === "center" ? "auto" : 0 } }}>
-              <Typography
-                variant="h3"
-                fontWeight={800}
-                sx={{ letterSpacing: -0.3 }}
-              >
-                {title}
-              </Typography>
+            <Stack
+              spacing={3}
+              sx={{
+                maxWidth: 820,
+                mx: { xs: "auto", md: align === "center" ? "auto" : 0 },
+              }}
+            >
+              {kicker && <Kicker>{kicker}</Kicker>}
 
-              <Typography component="p" sx={{ fontSize: { xs: 16, md: 18 }, lineHeight: 1.7 }}>
+              <Title component="h2" itemProp="name" aria-label={`${title}${seoSuffix}`}>
+                {title}
+                <InlineAccent aria-hidden />
+              </Title>
+
+              {/* ✅ This guarantees the accent is centered on mobile */}
+              <AccentRowMobile>
+                <BlockAccent aria-hidden />
+              </AccentRowMobile>
+
+              <Typography
+                component="p"
+                itemProp="slogan"
+                sx={{ fontSize: { xs: 16, md: 18 }, lineHeight: 1.75, opacity: 0.96 }}
+              >
                 <strong>{introBold}</strong>
               </Typography>
 
               {paragraphs.map((p, i) => (
-                <Typography key={i} component="p" sx={{ opacity: 0.9, fontSize: { xs: 16, md: 18 }, lineHeight: 1.8 }}>
+                <Typography
+                  key={i}
+                  component="p"
+                  itemProp={i === 0 ? "description" : undefined}
+                  sx={{ opacity: 0.9, fontSize: { xs: 16, md: 18 }, lineHeight: 1.5 }}
+                >
                   {p}
                 </Typography>
               ))}
+
+              {city ? (
+                <Typography
+                  component="p"
+                  sx={{ opacity: 0.75, fontSize: { xs: 14, md: 16 }, lineHeight: 1.7 }}
+                >
+                  Serving drivers in <span itemProp="areaServed">{city}</span> with professional auto repair,
+                  preventative maintenance, and honest guidance.
+                </Typography>
+              ) : null}
             </Stack>
           </Box>
 
@@ -76,12 +176,18 @@ export default function AboutSplit60_40({
               component="img"
               src={image}
               alt={imageAlt}
+              loading="lazy"
+              decoding="async"
+              itemProp="image"
+              sizes="(max-width: 900px) 100vw, 40vw"
               sx={{
                 position: "absolute",
                 inset: 0,
                 width: "100%",
                 height: "100%",
                 objectFit: "cover",
+                transform: "scale(1.01)",
+                willChange: "transform",
               }}
             />
           </ImageFrame>

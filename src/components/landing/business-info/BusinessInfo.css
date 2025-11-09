@@ -97,7 +97,7 @@
 @media (max-width: 768px) {
   .business-info-overlay {
     /* no fixed pinning on mobile either */
-    top: 12px;              /* feel free to adjust within the hero */
+    top: 62px;              /* feel free to adjust within the hero */
     left: 50%;
     transform: translateX(-50%);
     justify-content: center;

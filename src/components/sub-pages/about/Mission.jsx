@@ -12,190 +12,170 @@ import {
 import { styled, alpha } from "@mui/material/styles";
 import { keyframes } from "@mui/system";
 import { motion } from "framer-motion";
-import EmojiEventsRoundedIcon from "@mui/icons-material/EmojiEventsRounded";
-import BoltRoundedIcon from "@mui/icons-material/BoltRounded";
+import SparklesRoundedIcon from "@mui/icons-material/AutoAwesomeRounded";
+import VerifiedRoundedIcon from "@mui/icons-material/VerifiedRounded";
 import FavoriteRoundedIcon from "@mui/icons-material/FavoriteRounded";
-import AutoAwesomeRoundedIcon from "@mui/icons-material/AutoAwesomeRounded";
+import TrendingUpRoundedIcon from "@mui/icons-material/TrendingUpRounded";
 
-/* ------------------------------- Tokens -------------------------------- */
-const ACCENT = "#f2c230"; // yellow
+/* -------------------------------- Tokens -------------------------------- */
+const ACCENT = "#f2c230";               // brand gold
+const GLASS_BG = "rgba(255,255,255,.04)";
 
 /* ------------------------------ Animations ------------------------------ */
 const float = keyframes`
-  0% { transform: translateY(0px) }
+  0% { transform: translateY(0) }
   50% { transform: translateY(-6px) }
-  100% { transform: translateY(0px) }
+  100% { transform: translateY(0) }
 `;
-const shimmer = keyframes`
-  0% { opacity: .25; transform: translateX(-20%) }
-  100% { opacity: .25; transform: translateX(120%) }
+const sweep = keyframes`
+  0% { transform: translateX(-40%); opacity:.0 }
+  15% { opacity:.15 }
+  85% { opacity:.15 }
+  100% { transform: translateX(140%); opacity:.0 }
 `;
 
 /* ------------------------------ Styled UI ------------------------------ */
 const Section = styled(Box)(({ theme }) => ({
   position: "relative",
   width: "100%",
-  paddingBlock: theme.spacing(10),
-  overflow: "hidden",
+  paddingBlock: theme.spacing(5),
   isolation: "isolate",
+  color: alpha("#fff", 0.96),
+  overflow: "hidden",
 }));
 
-const AngledDivider = styled("div")(({ theme }) => ({
-  position: "absolute",
-  inset: 0,
-  pointerEvents: "none",
-  "&::before": {
-    content: '""',
-    position: "absolute",
-    left: "50%",
-    top: 0,
-    height: "100%",
-    width: 2,
-    transform: "skewY(-6deg)",
-    backgroundImage: `linear-gradient(${ACCENT}, ${alpha(ACCENT, 0.2)})`,
-    borderRadius: 2,
-    opacity: 0.9,
-    [theme.breakpoints.down("md")]: { display: "none" },
-  },
-  "&::after": {
-    content: '""',
-    position: "absolute",
-    left: "50%",
-    top: 0,
-    height: "100%",
-    width: 80,
-    transform: "skewY(-6deg) translateX(-40px)",
-    background: `linear-gradient(90deg, transparent, ${alpha("#fff", 0.08)}, transparent)`,
-    filter: "blur(8px)",
-    animation: `${shimmer} 4.5s ease-in-out infinite`,
-    [theme.breakpoints.down("md")]: { display: "none" },
-  },
+const HeadWrap = styled(Box)(({ theme }) => ({
+  textAlign: "center",
+  marginBottom: theme.spacing(8),
+}));
+
+const Title = styled(Typography)(({ theme }) => ({
+  fontWeight: 900,
+  letterSpacing: -0.3,
+  lineHeight: 1.03,
+  fontSize: "clamp(2rem, 4vw, 3rem)",
+  background: `#fff`,
+  WebkitBackgroundClip: "text",
+  WebkitTextFillColor: "transparent",
+}));
+
+const Eyebrow = styled(Typography)(({ theme }) => ({
+  textTransform: "uppercase",
+  letterSpacing: ".22em",
+  fontWeight: 800,
+  color: alpha("#fff", 0.66),
+  marginBottom: theme.spacing(1),
 }));
 
 const GridWrap = styled(Box)(({ theme }) => ({
   position: "relative",
   display: "grid",
-  gridTemplateColumns: "1fr 1fr",
-  gap: theme.spacing(6),
-  alignItems: "stretch", // <-- ensures equal column stretch
-  [theme.breakpoints.down("md")]: {
-    gridTemplateColumns: "1fr",
-    gap: theme.spacing(4),
+  gap: theme.spacing(4),
+  gridTemplateColumns: "1fr",
+  alignItems: "stretch",
+  [theme.breakpoints.up("md")]: {
+    gridTemplateColumns: "1fr 1fr",
+    gap: theme.spacing(6),
   },
 }));
 
 const GlassCard = styled(Box)(({ theme }) => ({
   position: "relative",
-  padding: theme.spacing(4.5),
+  display: "flex",
+  flexDirection: "column",
+  height: "100%",
   borderRadius: 24,
-  background: "rgba(255,255,255,0.06)",
+  padding: theme.spacing(4.5),
+  background: GLASS_BG,
+  border: `1px solid ${alpha("#fff", 0.12)}`,
   backdropFilter: "blur(14px)",
   WebkitBackdropFilter: "blur(14px)",
-  border: "1px solid rgba(255,255,255,0.18)",
-  color: alpha("#fff", 0.95),
-  boxShadow: "0 10px 30px rgba(0,0,0,0.35)",
+  boxShadow: "0 26px 70px rgba(0,0,0,.45)",
   overflow: "hidden",
-  transition: "transform .4s ease, box-shadow .4s ease, background .4s ease",
-  display: "flex",                // <-- flex column
-  flexDirection: "column",        // <--
-  height: "100%",                 // <-- stretch to equal height
-  minHeight: 420,                 // <-- consistent baseline (tweak as needed)
+  transition: "transform .35s ease, box-shadow .35s ease, background .35s ease",
   "&:hover": {
-    transform: "translateY(-6px)",
-    boxShadow: "0 16px 40px rgba(0,0,0,0.45)",
-    background: "rgba(255,255,255,0.075)",
+    transform: "translateY(-4px)",
+    boxShadow: "0 34px 90px rgba(0,0,0,.5)",
+    background: "rgba(255,255,255,.06)",
   },
-  "&::before": {
+  "&::after": {
+    /* gentle highlight sweep */
     content: '""',
     position: "absolute",
-    inset: -2,
-    borderRadius: 26,
-    padding: 2,
-    background: `linear-gradient(135deg, ${alpha(ACCENT, 0.6)}, transparent 35%, transparent 65%, ${alpha(
-      ACCENT,
-      0.35
-    )})`,
-    WebkitMask:
-      "linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0)",
-    WebkitMaskComposite: "xor",
-    maskComposite: "exclude",
-    opacity: 0.35,
+    top: 0, bottom: 0, left: 0, width: 90,
+    background: `linear-gradient(90deg, transparent, ${alpha("#fff", .08)}, transparent)`,
+    transform: "translateX(-40%)",
+    animation: `${sweep} 6.5s ease-in-out infinite`,
   },
 }));
 
-const Title = styled(Typography)(({ theme }) => ({
-  fontWeight: 900,
-  letterSpacing: -0.2,
-  color: ACCENT,
-  textAlign: "left",
+const CardHead = styled(Stack)(({ theme }) => ({
+  gap: theme.spacing(1),
   marginBottom: theme.spacing(1),
 }));
 
+const CardTitle = styled(Typography)(({ theme }) => ({
+  fontWeight: 900,
+  color: "#fff",
+  letterSpacing: -0.2,
+}));
+
 const Sub = styled(Typography)(({ theme }) => ({
-  color: alpha("#fff", 0.75),
+  color: alpha("#fff", 0.72),
   fontSize: 14,
-  marginBottom: theme.spacing(2.5),
 }));
 
 const Para = styled(Typography)(({ theme }) => ({
-  lineHeight: 1.8,
+  lineHeight: 1.85,
   fontSize: 16.5,
   color: alpha("#fff", 0.96),
 }));
 
-const TagRow = styled(Stack)(({ theme }) => ({
+/* ✅ Responsive highlights grid: 1 column on mobile, 2 on md+ */
+const TagGrid = styled(Box)(({ theme }) => ({
   marginTop: theme.spacing(2.5),
-  flexWrap: "wrap",
-  gap: theme.spacing(1),
+  display: "grid",
+  gridTemplateColumns: "1fr", // one column on mobile
+  gap: theme.spacing(1.25),
+  [theme.breakpoints.up("md")]: {
+    gridTemplateColumns: "repeat(2, minmax(0, 1fr))", // two columns on md+
+  },
 }));
 
 const Dot = styled("span")(({ theme }) => ({
   position: "absolute",
-  width: 10,
-  height: 10,
-  borderRadius: "50%",
-  background: ACCENT,
-  opacity: 0.6,
   right: 22,
   top: 22,
-  filter: "blur(0.5px)",
-  animation: `${float} 5s ease-in-out infinite`,
+  width: 10, height: 10, borderRadius: "50%",
+  background: ACCENT, opacity: .55, filter: "blur(.4px)",
+  animation: `${float} 5.5s ease-in-out infinite`,
 }));
 
 /* ----------------------------- Motion Variants ---------------------------- */
-const containerVariants = {
-  hidden: {},
-  show: { transition: { staggerChildren: 0.18 } },
-};
+const containerVariants = { hidden: {}, show: { transition: { staggerChildren: 0.16 } } };
 const item = {
-  hidden: { opacity: 0, y: 20, scale: 0.98 },
-  show: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.6, ease: "easeOut" } },
+  hidden: { opacity: 0, y: 16, scale: 0.985 },
+  show: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.55, ease: "easeOut" } },
 };
 
-/* ------------------------------- Component -------------------------------- */
+/* -------------------------------- Component -------------------------------- */
 export default function MissionVisionCreative({
   missionTitle = "Our Mission",
-  missionText = `Our primary mission at Dynamic Auto Repair is to build a large customer base of happy and satisfied clients who are always happy to recommend our services to their friends and loved ones.`,
+  missionText = `At Dynamic Auto Repair, our mission is to deliver trusted, ASE-level auto repair in Dallas–Fort Worth with precision diagnostics, quality parts, and transparent pricing. We help drivers extend vehicle life with expert maintenance, same-day service on most jobs, and clear communication from first estimate to final hand-off.`,
   visionTitle = "Our Vision",
-  visionText = `The vision of our auto repair service is to grow and establish ourselves as one of the leading auto repair services in Texas and its environs.`,
-  missionSubtitle = "Service with integrity • Quality without compromise",
-  visionSubtitle = "Relentless improvement • Community-first excellence",
-  missionHighlights = ["Honesty", "Precision", "On-time", "Transparent Pricing"],
-  visionHighlights = ["Growth", "Innovation", "Community", "Leadership"],
+  visionText = `Our vision is to be the most recommended auto repair shop in Texas—known for honest advice, consistent workmanship, and a customer experience that feels premium. We’re building a modern service center that blends advanced technology with old-school reliability, so every visit is efficient, accurate, and stress-free.`,
+  missionSubtitle = "Precision diagnostics • Honest service • Same-day convenience",
+  visionSubtitle = "Innovation with integrity • Community-first excellence",
+  missionHighlights = ["Brake & Tire Safety", "Factory-Scheduled Maintenance", "Computer Diagnostics", "Transparent Estimates"],
+  visionHighlights = ["Continuous Training", "Premium Parts", "Warranty-Backed Work", "Five-Star Experience"],
 }) {
-  const isMobile = useMediaQuery("(max-width: 900px)");
+  const isMobile = useMediaQuery("(max-width:900px)");
+  const chipBg = alpha("#fff", 0.10);
 
-  const iconStyle = { fontSize: 26, color: ACCENT, mr: 1 };
-  const chipsColor = alpha("#fff", 0.14);
-  const chipText = alpha("#fff", 0.9);
-
-  /** Helper: reusable footer row */
-  const Footer = ({ icon, text }) => (
+  const Bullet = ({ icon, text }) => (
     <Stack direction="row" alignItems="center" spacing={1}>
       {icon}
-      <Typography variant="body2" sx={{ color: alpha("#fff", 0.8) }}>
-        {text}
-      </Typography>
+      <Typography variant="body2" sx={{ color: alpha("#fff", 0.82) }}>{text}</Typography>
     </Stack>
   );
 
@@ -209,117 +189,115 @@ export default function MissionVisionCreative({
         whileInView="show"
         viewport={{ once: true, amount: 0.3 }}
       >
-        <Box sx={{ textAlign: "center", mb: 6 }}>
-          <Typography
-            variant={isMobile ? "h4" : "h3"}
-            sx={{ color: "#fff", fontWeight: 800, letterSpacing: -0.3 }}
-          >
-            What Drives Us
+        <HeadWrap>
+          <Eyebrow variant="overline">Dynamic Auto Repair</Eyebrow>
+          <Title>Mission &amp; Vision</Title>
+          <Typography variant="body1" sx={{ color: alpha("#fff", 0.78), mt: 1.25 }}>
+            Premium car care, built on clarity and craft.
           </Typography>
-          <Typography variant="body1" sx={{ color: alpha("#fff", 0.78), mt: 1.2 }}>
-            The promises we keep today shape the road we lead tomorrow.
-          </Typography>
-        </Box>
+        </HeadWrap>
 
         <GridWrap>
-          <AngledDivider />
-
           {/* ------------------------------ Mission ------------------------------ */}
           <GlassCard component={motion.div} variants={item}>
             <Dot />
-
-            {/* CONTENT AREA (grows) */}
-            <Box sx={{ display: "flex", flexDirection: "column", gap: 2, flex: 1 }}>
-              <Stack spacing={1.2} sx={{ mb: 0.5 }}>
-                <Stack direction="row" alignItems="center" spacing={1}>
-                  <BoltRoundedIcon sx={iconStyle} />
-                  <Title variant="h4">{missionTitle}</Title>
-                </Stack>
-                <Sub>{missionSubtitle}</Sub>
+            <CardHead>
+              <Stack direction="row" spacing={1} alignItems="center">
+                <VerifiedRoundedIcon sx={{ fontSize: 26, color: ACCENT }} />
+                <CardTitle variant={isMobile ? "h5" : "h4"}>{missionTitle}</CardTitle>
               </Stack>
+              <Sub>{missionSubtitle}</Sub>
+            </CardHead>
 
-              <Stack spacing={2.2} sx={{ flex: 1, minHeight: 0 }}>
-                {missionText.split("\n\n").map((p, i) => (
-                  <Para key={i}>{p}</Para>
-                ))}
-              </Stack>
+            <Stack spacing={2.2} sx={{ flex: 1, minHeight: 0 }}>
+              {missionText.split("\n\n").map((p, i) => (
+                <Para key={i}>{p}</Para>
+              ))}
+            </Stack>
 
-              <TagRow direction="row">
-                {missionHighlights.map((t, i) => (
-                  <Chip
-                    key={t + i}
-                    label={t}
-                    variant="outlined"
-                    sx={{
-                      borderColor: alpha(ACCENT, 0.45),
-                      background: chipsColor,
-                      color: chipText,
-                      fontWeight: 600,
-                      letterSpacing: 0.2,
-                      "& .MuiChip-label": { px: 1.2, py: 0.25 },
-                    }}
-                  />
-                ))}
-              </TagRow>
-            </Box>
+            {/* ✅ Highlights: 1 col on mobile, 2 cols on md+ */}
+            <TagGrid>
+              {missionHighlights.map((t, i) => (
+                <Chip
+                  key={`m-${i}`}
+                  label={t}
+                  size="small"
+                  sx={{
+                    justifySelf: "stretch",
+                    width: "100%",
+                    background: chipBg,
+                    color: "#fff",
+                    border: `1px solid ${alpha("#fff", 0.16)}`,
+                    fontWeight: 700,
+                    letterSpacing: 0.2,
+                    "& .MuiChip-label": {
+                      width: "100%",
+                      textAlign: "center",
+                      px: 1.2,
+                      py: 0.6,
+                      whiteSpace: "normal",
+                    },
+                  }}
+                />
+              ))}
+            </TagGrid>
 
-            {/* FOOTER (pinned at bottom) */}
-            <Box sx={{ mt: "auto" }}>
-              <Divider sx={{ my: 2.5, borderColor: alpha("#fff", 0.08) }} />
-              <Footer
-                icon={<EmojiEventsRoundedIcon sx={{ ...iconStyle, fontSize: 22, mr: 1 }} />}
-                text="Consistency earns trust—trust earns referrals."
-              />
-            </Box>
+            <Divider sx={{ my: 2.5, borderColor: alpha("#fff", 0.08) }} />
+            <Bullet
+              icon={<SparklesRoundedIcon sx={{ fontSize: 22, color: ACCENT }} />}
+              text="Accurate the first time—with diagnostics that save you time and cost."
+            />
           </GlassCard>
 
           {/* ------------------------------ Vision ------------------------------ */}
           <GlassCard component={motion.div} variants={item}>
             <Dot />
-
-            {/* CONTENT AREA (grows) */}
-            <Box sx={{ display: "flex", flexDirection: "column", gap: 2, flex: 1 }}>
-              <Stack spacing={1.2} sx={{ mb: 0.5 }}>
-                <Stack direction="row" alignItems="center" spacing={1}>
-                  <AutoAwesomeRoundedIcon sx={iconStyle} />
-                  <Title variant="h4">{visionTitle}</Title>
-                </Stack>
-                <Sub>{visionSubtitle}</Sub>
+            <CardHead>
+              <Stack direction="row" spacing={1} alignItems="center">
+                <TrendingUpRoundedIcon sx={{ fontSize: 26, color: ACCENT }} />
+                <CardTitle variant={isMobile ? "h5" : "h4"}>{visionTitle}</CardTitle>
               </Stack>
+              <Sub>{visionSubtitle}</Sub>
+            </CardHead>
 
-              <Stack spacing={2.2} sx={{ flex: 1, minHeight: 0 }}>
-                {visionText.split("\n\n").map((p, i) => (
-                  <Para key={i}>{p}</Para>
-                ))}
-              </Stack>
+            <Stack spacing={2.2} sx={{ flex: 1, minHeight: 0 }}>
+              {visionText.split("\n\n").map((p, i) => (
+                <Para key={i}>{p}</Para>
+              ))}
+            </Stack>
 
-              <TagRow direction="row">
-                {visionHighlights.map((t, i) => (
-                  <Chip
-                    key={t + i}
-                    label={t}
-                    variant="outlined"
-                    sx={{
-                      borderColor: alpha(ACCENT, 0.45),
-                      background: chipsColor,
-                      color: chipText,
-                      fontWeight: 600,
-                      letterSpacing: 0.2,
-                      "& .MuiChip-label": { px: 1.2, py: 0.25 },
-                    }}
-                  />
-                ))}
-              </TagRow>
-            </Box>
+            {/* ✅ Highlights: 1 col on mobile, 2 cols on md+ */}
+            <TagGrid>
+              {visionHighlights.map((t, i) => (
+                <Chip
+                  key={`v-${i}`}
+                  label={t}
+                  size="small"
+                  sx={{
+                    justifySelf: "stretch",
+                    width: "100%",
+                    background: chipBg,
+                    color: "#fff",
+                    border: `1px solid ${alpha("#fff", 0.16)}`,
+                    fontWeight: 700,
+                    letterSpacing: 0.2,
+                    "& .MuiChip-label": {
+                      width: "100%",
+                      textAlign: "center",
+                      px: 1.2,
+                      py: 0.6,
+                      whiteSpace: "normal",
+                    },
+                  }}
+                />
+              ))}
+            </TagGrid>
 
-            {/* FOOTER (pinned at bottom) */}
-            <Box sx={{ mt: "auto" }}>
-              <Divider sx={{ my: 2.5, borderColor: alpha("#fff", 0.08) }} />
-              <Footer
-                icon={<FavoriteRoundedIcon sx={{ ...iconStyle, fontSize: 22, mr: 1 }} />}
-                text="Build a shop people love—inside and out."
-              />
-            </Box>
+            <Divider sx={{ my: 2.5, borderColor: alpha("#fff", 0.08) }} />
+            <Bullet
+              icon={<FavoriteRoundedIcon sx={{ fontSize: 22, color: ACCENT }} />}
+              text="Service that feels premium—transparent, friendly, and consistent."
+            />
           </GlassCard>
         </GridWrap>
       </Container>

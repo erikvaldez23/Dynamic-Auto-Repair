@@ -1,3 +1,4 @@
+// src/components/sections/Testimonials.jsx
 import React from "react";
 import {
   Box,
@@ -23,6 +24,9 @@ const GOOGLE_LOGO = "/google-logo.png";
 // Fixed card heights
 const CARD_H_MOBILE = 360;
 const CARD_H_DESKTOP = 360;
+
+// Gap between slides (mobile)
+const SLIDE_GAP = 12; // px — tweak 12–16 for taste
 
 const reviews = [
   {
@@ -55,7 +59,9 @@ const reviews = [
   },
 ];
 
-const glassCardSX = {
+/* ---------------- Card styles ---------------- */
+// Base (no hover here)
+const baseCardSX = {
   p: 3,
   borderRadius: 6,
   textAlign: "left",
@@ -69,6 +75,10 @@ const glassCardSX = {
   boxShadow: "0 10px 30px rgba(0,0,0,0.25)",
   color: alpha("#fff", 0.95),
   transition: "transform 0.3s, box-shadow 0.3s, background-color 0.3s",
+};
+
+// Desktop-only hover
+const hoverDesktopSX = {
   "&:hover": {
     transform: "translateY(-8px) scale(1.02)",
     boxShadow: "0 14px 36px rgba(0,0,0,0.35)",
@@ -81,13 +91,14 @@ const secondaryText = alpha("#fff", 0.7);
 const clampTextSX = {
   display: "-webkit-box",
   WebkitBoxOrient: "vertical",
-  WebkitLineClamp: 6, // clamp lines so all cards remain equal height
+  WebkitLineClamp: 6,
   overflow: "hidden",
 };
 
 const Testimonials = () => {
   const isMobile = useMediaQuery("(max-width: 768px)");
 
+  // Wider cards on mobile + no hover
   const sliderSettings = {
     dots: true,
     infinite: false,
@@ -96,11 +107,11 @@ const Testimonials = () => {
     slidesToScroll: 1,
     arrows: false,
     centerMode: true,
-    centerPadding: "8%",
-    adaptiveHeight: false, // keep consistent height across slides
+    centerPadding: isMobile ? "0px" : "8%", // let cards expand on mobile
+    adaptiveHeight: false,
     appendDots: (dots) => (
       <Box sx={{ textAlign: "center", mt: 2 }}>
-        <ul style={{ margin: "0px", padding: "0px" }}> {dots} </ul>
+        <ul style={{ margin: "0px", padding: "0px" }}>{dots}</ul>
       </Box>
     ),
     customPaging: (i) => (
@@ -114,7 +125,6 @@ const Testimonials = () => {
           display: "inline-block",
           margin: "0 5px",
           transition: "background-color 0.3s ease",
-          py: "5",
         }}
         className={`custom-dot-${i}`}
       />
@@ -132,79 +142,79 @@ const Testimonials = () => {
   };
 
   return (
-    <Box
-      id="reviews"
-      sx={{ py: isMobile ? 4 : 18, textAlign: "center", backgroundColor: "transparent" }}
-    >
+    <Box id="reviews" sx={{ py: isMobile ? 4 : 8, textAlign: "center", backgroundColor: "transparent" }}>
       <Container maxWidth="xl">
-        {/* <Typography
-          variant={isMobile ? "h4" : "h2"}
-          sx={{ mb: 4, fontWeight: "bold", color: "#fff" }}
-        >
-          User Reviews
-        </Typography> */}
-
         {isMobile ? (
-          <Slider {...sliderSettings}>
-            {reviews.map((review, index) => (
-              <Box key={index} sx={{ px: 2 }}>
-                <Card
-                  sx={{
-                    ...glassCardSX,
-                    width: "100%",
-                    maxWidth: 420,
-                    height: CARD_H_MOBILE,
-                    margin: "0 auto",
-                    mb: 2,
-                  }}
-                >
-                  <CardContent
+          <Box
+            sx={{
+              // add horizontal padding to each slide for visible gaps
+              "& .slick-slide": { padding: `0 ${SLIDE_GAP}px` },
+              // pull list edges back so width stays flush
+              "& .slick-list": { margin: `0 -${SLIDE_GAP}px` },
+            }}
+          >
+            <Slider {...sliderSettings}>
+              {reviews.map((review, index) => (
+                <Box key={index}>
+                  <Card
                     sx={{
-                      flex: 1,
-                      display: "flex",
-                      flexDirection: "column",
-                      overflow: "hidden", // prevent push
+                      ...baseCardSX,
+                      // no hover on mobile (do not spread hoverDesktopSX)
+                      width: "92vw",
+                      maxWidth: 560,
+                      height: CARD_H_MOBILE,
+                      margin: "0 auto",
+                      mb: 2,
                     }}
                   >
-                    <Box sx={{ position: "absolute", top: 10, right: 10, width: 25, height: 25 }}>
-                      <img src={GOOGLE_LOGO} alt="Google" width="100%" />
-                    </Box>
-
-                    <Box sx={{ display: "flex", alignItems: "center", mb: 2, flexShrink: 0 }}>
-                      <Avatar
-                        sx={{ width: 40, height: 40, mr: 2, border: "2px solid rgba(255,255,255,0.25)" }}
-                        src={review.profile_photo_url}
-                        alt={review.author_name}
-                      />
-                      <Box>
-                        <Typography variant="h6" sx={{ fontWeight: "bold", fontSize: "0.95rem", color: "#fff" }}>
-                          {review.author_name}
-                        </Typography>
-                        <Typography variant="body2" sx={{ color: secondaryText }}>
-                          {new Date(review.time * 1000).toLocaleDateString()}
-                        </Typography>
-                      </Box>
-                    </Box>
-
-                    <Rating value={review.rating} precision={0.5} readOnly sx={{ mb: 1, flexShrink: 0 }} />
-
-                    <Typography
-                      variant="body2"
+                    <CardContent
                       sx={{
-                        color: alpha("#fff", 0.9),
-                        fontStyle: "italic",
-                        fontSize: "0.95rem",
-                        lineHeight: 1.5,
-                        ...clampTextSX,
+                        flex: 1,
+                        display: "flex",
+                        flexDirection: "column",
+                        overflow: "hidden",
                       }}
                     >
-                      "{review.text}"
-                    </Typography>
-                  </CardContent>
-                </Card>
-              </Box>
-            ))}
-          </Slider>
+                      <Box sx={{ position: "absolute", top: 10, right: 10, width: 25, height: 25 }}>
+                        <img src={GOOGLE_LOGO} alt="Google" width="100%" />
+                      </Box>
+
+                      <Box sx={{ display: "flex", alignItems: "center", mb: 2, flexShrink: 0 }}>
+                        <Avatar
+                          sx={{ width: 40, height: 40, mr: 2, border: "2px solid rgba(255,255,255,0.25)" }}
+                          src={review.profile_photo_url}
+                          alt={review.author_name}
+                        />
+                        <Box>
+                          <Typography variant="h6" sx={{ fontWeight: "bold", fontSize: "0.95rem", color: "#fff" }}>
+                            {review.author_name}
+                          </Typography>
+                          <Typography variant="body2" sx={{ color: secondaryText }}>
+                            {new Date(review.time * 1000).toLocaleDateString()}
+                          </Typography>
+                        </Box>
+                      </Box>
+
+                      <Rating value={review.rating} precision={0.5} readOnly sx={{ mb: 1, flexShrink: 0 }} />
+
+                      <Typography
+                        variant="body2"
+                        sx={{
+                          color: alpha("#fff", 0.9),
+                          fontStyle: "italic",
+                          fontSize: "0.95rem",
+                          lineHeight: 1.5,
+                          ...clampTextSX,
+                        }}
+                      >
+                        "{review.text}"
+                      </Typography>
+                    </CardContent>
+                  </Card>
+                </Box>
+              ))}
+            </Slider>
+          </Box>
         ) : (
           <motion.div
             variants={containerVariants}
@@ -216,14 +226,14 @@ const Testimonials = () => {
               sx={{
                 display: "grid",
                 gridTemplateColumns: "repeat(4, 1fr)",
-                gap: 2,
+                gap: 3, // slightly larger desktop gap
                 justifyContent: "center",
                 alignItems: "stretch",
               }}
             >
               {reviews.map((review, index) => (
                 <motion.div key={index} variants={cardVariants}>
-                  <Card sx={{ ...glassCardSX, height: CARD_H_DESKTOP }}>
+                  <Card sx={{ ...baseCardSX, ...hoverDesktopSX, height: CARD_H_DESKTOP }}>
                     <CardContent
                       sx={{
                         flex: 1,

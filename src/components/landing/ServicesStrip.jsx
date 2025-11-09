@@ -28,7 +28,7 @@ const Section = styled(Box)(({ theme }) => ({
 const SplitLine = ({ show }) => (
   <Box
     sx={{
-      display: { xs: "none", md: show ? "block" : "none" },
+      display: { xs: show ? "block" : "none", md: show ? "block" : "none" }, // ← show on mobile too
       position: "absolute",
       top: 24,
       bottom: 24,
@@ -36,9 +36,12 @@ const SplitLine = ({ show }) => (
       width: 2,
       borderRadius: 2,
       background: YELLOW,
+      zIndex: 1,
+      pointerEvents: "none",
     }}
   />
 );
+
 
 /* Icon pill: circular, subtle glow */
 const Pill = styled(Box)(({ theme }) => ({

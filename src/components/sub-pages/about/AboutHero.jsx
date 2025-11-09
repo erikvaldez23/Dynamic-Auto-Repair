@@ -29,7 +29,7 @@ export default function AboutHero({
         sx={{
           mb: 1,
           fontWeight: 800,
-          fontSize: { xs: "1.8rem", sm: "2.4rem", md: "3rem", lg: "5rem" },
+          fontSize: { xs: "3rem", sm: "3rem", md: "3rem", lg: "5rem" },
         }}
       >
         About Us
@@ -54,7 +54,7 @@ export default function AboutHero({
             },
           }}
         >
-          Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+          Transparent service powered by skilled technicians.
         </Typography>
     </Box>
   );

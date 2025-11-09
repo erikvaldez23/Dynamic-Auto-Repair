@@ -105,7 +105,7 @@ const CTA_REGISTRY = {
       "Mounting, road-force balance, rotations, repairs, and TPMS—plus tire options for any budget.",
   },
 
-  _default: { headline: "CTA Header", body: "CTA Description" },
+  _default: { headline: "Precision Auto Repair, Done Right", body: "Certified techs, honest pricing, and repairs done right the first time." },
 };
 
 export default function CallToAction({

@@ -5,13 +5,12 @@ import { styled, alpha } from "@mui/material/styles";
 import { motion } from "framer-motion";
 
 /* ------------------------------- Tokens -------------------------------- */
-const ACCENT = "#f2c230"; // brand yellow for subtle accents if needed
+const ACCENT = "#f2c230"; // brand yellow for micro-accents
 
 /* ------------------------------ Styled UI ------------------------------ */
-const Section = styled(Box)(({ theme }) => ({
+const Section = styled("section")(({ theme }) => ({
   width: "100%",
-  paddingBlock: theme.spacing(10),
-  background: "transparent",
+  paddingBlock: theme.spacing(12),
 }));
 
 const Split = styled(Box)(({ theme }) => ({
@@ -21,16 +20,27 @@ const Split = styled(Box)(({ theme }) => ({
   alignItems: "center",
   [theme.breakpoints.down("md")]: {
     gridTemplateColumns: "1fr",
+    justifyItems: "center",
+    textAlign: "center",
   },
+}));
+
+const Kicker = styled(Typography)(({ theme }) => ({
+  fontSize: "0.85rem",
+  letterSpacing: 2,
+  textTransform: "uppercase",
+  color: "#fff",
+  marginBottom: theme.spacing(1),
 }));
 
 const Title = styled(Typography)(({ theme }) => ({
   fontWeight: 900,
   letterSpacing: -0.5,
-  lineHeight: 1.05,
-  fontSize: "clamp(2.2rem, 3.2vw + 1rem, 4rem)",
-  marginBottom: theme.spacing(2),
+  lineHeight: 1.02,
+  fontSize: "clamp(2.25rem, 3.2vw + 1rem, 3.75rem)",
+  marginBottom: theme.spacing(1.5),
   textAlign: "left",
+  [theme.breakpoints.down("md")]: { textAlign: "center" }, // ✅ center on mobile
 }));
 
 const Body = styled(Typography)(({ theme }) => ({
@@ -38,34 +48,64 @@ const Body = styled(Typography)(({ theme }) => ({
   fontSize: "clamp(1rem, 0.35vw + 0.95rem, 1.125rem)",
   lineHeight: 1.85,
   opacity: 0.96,
+  [theme.breakpoints.down("md")]: { textAlign: "center" }, // ✅ center on mobile
 }));
 
 const ImageFrame = styled(Box)(({ theme }) => ({
   position: "relative",
   width: "100%",
   aspectRatio: "4 / 3",
-  borderRadius: 16,
+  borderRadius: 20,
   overflow: "hidden",
-  background: theme.palette.mode === "dark" ? alpha("#fff", 0.04) : alpha("#000", 0.04),
-  border: `1px solid ${alpha(theme.palette.common.black, 0.08)}`,
-  boxShadow: theme.palette.mode === "dark" ? "0 18px 50px rgba(0,0,0,.5)" : "0 18px 50px rgba(0,0,0,.18)",
+  background:
+    theme.palette.mode === "dark" ? alpha("#fff", 0.04) : alpha("#000", 0.04),
+  border: `1px solid ${
+    theme.palette.mode === "dark"
+      ? alpha("#fff", 0.08)
+      : alpha(theme.palette.common.black, 0.08)
+  }`,
+  boxShadow:
+    theme.palette.mode === "dark"
+      ? "0 30px 80px rgba(0,0,0,.55)"
+      : "0 30px 80px rgba(0,0,0,.16)",
+  /* subtle glossy highlight */
+  "&::after": {
+    content: '""',
+    position: "absolute",
+    inset: 0,
+    background:
+      "linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,0))",
+    pointerEvents: "none",
+  },
+}));
+
+/* Separator line now between title and body */
+const AccentLine = styled("span")(({ theme }) => ({
+  display: "block",
+  height: 5,
+  width: 56,
+  background: ACCENT,
+  borderRadius: 3,
+  marginBottom: theme.spacing(2.5),
+  /* center on mobile, left on md+ to match text alignment */
+  marginLeft: 0,
+  [theme.breakpoints.down("md")]: {
+    marginInline: "auto",
+  },
 }));
 
 /* ------------------------------ Motion --------------------------------- */
 const containerVariants = {
   hidden: {},
   show: {
-    transition: {
-      delayChildren: 0.05,
-      staggerChildren: 0.18,
-    },
+    transition: { delayChildren: 0.05, staggerChildren: 0.16 },
   },
 };
 
 const rowVariants = {
   hidden: (custom) => ({
     opacity: 0,
-    y: 16,
+    y: 18,
     x: custom.from === "left" ? -28 : 28,
   }),
   show: {
@@ -79,23 +119,27 @@ const rowVariants = {
 export default function AboutPillars({
   items = [
     {
-      title: "Affordability",
+      title: "Affordable Auto Repair, Transparent Pricing",
       body:
-        "At Dynamic Auto Repair, we want to work with as many clients as possible and give them a first-hand experience of our quality services. Hence the reason why we offer our services to clients at competitive rates you won't find elsewhere.",
+        "At Dynamic Auto Repair, we deliver high-quality service without surprises. Our transparent estimates and competitive rates make professional maintenance and repairs easier to say yes to—so your vehicle stays safe, efficient, and road-ready.",
       image: "/placeholder.jpg",
-      imageAlt: "Affordable auto repair",
+      imageAlt: "Technician performing affordable, high-quality auto repair",
+      kicker: "Value You Can Trust",
+      seoSuffix: " | Dynamic Auto Repair",
     },
     {
-      title: "Customer Satisfaction",
+      title: "Customer Satisfaction That Earns Repeat Business",
       body:
-        "When we work with clients, our goal is to always exceed their expectations so they can spread the word about our services and bring us more customers in the long run. We are confident that our high-quality services will help us turn visitors into not just customers but raving fans.\n\nYou can check out our various services to learn more about how we can help you increase the lifespan of your automobile. Also, do not hesitate to request a quote for any of your vehicle needs.",
+        "Every visit is built around clarity, communication, and craftsmanship. From diagnostics to delivery, we focus on doing the job right the first time—so you leave confident, refer friends, and come back for routine service with a shop you trust.",
       image: "/placeholder.jpg",
-      imageAlt: "Happy customer at auto repair shop",
+      imageAlt: "Happy customer picking up vehicle after repair",
+      kicker: "Service That Puts You First",
+      seoSuffix: " | Dynamic Auto Repair",
     },
   ],
 }) {
   return (
-    <Section>
+    <Section aria-label="About Dynamic Auto Repair pillars">
       <Container
         maxWidth="xl"
         component={motion.div}
@@ -104,7 +148,7 @@ export default function AboutPillars({
         whileInView="show"
         viewport={{ once: true, amount: 0.2 }}
       >
-        <Box sx={{ display: "grid", gap: { xs: 8, md: 10 } }}>
+        <Box sx={{ display: "grid", gap: { xs: 8, md: 12 } }}>
           {items.map((item, idx) => {
             const reversed = idx % 2 === 1; // odd rows reversed
             const fromSide = reversed ? "right" : "left";
@@ -116,26 +160,44 @@ export default function AboutPillars({
                 custom={{ from: fromSide }}
                 variants={rowVariants}
                 sx={{
-                  // swap column widths on md+ for reversed rows
                   gridTemplateColumns: {
                     md: reversed
                       ? "minmax(0, 2fr) minmax(0, 3fr)"
                       : "minmax(0, 3fr) minmax(0, 2fr)",
                   },
                 }}
+                itemScope
+                itemType="https://schema.org/Service"
               >
-                {/* Left / Right blocks with order swap on md+ */}
+                {/* Copy */}
                 <Box sx={{ order: reversed ? { md: 2 } : 1 }}>
-                  <Title>{item.title}</Title>
+                  {item.kicker && <Kicker>{item.kicker}</Kicker>}
+
+                  <Title
+                    component="h2"
+                    itemProp="name"
+                    aria-label={`${item.title}${item.seoSuffix ?? ""}`}
+                  >
+                    {item.title}
+                  </Title>
+
+                  {/* ✅ Accent line now between title and body */}
+                  <AccentLine aria-hidden role="presentation" />
+
                   {String(item.body)
                     .split("\n\n")
                     .map((p, i) => (
-                      <Body key={i} sx={{ mt: i === 0 ? 0 : 2 }}>
+                      <Body
+                        key={i}
+                        itemProp={i === 0 ? "description" : undefined}
+                        sx={{ mt: i === 0 ? 0 : 2 }}
+                      >
                         {p}
                       </Body>
                     ))}
                 </Box>
 
+                {/* Media */}
                 <ImageFrame sx={{ order: reversed ? { md: 1 } : 2 }}>
                   {item.image && (
                     <Box
@@ -143,6 +205,8 @@ export default function AboutPillars({
                       src={item.image}
                       alt={item.imageAlt || item.title}
                       loading="lazy"
+                      decoding="async"
+                      itemProp="image"
                       sx={{
                         position: "absolute",
                         inset: 0,
@@ -150,6 +214,7 @@ export default function AboutPillars({
                         height: "100%",
                         objectFit: "cover",
                         transform: "scale(1.01)",
+                        willChange: "transform",
                       }}
                     />
                   )}

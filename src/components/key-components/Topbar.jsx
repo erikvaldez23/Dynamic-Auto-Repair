@@ -32,8 +32,8 @@ import InstagramIcon from "@mui/icons-material/Instagram";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import { Link as RouterLink, useLocation } from "react-router-dom";
 
-// Business info (same project)
-import BusinessInfo from "../landing/business-info/BusinessInfo";
+// (Optional) if you actually use this overlay elsewhere.
+// import BusinessInfo from "../landing/business-info/BusinessInfo";
 
 /* ----------------------------- Brand Tokens ----------------------------- */
 const ACCENT = "#f2c230";
@@ -44,13 +44,16 @@ const TOOLBAR_HEIGHT = 72;
 const INSTAGRAM_URL = "https://instagram.com/your-instagram";
 const FACEBOOK_URL = "https://facebook.com/your-facebook";
 
+/* Assets */
+const BASE_URL = (import.meta?.env?.BASE_URL ?? "/").replace(/\/+/g, "/");
+const LOGO_FULL = `${BASE_URL}logo.png`;
+
 /* ------------------------------- Styled UI ------------------------------ */
 const GlassBar = styled(AppBar)(({ theme }) => ({
   position: "fixed",
   top: 0,
-  zIndex: theme.zIndex.appBar + 2, // stay above hero & BusinessInfo
+  zIndex: theme.zIndex.appBar + 2,
   background: "transparent",
-  backgroundColor: "transparent",
   boxShadow: "none",
 
   "--bg": "transparent",
@@ -92,7 +95,7 @@ const LogoBox = styled(Box)(() => ({
   display: "flex",
   alignItems: "center",
   gap: 12,
-  minWidth: 180,
+  minWidth: 140,
   textDecoration: "none",
 }));
 
@@ -225,21 +228,18 @@ export default function TopbarModern() {
       >
         <BarSurface className="bar-surface">
           <Container maxWidth="xl">
-            <Toolbar disableGutters sx={{ minHeight: TOOLBAR_HEIGHT, position: "relative" }}>
+            <Toolbar
+              disableGutters
+              sx={{ minHeight: { xs: 64, md: TOOLBAR_HEIGHT }, position: "relative" }}
+            >
               {/* Left: Logo */}
-              <LogoBox component={RouterLink} to="/">
+              <LogoBox component={RouterLink} to="/" aria-label="Dynamic Auto Repair home">
                 <Box
                   component="img"
-                  src="/logo.png"
+                  src={LOGO_FULL}
                   alt="Dynamic Auto Repair"
-                  sx={{ height: 50, width: "auto", display: { xs: "none", sm: "block" } }}
+                  sx={{ height: { xs: 36, md: 50 }, width: "auto" }}
                 />
-                <Typography
-                  variant="h6"
-                  sx={{ fontWeight: 900, color: alpha("#fff", 0.98), display: { xs: "block", sm: "none" } }}
-                >
-                  Dynamic Auto
-                </Typography>
               </LogoBox>
 
               {/* Center: Navigation */}
@@ -320,7 +320,8 @@ export default function TopbarModern() {
                                   theme.palette.mode === "dark" ? alpha("#fff", 0.08) : alpha("#000", 0.08)
                                 }`,
                                 backdropFilter: "blur(16px)",
-                                boxShadow: "0 24px 64px rgba(0,0,0,0.34), inset 0 1px 0 rgba(255,255,255,0.06)",
+                                boxShadow:
+                                  "0 24px 64px rgba(0,0,0,0.34), inset 0 1px 0 rgba(255,255,255,0.06)",
                                 overflow: "hidden",
                               },
                             }}
@@ -357,7 +358,7 @@ export default function TopbarModern() {
                 </Box>
               )}
 
-              {/* Right: Phone + Socials (desktop) */}
+              {/* Right: Phone + Socials (desktop) / Hamburger (mobile) */}
               {isMdUp ? (
                 <Stack direction="row" spacing={0.5} alignItems="center" sx={{ ml: "auto" }}>
                   <PhoneLinkIcon
@@ -367,15 +368,31 @@ export default function TopbarModern() {
                   >
                     <CallIcon />
                   </PhoneLinkIcon>
-                  <SocialIcon aria-label="Instagram" component="a" href={INSTAGRAM_URL} target="_blank" rel="noopener noreferrer">
+                  <SocialIcon
+                    aria-label="Instagram"
+                    component="a"
+                    href={INSTAGRAM_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
                     <InstagramIcon />
                   </SocialIcon>
-                  <SocialIcon aria-label="Facebook" component="a" href={FACEBOOK_URL} target="_blank" rel="noopener noreferrer">
+                  <SocialIcon
+                    aria-label="Facebook"
+                    component="a"
+                    href={FACEBOOK_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
                     <FacebookIcon />
                   </SocialIcon>
                 </Stack>
               ) : (
-                <IconButton aria-label="Open menu" onClick={() => setOpen(true)} sx={{ ml: "auto", color: "#fff", p: 1.25 }}>
+                <IconButton
+                  aria-label="Open menu"
+                  onClick={() => setOpen(true)}
+                  sx={{ ml: "auto", color: "#fff", p: 1.25 }}
+                >
                   <MenuRoundedIcon />
                 </IconButton>
               )}
@@ -384,69 +401,213 @@ export default function TopbarModern() {
         </BarSurface>
       </GlassBar>
 
-      {/* *** FIXED Business Info OVERLAY (doesn't push the hero down) *** */}
-      <Box
-        sx={{
-          position: "fixed",
-          top: `${TOOLBAR_HEIGHT}px`,      // directly under the AppBar
-          left: 0,
-          right: 0,
-          zIndex: (t) => t.zIndex.appBar + 1, // under AppBar, above hero
-          px: 2,
-        }}
-      >
-      </Box>
+      {/* (Optional) Space under the app bar for overlays, if you use one */}
+      {/* <Box sx={{ position: "fixed", top: `${TOOLBAR_HEIGHT}px`, left: 0, right: 0, zIndex: (t) => t.zIndex.appBar + 1, px: 2 }} /> */}
 
-      {/* Mobile Drawer */}
+      {/* Mobile Drawer (dark, glassy, aesthetic) */}
       <Drawer
         anchor="right"
         open={open}
         onClose={() => setOpen(false)}
+        ModalProps={{
+          keepMounted: true,
+          BackdropProps: {
+            sx: {
+              backgroundColor: "rgba(0,0,0,0.45)",
+              backdropFilter: "blur(2px)",
+            },
+          },
+        }}
         PaperProps={{
           sx: {
-            width: "86vw",
-            maxWidth: 360,
-            background:
-              theme.palette.mode === "dark"
-                ? "linear-gradient(180deg,#141619, #0e0f11)"
-                : "linear-gradient(180deg,#ffffff, #f6f7f9)",
-            color: theme.palette.text.primary,
-            borderLeft: `1px solid ${alpha("#000", 0.12)}`,
+            width: "88vw",
+            maxWidth: 380,
+            // Dark, layered “glass” background
+            background: `
+              radial-gradient(120% 80% at 100% 0%, rgba(242,194,48,0.05) 0%, rgba(0,0,0,0.0) 60%),
+              radial-gradient(90% 60% at -10% 110%, rgba(242,194,48,0.04) 0%, rgba(0,0,0,0.0) 60%),
+              linear-gradient(180deg, #0c0d10 0%, #0a0b0d 60%, #090a0c 100%)
+            `,
+            color: "rgba(255,255,255,0.92)",
+            borderLeft: `1px solid ${alpha("#fff", 0.06)}`,
+            boxShadow: "0 24px 80px rgba(0,0,0,0.55)",
+            backdropFilter: "blur(16px) saturate(140%)",
+            WebkitBackdropFilter: "blur(16px) saturate(140%)",
+            position: "relative",
+            "&::before": {
+              content: '""',
+              position: "absolute",
+              inset: 0,
+              pointerEvents: "none",
+              background:
+                "radial-gradient(120% 70% at 50% -10%, rgba(255,255,255,0.04), rgba(0,0,0,0) 55%)",
+            },
           },
         }}
       >
-        <Box sx={{ p: 1.5, display: "flex", justifyContent: "flex-end" }}>
-          <IconButton aria-label="Close menu" onClick={() => setOpen(false)}>
+        {/* Header */}
+        <Box
+          sx={{
+            px: 2,
+            pt: 2,
+            pb: 1.5,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+          }}
+        >
+          <Box
+            component={RouterLink}
+            to="/"
+            onClick={() => setOpen(false)}
+            sx={{ display: "inline-flex", alignItems: "center", gap: 1.25, textDecoration: "none" }}
+          >
+            <Box component="img" src={LOGO_FULL} alt="Dynamic Auto Repair" sx={{ height: 34, width: "auto" }} />
+          </Box>
+          <IconButton
+            aria-label="Close menu"
+            onClick={() => setOpen(false)}
+            sx={{
+              color: "#fff",
+              borderRadius: 2,
+              backgroundColor: alpha("#fff", 0.04),
+              "&:hover": { backgroundColor: alpha("#fff", 0.08), color: ACCENT_HOVER },
+            }}
+          >
             <CloseRoundedIcon />
           </IconButton>
         </Box>
 
+        {/* Divider with accent glow */}
+        <Divider
+          sx={{
+            mx: 2,
+            mb: 1.5,
+            borderColor: alpha("#fff", 0.06),
+            "&::after": {
+              content: '""',
+              display: "block",
+              height: 2,
+              borderRadius: 2,
+              background: `linear-gradient(90deg, ${alpha(ACCENT, 0.35)}, transparent)`,
+            },
+          }}
+        />
+
+        {/* Nav list */}
         <Box sx={{ px: 2, pb: 2 }}>
-          <List sx={{ py: 0 }}>
-            {NAV.map((item) => (
-              <ListItem key={item.to} disablePadding>
-                <ListItemButton component={RouterLink} to={item.to} onClick={() => setOpen(false)}>
-                  <ListItemText primary={item.label} primaryTypographyProps={{ fontWeight: 800 }} />
-                </ListItemButton>
-              </ListItem>
-            ))}
+          <List sx={{ py: 0, display: "grid", gap: 0.75 }}>
+            {NAV.map((item) => {
+              const active =
+                pathname === item.to ||
+                (item.to === "/services" && pathname.startsWith("/services"));
+              return (
+                <ListItem key={item.to} disablePadding>
+                  <ListItemButton
+                    component={RouterLink}
+                    to={item.to}
+                    onClick={() => setOpen(false)}
+                    sx={{
+                      borderRadius: 2,
+                      px: 1.5,
+                      py: 1.25,
+                      alignItems: "center",
+                      transition:
+                        "transform .16s ease, background-color .16s ease, border-color .16s ease",
+                      backgroundColor: active ? alpha(ACCENT, 0.12) : "transparent",
+                      border: `1px solid ${active ? alpha(ACCENT, 0.28) : alpha("#fff", 0.06)}`,
+                      boxShadow: active ? `0 6px 18px ${alpha(ACCENT, 0.18)}` : "none",
+                      "&:hover": {
+                        backgroundColor: alpha("#fff", 0.06),
+                        borderColor: alpha("#fff", 0.14),
+                        transform: "translateX(4px)",
+                      },
+                    }}
+                  >
+                    <ListItemText
+                      primary={item.label}
+                      primaryTypographyProps={{
+                        fontWeight: 800,
+                        letterSpacing: 0.2,
+                        color: "#fff",
+                      }}
+                    />
+                  </ListItemButton>
+                </ListItem>
+              );
+            })}
           </List>
 
-          <Divider sx={{ my: 2 }} />
+          {/* Section divider */}
+          <Typography
+            variant="caption"
+            sx={{
+              display: "block",
+              mt: 2.5,
+              mb: 1,
+              px: 0.5,
+              color: alpha("#fff", 0.6),
+              letterSpacing: 1.3,
+              textTransform: "uppercase",
+            }}
+          >
+            Connect
+          </Typography>
 
-          <Stack spacing={1.25}>
-            <PhoneCTA fullWidth startIcon={<CallIcon />} href={`tel:${PHONE.replace(/[^0-9]/g, "")}`}>
+          {/* Social + phone */}
+          <Stack direction="row" spacing={1} sx={{ mb: 1.5 }}>
+            <SocialIcon
+              aria-label="Instagram"
+              component="a"
+              href={INSTAGRAM_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              sx={{ backgroundColor: alpha("#fff", 0.04) }}
+            >
+              <InstagramIcon />
+            </SocialIcon>
+            <SocialIcon
+              aria-label="Facebook"
+              component="a"
+              href={FACEBOOK_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              sx={{ backgroundColor: alpha("#fff", 0.04) }}
+            >
+              <FacebookIcon />
+            </SocialIcon>
+          </Stack>
+
+          {/* Sticky bottom CTA */}
+          <Box
+            sx={{
+              position: "sticky",
+              bottom: 0,
+              pt: 1.5,
+              pb: "env(safe-area-inset-bottom)",
+              background:
+                "linear-gradient(180deg, rgba(12,13,16,0.0) 0%, rgba(12,13,16,0.85) 30%, rgba(12,13,16,1) 100%)",
+            }}
+          >
+            <PhoneCTA
+              fullWidth
+              startIcon={<CallIcon />}
+              href={`tel:${PHONE.replace(/[^0-9]/g, "")}`}
+              sx={{
+                py: 1.25,
+                borderRadius: 2,
+                boxShadow: `0 12px 36px ${alpha(ACCENT, 0.28)}`,
+              }}
+            >
               {PHONE}
             </PhoneCTA>
-            <Stack direction="row" spacing={1}>
-              <SocialIcon aria-label="Instagram" component="a" href={INSTAGRAM_URL} target="_blank" rel="noopener noreferrer">
-                <InstagramIcon />
-              </SocialIcon>
-              <SocialIcon aria-label="Facebook" component="a" href={FACEBOOK_URL} target="_blank" rel="noopener noreferrer">
-                <FacebookIcon />
-              </SocialIcon>
-            </Stack>
-          </Stack>
+            <Typography
+              variant="caption"
+              sx={{ display: "block", mt: 1, textAlign: "center", color: alpha("#fff", 0.6) }}
+            >
+              Call now for availability & pricing
+            </Typography>
+          </Box>
         </Box>
       </Drawer>
     </>
