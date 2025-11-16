@@ -8,8 +8,6 @@ import {
   Button,
   Divider,
   Link as MuiLink,
-  useTheme,
-  useMediaQuery,
 } from "@mui/material";
 import { styled, alpha } from "@mui/material/styles";
 import CallRoundedIcon from "@mui/icons-material/CallRounded";
@@ -121,19 +119,67 @@ const InfoRow = ({ icon, title, children }) => (
   </Stack>
 );
 
-/* iframe styles */
-const Frame = styled("iframe")(({ theme }) => ({
-  display: "block",
-  width: "100%",
-  border: 0,
-  background: "#fff",
-  borderRadius: 12,
-  // desktop/default heights so it doesn't collapse to 150px
-  height: 680,
-  [theme.breakpoints.up("lg")]: { height: 760 },
+/* ------------------------- Form field styling -------------------------- */
+const FieldLabel = styled(Typography)(({ theme }) => ({
+  fontSize: 13,
+  opacity: 0.9,
+  marginBottom: 4,
 }));
 
-/* Map container & iframe — sits at the bottom of the left card */
+const Required = styled("span")(({ theme }) => ({
+  opacity: 0.9,
+}));
+
+const BaseControl = {
+  width: "100%",
+  borderRadius: 10,
+  border: `1px solid ${alpha("#fff", 0.16)}`,
+  background:
+    "linear-gradient(180deg, rgba(40,40,40,0.9), rgba(15,15,15,0.9))",
+  color: "#fff",
+  padding: "12px 14px",
+  fontSize: 14,
+  outline: "none",
+  boxSizing: "border-box",
+};
+
+const TextInput = styled("input")(({ theme }) => ({
+  ...BaseControl,
+  "&::placeholder": {
+    color: alpha("#fff", 0.55),
+  },
+  "&:focus": {
+    borderColor: ACCENT,
+    boxShadow: `0 0 0 1px ${alpha(ACCENT, 0.45)}`,
+  },
+}));
+
+const SelectInput = styled("select")(({ theme }) => ({
+  ...BaseControl,
+  appearance: "none",
+  "& option": {
+    color: "#000",
+  },
+  "&:focus": {
+    borderColor: ACCENT,
+    boxShadow: `0 0 0 1px ${alpha(ACCENT, 0.45)}`,
+  },
+}));
+
+const TextArea = styled("textarea")(({ theme }) => ({
+  ...BaseControl,
+  minHeight: 140,
+  resize: "vertical",
+  "&::placeholder": {
+    color: alpha("#fff", 0.55),
+  },
+  "&:focus": {
+    borderColor: ACCENT,
+    boxShadow: `0 0 0 1px ${alpha(ACCENT, 0.45)}`,
+  },
+}));
+
+/* Map container */
 const MapWrap = styled(Box)(({ theme }) => ({
   marginTop: theme.spacing(2.5),
   borderRadius: 12,
@@ -166,56 +212,26 @@ export default function Contact({
     { d: "Saturday", h: "9:00 AM – 3:00 PM" },
     { d: "Sunday", h: "Closed" },
   ],
-  iframeSrc = "https://app.tintwiz.com/web/ce/mm78aa3rvkulrmu65oesvsa63ywubpq3",
   mapEmbedSrc = "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3347.889217980437!2d-96.7009056!3d32.8879152!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x864c1fd6f9c3b2c1%3A0x0000000000000000!2s2518%20W%20Kingsley%20Rd%20%23113%2C%20Garland%2C%20TX%2075041!5e0!3m2!1sen!2sus!4v1700000000000!5m2!1sen!2sus",
 }) {
-  const theme = useTheme();
-  const upMd = useMediaQuery(theme.breakpoints.up("md"));
-
-  // mobile height sync: match right card to left card height
-  const leftRef = React.useRef(null);
-  const rightRef = React.useRef(null);
-  const frameRef = React.useRef(null);
-
-  React.useLayoutEffect(() => {
-    if (upMd) {
-      if (rightRef.current) rightRef.current.style.height = "";
-      if (frameRef.current) frameRef.current.style.height = "";
-      return;
-    }
-    const L = leftRef.current;
-    const R = rightRef.current;
-    const F = frameRef.current;
-    if (!L || !R || !F) return;
-
-    const apply = () => {
-      const h = L.offsetHeight;
-      R.style.height = `${h}px`;
-      F.style.height = `${h}px`;
-    };
-
-    apply();
-    const ro = new ResizeObserver(apply);
-    ro.observe(L);
-    const onResize = () => apply();
-    window.addEventListener("resize", onResize);
-    return () => {
-      ro.disconnect();
-      window.removeEventListener("resize", onResize);
-    };
-  }, [upMd]);
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // TODO: wire this up to your backend or lead capture service
+    console.log("Lead form submitted");
+  };
 
   return (
     <Section>
       <Container maxWidth="xl">
         <GridWrap>
-          {/* Left: Company Info + Map */}
-          <Card ref={leftRef}>
+          {/* Company Info + Map (second on mobile) */}
+          <Card
+            sx={{
+              order: { xs: 2, md: 1 },
+            }}
+          >
             <Stack spacing={2}>
               <Heading variant="h2">{companyName}</Heading>
-              {/* <Typography variant="body1" sx={{ opacity: 0.9, maxWidth: 720 }}>
-                {blurb}
-              </Typography> */}
 
               <Divider sx={{ my: 2, borderColor: alpha("#fff", 0.08) }} />
 
@@ -255,13 +271,22 @@ export default function Contact({
                 </InfoRow>
               </Stack>
 
-              <Stack direction="row" spacing={1.25} sx={{ mt: 2, width: "100%" }}>
+              {/* Buttons: stacked on mobile, side-by-side on desktop */}
+              <Stack
+                direction={{ xs: "column", md: "row" }}
+                spacing={1.25}
+                sx={{ mt: 2, width: "100%" }}
+              >
                 <CTA
                   size="large"
                   startIcon={<CallRoundedIcon />}
                   href={phoneHref}
                   fullWidth
-                  sx={{ flex: "1 1 0", minWidth: 0, justifyContent: "center", px: 2.6, py: 1.2 }}
+                  sx={{
+                    justifyContent: "center",
+                    px: 2.6,
+                    py: 1.2,
+                  }}
                 >
                   Call Now
                 </CTA>
@@ -273,13 +298,16 @@ export default function Contact({
                   target="_blank"
                   rel="noreferrer"
                   fullWidth
-                  sx={{ flex: "1 1 0", minWidth: 0, justifyContent: "center", px: 2.6, py: 1.2 }}
+                  sx={{
+                    justifyContent: "center",
+                    px: 2.6,
+                    py: 1.2,
+                  }}
                 >
                   Get Directions
                 </GhostBtn>
               </Stack>
 
-              {/* Map at the very bottom of the left card */}
               <MapWrap>
                 <MapFrame
                   title="Map"
@@ -292,21 +320,143 @@ export default function Contact({
             </Stack>
           </Card>
 
-          {/* Right: Contact / Booking Form */}
+          {/* Lead Form (first on mobile) */}
           <Card
-            ref={rightRef}
             sx={{
-              p: { xs: 0, md: 0 },
-              overflow: "hidden",
+              order: { xs: 1, md: 2 },
             }}
           >
-            <Frame
-              ref={frameRef}
-              title="Booking form"
-              src={iframeSrc}
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-            />
+            <Stack spacing={2.5}>
+              <Heading variant="h2">Get Your Free Auto Tint Quote!</Heading>
+
+              <Box
+                component="form"
+                noValidate
+                onSubmit={handleSubmit}
+                sx={{ mt: 1 }}
+              >
+                <Stack spacing={2.4}>
+                  {/* Name */}
+                  <Box>
+                    <FieldLabel>
+                      Your Name <Required>(required)</Required>
+                    </FieldLabel>
+                    <TextInput
+                      required
+                      name="name"
+                      placeholder="Enter your full name"
+                    />
+                  </Box>
+
+                  {/* Phone */}
+                  <Box>
+                    <FieldLabel>
+                      Phone Number <Required>(required)</Required>
+                    </FieldLabel>
+                    <Box sx={{ position: "relative" }}>
+                      <Box
+                        sx={{
+                          position: "absolute",
+                          left: 14,
+                          top: "50%",
+                          transform: "translateY(-50%)",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          pointerEvents: "none",
+                          color: alpha("#fff", 0.7),
+                        }}
+                      >
+                        <CallRoundedIcon fontSize="small" />
+                      </Box>
+                      <TextInput
+                        required
+                        name="phone"
+                        placeholder="(555) 555-5555"
+                        style={{ paddingLeft: 44 }}
+                      />
+                    </Box>
+                  </Box>
+
+                  {/* Vehicle Year */}
+                  <Box>
+                    <FieldLabel>
+                      Vehicle Year <Required>(required)</Required>
+                    </FieldLabel>
+                    <SelectInput name="vehicleYear" defaultValue="" required>
+                      <option value="" disabled>
+                        Select Year
+                      </option>
+                      <option value="2025">2025</option>
+                      <option value="2024">2024</option>
+                      <option value="2023">2023</option>
+                      <option value="2022">2022</option>
+                      <option value="2021">2021</option>
+                      <option value="2020">2020</option>
+                      <option value="2019">2019</option>
+                      <option value="2018">2018</option>
+                      <option value="2017">2017</option>
+                      <option value="2016">2016</option>
+                      <option value="2015">2015</option>
+                    </SelectInput>
+                  </Box>
+
+                  {/* Vehicle Make */}
+                  <Box>
+                    <FieldLabel>
+                      Vehicle Make <Required>(required)</Required>
+                    </FieldLabel>
+                    <SelectInput name="vehicleMake" defaultValue="" required>
+                      <option value="" disabled>
+                        Select Make
+                      </option>
+                      <option value="Tesla">Tesla</option>
+                      <option value="Toyota">Toyota</option>
+                      <option value="Ford">Ford</option>
+                      <option value="Chevrolet">Chevrolet</option>
+                      <option value="Honda">Honda</option>
+                    </SelectInput>
+                  </Box>
+
+                  {/* Vehicle Model */}
+                  <Box>
+                    <FieldLabel>
+                      Vehicle Model <Required>(required)</Required>
+                    </FieldLabel>
+                    <SelectInput name="vehicleModel" defaultValue="" required>
+                      <option value="" disabled>
+                        Select Model
+                      </option>
+                      <option value="Model 3">Model 3</option>
+                      <option value="Model Y">Model Y</option>
+                      <option value="Model S">Model S</option>
+                      <option value="Model X">Model X</option>
+                    </SelectInput>
+                  </Box>
+
+                  {/* Message */}
+                  <Box>
+                    <FieldLabel>Your Message</FieldLabel>
+                    <TextArea
+                      name="message"
+                      placeholder="Tell us what services you’re interested in or any questions you have."
+                    />
+                  </Box>
+
+                  {/* Submit */}
+                  <Box sx={{ pt: 0.5 }}>
+                    <CTA
+                      type="submit"
+                      size="large"
+                      fullWidth
+                      endIcon={<ArrowForwardRoundedIcon />}
+                    >
+                      Get My Auto Quote
+                    </CTA>
+                  </Box>
+                </Stack>
+              </Box>
+            </Stack>
           </Card>
         </GridWrap>
       </Container>

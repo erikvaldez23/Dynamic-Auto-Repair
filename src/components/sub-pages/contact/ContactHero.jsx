@@ -35,27 +35,27 @@ export default function ContacttHero({
         Contact Us
       </Typography>
 
-        <Typography
-          variant="h6"
-          sx={{
-            opacity: 0.9,
-            maxWidth: 900,
-            mx: "auto",
-            fontSize: { xs: "1rem", md: "1.25rem" },
-            "&::after": {
-              content: '""',
-              display: "block",
-              width: 80,
-              height: 5,
-              backgroundColor: accent,
-              borderRadius: 2,
-              margin: "10px auto 0",
-              boxShadow: `0 0 8px ${accent}B3, 0 0 16px ${accent}80`, // B3=70%, 80=50%
-            },
-          }}
-        >
-          We’re here to make car care easy
-        </Typography>
+      <Typography
+        variant="h6"
+        sx={{
+          opacity: 0.9,
+          maxWidth: 900,
+          mx: "auto",
+          fontSize: { xs: "1rem", md: "1.25rem" },
+          "&::after": {
+            content: '""',
+            display: "block",
+            width: 80,
+            height: 5,
+            backgroundColor: accent,
+            borderRadius: 2,
+            margin: "10px auto 0",
+            boxShadow: `0 0 8px ${accent}B3, 0 0 16px ${accent}80`, // B3=70%, 80=50%
+          },
+        }}
+      >
+        We’re here to make car care easy
+      </Typography>
     </Box>
   );
 }
