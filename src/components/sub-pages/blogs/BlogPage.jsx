@@ -245,9 +245,9 @@ const BlogPage = () => {
                             flexDirection: { xs: "column", md: "row" },
                             borderRadius: "16px",
                             overflow: "hidden",
-                            backgroundColor: "rgba(20, 20, 30, 0.5)",
-                            backdropFilter: "blur(10px)",
-                            border: "1px solid rgba(255, 255, 255, 0.05)",
+                            backgroundColor: "rgba(20, 20, 30, 0.2)",
+                            backdropFilter: "blur(16px)",
+                            border: "1px solid rgba(255, 255, 255, 0.08)",
                             boxShadow: "0 10px 40px rgba(0, 0, 0, 0.2)",
                             transition: "transform 0.3s ease, box-shadow 0.3s ease",
                             opacity: 0,
@@ -430,9 +430,9 @@ const BlogPage = () => {
                                         height: "100%",
                                         display: "flex",
                                         flexDirection: "column",
-                                        backgroundColor: "rgba(20, 20, 30, 0.5)",
-                                        backdropFilter: "blur(10px)",
-                                        border: "1px solid rgba(255, 255, 255, 0.05)",
+                                        backgroundColor: "rgba(20, 20, 30, 0.2)",
+                                        backdropFilter: "blur(16px)",
+                                        border: "1px solid rgba(255, 255, 255, 0.08)",
                                         boxShadow: "0 10px 30px rgba(0, 0, 0, 0.2)",
                                         transition: "all 0.3s ease",
                                         opacity: 0,
@@ -575,7 +575,6 @@ const BlogPage = () => {
 
             <CTA />
             <Contact />
-            <Footer />
         </Box >
     );
 };

@@ -54,7 +54,7 @@ export default function ContacttHero({
                     },
                 }}
             >
-                Lorem ipsum, dolor sit amet consectetur adipisicing elit
+                Expert Insights to Help You Drive Farther, Safer, and Smarter.
             </Typography>
         </Box>
     );
