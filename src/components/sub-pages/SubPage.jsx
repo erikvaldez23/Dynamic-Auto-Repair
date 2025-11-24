@@ -65,103 +65,103 @@ const services = {
     title: "AC & Heating",
     description:
       "Stay comfortable in every season with expert AC and heating diagnostics, repair, and recharge.",
-    sections: ["CTA", "Overview", "HeroGallery", "CTA", "Contact"],
+    sections: ["CTA", "Overview",  "CTA", "Contact"],
   },
   alignments: {
     title: "Alignments",
     description:
       "Improve handling, tire wear, and safety with precision four-wheel alignments.",
-    sections: ["CTA", "Overview", "HeroGallery", "CTA", "Contact" ],
+    sections: ["CTA", "Overview",  "CTA", "Contact" ],
   },
   "batteries": {
     title: "Batteries / Alternators",
     description:
       "Quick testing and replacement to keep your vehicle starting strong and charging properly.",
-    sections: ["CTA", "Overview","HeroGallery", "CTA", "Contact"],
+    sections: ["CTA", "Overview", "CTA", "Contact"],
   },
   brakes: {
     title: "Brakes",
     description:
       "From pads and rotors to hydraulics—get confident stopping power with quality parts.",
-    sections: ["CTA", "Overview","HeroGallery", "CTA", "Contact"],
+    sections: ["CTA", "Overview", "CTA", "Contact"],
   },
   "computer-diagnostics": {
     title: "Computer Diagnostics",
     description:
       "Pinpoint issues fast with advanced OBD-II and manufacturer-level diagnostics.",
-    sections: ["CTA", "Overview","HeroGallery", "CTA", "Contact"],
+    sections: ["CTA", "Overview", "CTA", "Contact"],
   },
   "check-engine-light": {
     title: "Check Engine Light",
     description:
       "We identify the cause behind your CEL and provide a clear, actionable repair plan.",
-    sections: ["CTA", "Overview","HeroGallery", "CTA", "Contact"],
+    sections: ["CTA", "Overview", "CTA", "Contact"],
   },
   "cooling-system": {
     title: "Cooling System",
     description:
       "Radiators, water pumps, hoses, and thermostats—keep your engine running cool.",
-    sections: ["CTA", "Overview","HeroGallery", "CTA", "Contact"],
+    sections: ["CTA", "Overview", "CTA", "Contact"],
   },
   "engine-service": {
     title: "Engine Service",
     description:
       "From tune-ups to major repairs—comprehensive engine diagnostics and restoration.",
-    sections: ["CTA", "Overview","HeroGallery", "CTA", "Contact"],
+    sections: ["CTA", "Overview", "CTA", "Contact"],
   },
   "fleet-services": {
     title: "Fleet Services",
     description:
       "Fast, reliable maintenance and repairs tailored for business fleets to minimize downtime.",
-    sections: ["CTA", "Overview","HeroGallery", "CTA", "Contact"],
+    sections: ["CTA", "Overview", "CTA", "Contact"],
   },
   "fuel-system": {
     title: "Fuel System",
     description:
       "Fuel pumps, injectors, and cleaning services to restore performance and mileage.",
-    sections: ["CTA", "Overview","HeroGallery", "CTA", "Contact"],
+    sections: ["CTA", "Overview", "CTA", "Contact"],
   },
   "multi-point-inspection": {
     title: "Multi-Point / Pre-Purchase Inspection",
     description:
       "A comprehensive inspection that covers safety, wear, leaks, and road-test findings.",
-    sections: ["CTA", "Overview","HeroGallery", "CTA", "Contact"],
+    sections: ["CTA", "Overview", "CTA", "Contact"],
   },
   "oil-change": {
     title: "Oil & Filter Change",
     description:
       "Premium oil and filters, torque-spec drain plugs, and inspection—done right, fast.",
-    sections: ["CTA", "Overview","HeroGallery", "CTA", "Contact"],
+    sections: ["CTA", "Overview", "CTA", "Contact"],
   },
   "scheduled-maintenance": {
     title: "Scheduled Maintenance",
     description:
       "Stay on schedule with OEM-recommended services that protect performance and warranty.",
-    sections: ["CTA", "Overview","HeroGallery", "CTA", "Contact"],
+    sections: ["CTA", "Overview", "CTA", "Contact"],
   },
   "state-inspection": {
     title: "State Inspection",
     description:
       "Quick, compliant inspections to keep you legal and safe on the road.",
-    sections: ["CTA", "Overview","HeroGallery", "CTA", "Contact"],
+    sections: ["CTA", "Overview", "CTA", "Contact"],
   },
   "suspension-steering": {
     title: "Suspension & Steering",
     description:
       "Shocks, struts, control arms, and racks—restore ride comfort and control.",
-    sections: ["CTA", "Overview","HeroGallery", "CTA", "Contact"],
+    sections: ["CTA", "Overview", "CTA", "Contact"],
   },
   tires: {
     title: "Tires",
     description:
       "Mounting, balancing, rotation, and TPMS—maximize tread life and safety.",
-    sections: ["CTA", "Overview","HeroGallery", "CTA", "Contact"],
+    sections: ["CTA", "Overview", "CTA", "Contact"],
   },
 "tune-ups": {
   title: "Tune-Ups",
   description:
     "Keep your engine running at its best.",
-  sections: ["CTA", "Overview", "HeroGallery", "CTA", "Contact"],
+  sections: ["CTA", "Overview",  "CTA", "Contact"],
 }
 
 };

@@ -54,7 +54,7 @@ export default function AboutHero({
             },
           }}
         >
-          Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+          Every Repair, One Trusted Shop.
         </Typography>
     </Box>
   );

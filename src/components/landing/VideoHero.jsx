@@ -8,13 +8,14 @@ import BusinessInfo from "./business-info/BusinessInfo";
 const BASE_URL = (import.meta?.env?.BASE_URL ?? "/").replace(/\/+/g, "/");
 
 const DEFAULTS = {
-  src: `/tesla-video.mov`,
+  // src: `/tesla-video.mov`,
+  background: "transparent",
   poster: `${BASE_URL}images/hero.jpg`,
   heading: "Precision. Protection. Performance.",
   // subheading: "Expert window tinting & paint protection film.",
   ctaLabel: "Get a Free Quote",
   height: "100svh",
-  overlay: true,
+  overlay: false,
   overlayStrength: 0.55,
 };
 
@@ -24,12 +25,16 @@ const ACCENT_HOVER = "#ffd95a";
 const NOOP = () => {};
 
 /* ------------------------------ Styled ------------------------------ */
-const Root = styled(Box)(({ theme }) => ({
+const Root = styled(Box, {
+  shouldForwardProp: (prop) => prop !== "background",
+})(({ theme, background }) => ({
   position: "relative",
   width: "100%",
   minHeight: "100svh",
   overflow: "hidden",
-  backgroundColor: "#000",
+  background: background || "#000",
+  backgroundSize: "cover",
+  backgroundPosition: "center",
   color: alpha(ACCENT, 0.95),
 }));
 
@@ -166,6 +171,7 @@ function StaggerHeading() {
 /* ------------------------------ Component ------------------------------ */
 export default function HeroVideoBackground({
   src = DEFAULTS.src,
+  background = DEFAULTS.background,
   poster = DEFAULTS.poster,
   heading = DEFAULTS.heading, // kept for API compat (unused by stagger)
   subheading = DEFAULTS.subheading,
@@ -197,7 +203,7 @@ export default function HeroVideoBackground({
   }, []);
 
   return (
-    <Root sx={{ minHeight: height }}>
+    <Root sx={{ minHeight: height }} background={background}>
       {/* Background Video */}
       <Video
         ref={videoRef}

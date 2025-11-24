@@ -159,6 +159,7 @@ const NAV = [
   { label: "Home", to: "/" },
   { label: "About Us", to: "/about" },
   { label: "Services", to: "/services", hasHoverMenu: true },
+  { label: "Blogs", to: "/blogs" },
   { label: "Contact", to: "/contact" },
 ];
 

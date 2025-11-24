@@ -67,9 +67,9 @@ export const OVERVIEW_HTML = {
       </p>
     </div>
   `,
-  image: "/placeholder.jpg",
+  image: "/sub-pages/a-c/ac.jpg",
   imageAlt: "Technician using A/C manifold gauges on a vehicle in Dallas, TX",
-  image2: "/placeholder.jpg",
+  image2: "/sub-pages/a-c/ac2.jpg",
   imageAlt2: "Close-up of R-1234yf manifold set during auto air conditioning service",
   metaTitle: "Car A/C Recharge & Heating Repair in Dallas, TX | Dynamic Auto Repair",
   metaDescription: "Certified auto A/C recharge (R-134a & R-1234yf), heater repair, leak detection, compressors, condensers, and climate control diagnostics in Dallas–Fort Worth. Same-day testing, clear pricing, and warranty.",
@@ -140,9 +140,9 @@ brakes: {
       </p>
     </div>
   `,
-  image: "/placeholder.jpg",
+  image: "/sub-pages/brakes/brakes-2.jpg",
   imageAlt: "Brake rotor and caliper during service in Dallas, TX",
-  image2: "/placeholder.jpg",
+  image2: "/sub-pages/brakes/brakes-1.jpg",
   imageAlt2: "Brake rotor and caliper during service in Dallas, TX",
 },
 
@@ -208,9 +208,9 @@ alignments: {
       </p>
     </div>
   `,
-  image: "/services/overview/alignments.jpg",
+  image: "/sub-pages/alignments/alignments-3.jpg",
   imageAlt: "Vehicle on a computerized wheel alignment rack in Dallas, TX",
-  image2: "/placeholder.jpg",
+  image2: "/sub-pages/alignments/alignments.jpg",
   imageAlt2: "Auto A/C manifold gauges diagnosing a vehicle in Dallas, TX",
 },
 
@@ -276,9 +276,9 @@ alignments: {
       </p>
     </div>
   `,
-    image: "/placeholder.jpg",
+    image: "/sub-pages/oil-change/oil-change-2.jpg",
   imageAlt: "Technician testing a car battery and alternator in Dallas, TX",
-  image2: "/placeholder.jpg",
+  image2: "/sub-pages/oil-change/oil-change-1.jpg",
   imageAlt2: "Technician testing a car battery and alternator in Dallas, TX",
 },
 
@@ -345,9 +345,9 @@ alignments: {
       </p>
     </div>
   `,
-    image: "/placeholder.jpg",
+    image: "/sub-pages/tires/tires-2.jpg",
   imageAlt: "Technician testing a car battery and alternator in Dallas, TX",
-  image2: "/placeholder.jpg",
+  image2: "/sub-pages/tires/tires-1.jpg",
   imageAlt2: "Technician testing a car battery and alternator in Dallas, TX",
 },
 
@@ -419,9 +419,9 @@ alignments: {
       </p>
     </div>
   `,
-  image: "/placeholder.jpg",
+  image: "/sub-pages/batteries/batteries-2.jpg",
   imageAlt: "Technician testing a car battery and alternator in Dallas, TX",
-  image2: "/placeholder.jpg",
+  image2: "/sub-pages/batteries/batteries-1.jpg",
   imageAlt2: "Technician testing a car battery and alternator in Dallas, TX",
 },
 
@@ -480,9 +480,9 @@ alignments: {
       </p>
     </div>
   `,
-    image: "/placeholder.jpg",
+    image: "/sub-pages/computer/computer-2.jpg",
   imageAlt: "Technician testing a car battery and alternator in Dallas, TX",
-  image2: "/placeholder.jpg",
+  image2: "/sub-pages/computer/computer.jpg",
   imageAlt2: "Technician testing a car battery and alternator in Dallas, TX",
 },
 
@@ -540,9 +540,9 @@ alignments: {
       </p>
     </div>
   `,
-    image: "/placeholder.jpg",
+    image: "/sub-pages/engine/check-engine.png",
   imageAlt: "Technician testing a car battery and alternator in Dallas, TX",
-  image2: "/placeholder.jpg",
+  image2: "/sub-pages/check-engine/check-engine.jpg",
   imageAlt2: "Technician testing a car battery and alternator in Dallas, TX",
 },
 
@@ -615,9 +615,9 @@ alignments: {
       </p>
     </div>
   `,
-    image: "/placeholder.jpg",
+    image: "/sub-pages/cooling/cooling-2.jpg",
   imageAlt: "Technician testing a car battery and alternator in Dallas, TX",
-  image2: "/placeholder.jpg",
+  image2: "/sub-pages/cooling/cooling-1.jpg",
   imageAlt2: "Technician testing a car battery and alternator in Dallas, TX",
 },
 
@@ -679,9 +679,9 @@ alignments: {
       </p>
     </div>
   `,
-    image: "/placeholder.jpg",
+    image: "/sub-pages/engine/engine.jpg",
   imageAlt: "Technician testing a car battery and alternator in Dallas, TX",
-  image2: "/placeholder.jpg",
+  image2: "/sub-pages/engine/engine-2.jpg",
   imageAlt2: "Technician testing a car battery and alternator in Dallas, TX",
 },
 
@@ -743,9 +743,9 @@ alignments: {
       </p>
     </div>
   `,
-    image: "/placeholder.jpg",
+    image: "/sub-pages/fleet/fleet-2.jpg",
   imageAlt: "Technician testing a car battery and alternator in Dallas, TX",
-  image2: "/placeholder.jpg",
+  image2: "/sub-pages/fleet/fleet-1.png",
   imageAlt2: "Technician testing a car battery and alternator in Dallas, TX",
 },
 
@@ -816,9 +816,9 @@ alignments: {
       </p>
     </div>
   `,
-    image: "/placeholder.jpg",
+    image: "/sub-pages/fuel/fuel-1.jpg",
   imageAlt: "Technician testing a car battery and alternator in Dallas, TX",
-  image2: "/placeholder.jpg",
+  image2: "/sub-pages/fuel/fuel-2.jpg",
   imageAlt2: "Technician testing a car battery and alternator in Dallas, TX",
 },
 
@@ -876,9 +876,9 @@ alignments: {
       </p>
     </div>
   `,
-    image: "/placeholder.jpg",
+    image: "/sub-pages/inspection/inspection-2.png",
   imageAlt: "Technician testing a car battery and alternator in Dallas, TX",
-  image2: "/placeholder.jpg",
+  image2: "/sub-pages/inspection/inspection-1.jpg",
   imageAlt2: "Technician testing a car battery and alternator in Dallas, TX",
 },
 
@@ -939,9 +939,9 @@ alignments: {
       </p>
     </div>
   `,
-    image: "/placeholder.jpg",
+    image: "/sub-pages/maintenance/maintenance-1.jpg",
   imageAlt: "Technician testing a car battery and alternator in Dallas, TX",
-  image2: "/placeholder.jpg",
+  image2: "/sub-pages/maintenance/maintenance-2.jpg",
   imageAlt2: "Technician testing a car battery and alternator in Dallas, TX",
 },
 
@@ -1009,9 +1009,9 @@ alignments: {
       </p>
     </div>
   `,
-    image: "/placeholder.jpg",
+    image: "/sub-pages/state-inspection/inspection-1.png",
   imageAlt: "Technician testing a car battery and alternator in Dallas, TX",
-  image2: "/placeholder.jpg",
+  image2: "/sub-pages/state-inspection/inspection-2.jpeg",
   imageAlt2: "Technician testing a car battery and alternator in Dallas, TX",
 },
 
@@ -1075,9 +1075,9 @@ alignments: {
       </p>
     </div>
   `,
-    image: "/placeholder.jpg",
+    image: "/sub-pages/suspension/suspension-2.jpg",
   imageAlt: "Technician testing a car battery and alternator in Dallas, TX",
-  image2: "/placeholder.jpg",
+  image2: "/sub-pages/suspension/suspension-1.jpg",
   imageAlt2: "Technician testing a car battery and alternator in Dallas, TX",
 },
 
@@ -1137,9 +1137,9 @@ alignments: {
       </p>
     </div>
   `,
-    image: "/placeholder.jpg",
+    image: "/sub-pages/tune-ups/tune-ups-2.jpg",
   imageAlt: "Technician testing a car battery and alternator in Dallas, TX",
-  image2: "/placeholder.jpg",
+  image2: "/sub-pages/tune-ups/tune-ups-1.jpg",
   imageAlt2: "Technician testing a car battery and alternator in Dallas, TX",
 },
 

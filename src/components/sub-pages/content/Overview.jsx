@@ -80,8 +80,8 @@ function ImgFrame({ children }) {
       sx={{
         width: "100%",
         height: "100%",
-        p: { xs: 1, sm: 1.5, md: 2 },
-        background: "rgba(0,0,0,0.25)",
+        borderRadius: 2,
+        overflow: "hidden",
         display: "grid",
         placeItems: "center",
       }}
@@ -91,7 +91,7 @@ function ImgFrame({ children }) {
   );
 }
 
-function ImgFill({ src, alt = "", fit = "contain" }) {
+function ImgFill({ src, alt = "", fit = "cover" }) {
   return (
     <Box sx={{ width: "100%", height: "100%", minHeight: 0 }}>
       <img
@@ -103,7 +103,7 @@ function ImgFill({ src, alt = "", fit = "contain" }) {
           display: "block",
           width: "100%",
           height: "100%",
-          objectFit: fit,          // 'contain' to show the full image
+          objectFit: fit,
           objectPosition: "center",
           transition: "transform .25s ease",
         }}
@@ -166,32 +166,29 @@ export default function ServiceOverview({
           {/* 40%: RIGHT – either HTML blob or images (supports two) */}
           <Box
             sx={{
-              borderRadius: 2,
-              overflow: "hidden",
-              backgroundColor: alpha("#000", 0.35),
               display: "grid",
               height: "100%",          // equal height with left column
               minHeight: 0,
               gridTemplateRows:
                 data.rightHtml || data.images.length < 2 ? "1fr" : "1fr 1fr",
-              gap: 0,
+              gap: 2,
             }}
           >
             {data.rightHtml ? (
-              <Box sx={{ width: "100%", height: "100%", overflow: "auto", p: 2 }}>
+              <Box sx={{ width: "100%", height: "100%", overflow: "auto", p: 2, borderRadius: 2, backgroundColor: alpha("#000", 0.35) }}>
                 <HtmlBox html={data.rightHtml} />
               </Box>
             ) : data.images.length === 0 ? null : data.images.length === 1 ? (
               <ImgFrame>
-                <ImgFill {...data.images[0]} fit="contain" />
+                <ImgFill {...data.images[0]} />
               </ImgFrame>
             ) : (
               <>
                 <ImgFrame>
-                  <ImgFill {...data.images[0]} fit="contain" />
+                  <ImgFill {...data.images[0]} />
                 </ImgFrame>
                 <ImgFrame>
-                  <ImgFill {...data.images[1]} fit="contain" />
+                  <ImgFill {...data.images[1]} />
                 </ImgFrame>
               </>
             )}

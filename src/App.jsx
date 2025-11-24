@@ -21,6 +21,7 @@ import PrivacyPolicy from "./components/sub-pages/PrivacyPolicy";
 import AllServices from "./components/sub-pages/services/AllServices";
 import ContactPage from "./components/sub-pages/contact/ContactPage"
 import Testimonials from "./components/landing/Testimonials";
+import BlogPage from "./components/sub-pages/blogs/BlogPage";
 
 const theme = createTheme({
   palette: {
@@ -70,6 +71,7 @@ function App() {
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />
             <Route path="/contact" element={<ContactPage />} />
             <Route path="/services" element={<AllServices />} />
+            <Route path="/blogs" element={<BlogPage />} />
           </Routes>
           <Footer />
         </Router>
