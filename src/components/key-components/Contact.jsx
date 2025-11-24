@@ -1,5 +1,5 @@
 // src/components/contact/ContactSplit.jsx
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   Box,
   Container,
@@ -214,6 +214,83 @@ export default function Contact({
   ],
   mapEmbedSrc = "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3347.889217980437!2d-96.7009056!3d32.8879152!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x864c1fd6f9c3b2c1%3A0x0000000000000000!2s2518%20W%20Kingsley%20Rd%20%23113%2C%20Garland%2C%20TX%2075041!5e0!3m2!1sen!2sus!4v1700000000000!5m2!1sen!2sus",
 }) {
+  // Vehicle data state
+  const [selectedYear, setSelectedYear] = useState("");
+  const [selectedMake, setSelectedMake] = useState("");
+  const [makes, setMakes] = useState([]);
+  const [models, setModels] = useState([]);
+  const [loadingMakes, setLoadingMakes] = useState(false);
+  const [loadingModels, setLoadingModels] = useState(false);
+
+  // Generate years (1981-2025) - NHTSA API supports vehicles from 1981 onwards
+  const years = Array.from({ length: 85 }, (_, i) => 2025 - i);
+
+  // Fetch makes when year is selected
+  useEffect(() => {
+    if (!selectedYear) {
+      setMakes([]);
+      setSelectedMake("");
+      setModels([]);
+      return;
+    }
+
+    const fetchMakes = async () => {
+      setLoadingMakes(true);
+      try {
+        const response = await fetch(
+          `https://vpic.nhtsa.dot.gov/api/vehicles/GetMakesForVehicleType/car?format=json`
+        );
+        const data = await response.json();
+        if (data.Results) {
+          // Sort makes alphabetically
+          const sortedMakes = data.Results.sort((a, b) =>
+            a.MakeName.localeCompare(b.MakeName)
+          );
+          setMakes(sortedMakes);
+        }
+      } catch (error) {
+        console.error("Error fetching makes:", error);
+      } finally {
+        setLoadingMakes(false);
+      }
+    };
+
+    fetchMakes();
+  }, [selectedYear]);
+
+  // Fetch models when make is selected
+  useEffect(() => {
+    if (!selectedYear || !selectedMake) {
+      setModels([]);
+      return;
+    }
+
+    const fetchModels = async () => {
+      setLoadingModels(true);
+      try {
+        const response = await fetch(
+          `https://vpic.nhtsa.dot.gov/api/vehicles/GetModelsForMakeYear/make/${encodeURIComponent(
+            selectedMake
+          )}/modelyear/${selectedYear}?format=json`
+        );
+        const data = await response.json();
+        if (data.Results) {
+          // Sort models alphabetically
+          const sortedModels = data.Results.sort((a, b) =>
+            a.Model_Name.localeCompare(b.Model_Name)
+          );
+          setModels(sortedModels);
+        }
+      } catch (error) {
+        console.error("Error fetching models:", error);
+      } finally {
+        setLoadingModels(false);
+      }
+    };
+
+    fetchModels();
+  }, [selectedYear, selectedMake]);
+
   const handleSubmit = (e) => {
     e.preventDefault();
     // TODO: wire this up to your backend or lead capture service
@@ -383,21 +460,24 @@ export default function Contact({
                     <FieldLabel>
                       Vehicle Year <Required>(required)</Required>
                     </FieldLabel>
-                    <SelectInput name="vehicleYear" defaultValue="" required>
+                    <SelectInput
+                      name="vehicleYear"
+                      value={selectedYear}
+                      onChange={(e) => {
+                        setSelectedYear(e.target.value);
+                        setSelectedMake("");
+                        setModels([]);
+                      }}
+                      required
+                    >
                       <option value="" disabled>
                         Select Year
                       </option>
-                      <option value="2025">2025</option>
-                      <option value="2024">2024</option>
-                      <option value="2023">2023</option>
-                      <option value="2022">2022</option>
-                      <option value="2021">2021</option>
-                      <option value="2020">2020</option>
-                      <option value="2019">2019</option>
-                      <option value="2018">2018</option>
-                      <option value="2017">2017</option>
-                      <option value="2016">2016</option>
-                      <option value="2015">2015</option>
+                      {years.map((year) => (
+                        <option key={year} value={year}>
+                          {year}
+                        </option>
+                      ))}
                     </SelectInput>
                   </Box>
 
@@ -406,15 +486,25 @@ export default function Contact({
                     <FieldLabel>
                       Vehicle Make <Required>(required)</Required>
                     </FieldLabel>
-                    <SelectInput name="vehicleMake" defaultValue="" required>
+                    <SelectInput
+                      name="vehicleMake"
+                      value={selectedMake}
+                      onChange={(e) => setSelectedMake(e.target.value)}
+                      disabled={!selectedYear || loadingMakes}
+                      required
+                    >
                       <option value="" disabled>
-                        Select Make
+                        {loadingMakes
+                          ? "Loading makes..."
+                          : selectedYear
+                            ? "Select Make"
+                            : "Select year first"}
                       </option>
-                      <option value="Tesla">Tesla</option>
-                      <option value="Toyota">Toyota</option>
-                      <option value="Ford">Ford</option>
-                      <option value="Chevrolet">Chevrolet</option>
-                      <option value="Honda">Honda</option>
+                      {makes.map((make) => (
+                        <option key={make.MakeId} value={make.MakeName}>
+                          {make.MakeName}
+                        </option>
+                      ))}
                     </SelectInput>
                   </Box>
 
@@ -423,14 +513,23 @@ export default function Contact({
                     <FieldLabel>
                       Vehicle Model <Required>(required)</Required>
                     </FieldLabel>
-                    <SelectInput name="vehicleModel" defaultValue="" required>
-                      <option value="" disabled>
-                        Select Model
+                    <SelectInput
+                      name="vehicleModel"
+                      disabled={!selectedMake || loadingModels}
+                      required
+                    >
+                      <option value="" disabled selected>
+                        {loadingModels
+                          ? "Loading models..."
+                          : selectedMake
+                            ? "Select Model"
+                            : "Select make first"}
                       </option>
-                      <option value="Model 3">Model 3</option>
-                      <option value="Model Y">Model Y</option>
-                      <option value="Model S">Model S</option>
-                      <option value="Model X">Model X</option>
+                      {models.map((model) => (
+                        <option key={model.Model_ID} value={model.Model_Name}>
+                          {model.Model_Name}
+                        </option>
+                      ))}
                     </SelectInput>
                   </Box>
 
