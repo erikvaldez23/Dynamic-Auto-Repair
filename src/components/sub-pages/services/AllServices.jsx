@@ -97,32 +97,32 @@ const GridWrap = styled("div")(({ theme }) => ({
 /* ------------------------------- Data ---------------------------------- */
 /** Map each service to a slug, image (placeholder-friendly), and href */
 const SERVICES = [
-  { title: "AC & Heating", slug: "ac-heating" },
-  { title: "Alignments", slug: "alignments" },
-  { title: "Batteries / Alternators", slug: "batteries-alternators" },
-  { title: "Brakes", slug: "brakes" },
-  { title: "Computer Diagnostics", slug: "computer-diagnostics" },
-  { title: "Check Engine Light", slug: "check-engine-light" },
-  { title: "Cooling System", slug: "cooling-system" },
-  { title: "Engine Service", slug: "engine-service" },
-  { title: "Fleet Services", slug: "fleet-services" },
-  { title: "Fuel System", slug: "fuel-system" },
+  { title: "AC & Heating", slug: "ac-heating", image: "/sub-pages/a-c/ac2.jpg" },
+  { title: "Alignments", slug: "alignments", image: "/sub-pages/alignments/alignments-1.jpg" },
+  { title: "Batteries / Alternators", slug: "batteries-alternators", image: "/sub-pages/batteries/batteries-2.jpg" },
+  { title: "Brakes", slug: "brakes", image: "/sub-pages/brakes/brakes-1.jpg" },
+  { title: "Computer Diagnostics", slug: "computer-diagnostics", image: "/sub-pages/computer/computer.jpg" },
+  { title: "Check Engine Light", slug: "check-engine-light", image: "/sub-pages/check-engine/check-engine.jpg" },
+  { title: "Cooling System", slug: "cooling-system", image: "/sub-pages/cooling/cooling-1.jpg" },
+  { title: "Engine Service", slug: "engine-service", image: "/sub-pages/engine/engine-2.jpg" },
+  { title: "Fleet Services", slug: "fleet-services", image: "/sub-pages/fleet/fleet-2.jpg" },
+  { title: "Fuel System", slug: "fuel-system", image: "/sub-pages/fuel/fuel-3.webp" },
   {
     title: "Multi-Point Inspection / Pre-Purchase Inspection",
     slug: "multi-point-inspection",
+    image: "/sub-pages/inspection/inspection-2.png"
   },
-  { title: "Oil & Filter Change", slug: "oil-filter-change" },
-  { title: "Scheduled Maintenance", slug: "scheduled-maintenance" },
-  { title: "State Inspection", slug: "state-inspection" },
-  { title: "Suspension & Steering", slug: "suspension-steering" },
-  { title: "Tires", slug: "tires" },
-  { title: "Tune-Ups", slug: "tune-ups" },
-].map(({ title, slug }) => ({
-  title,
-  slug,
-  href: `/#/services/${slug}`,
-  // Use a consistent hero image path per service; keep /public/placeholder.jpg as fallback asset
-  image: `/services/${slug}/cover.jpg`,
+  { title: "Oil & Filter Change", slug: "oil-filter-change", image: "/sub-pages/oil-change/oil-change-1.jpg" },
+  { title: "Scheduled Maintenance", slug: "scheduled-maintenance", image: "/sub-pages/maintenance/maintenance-1.jpg" },
+  { title: "State Inspection", slug: "state-inspection", image: "/sub-pages/state-inspection/inspection-1.png" },
+  { title: "Suspension & Steering", slug: "suspension-steering", image: "/sub-pages/suspension/suspension-3.jpeg" },
+  { title: "Tires", slug: "tires", image: "/sub-pages/tires/tires-1.jpg" },
+  { title: "Tune-Ups", slug: "tune-ups", image: "/sub-pages/tune-ups/tune-ups-1.jpg" },
+].map((service) => ({
+  ...service,
+  href: `/#/services/${service.slug}`,
+  // Use custom image if provided, otherwise fall back to default pattern
+  image: service.image || `/services/${service.slug}/cover.jpg`,
 }));
 
 /* -------------------------------- Component ----------------------------- */

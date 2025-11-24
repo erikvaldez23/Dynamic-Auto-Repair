@@ -32,9 +32,8 @@ const ImageFrame = styled(Box)(({ theme }) => ({
   borderRadius: 20,
   overflow: "hidden",
   background: theme.palette.mode === "dark" ? alpha("#fff", 0.05) : alpha("#000", 0.05),
-  border: `1px solid ${
-    theme.palette.mode === "dark" ? alpha("#fff", 0.08) : alpha(theme.palette.common.black, 0.08)
-  }`,
+  border: `1px solid ${theme.palette.mode === "dark" ? alpha("#fff", 0.08) : alpha(theme.palette.common.black, 0.08)
+    }`,
   boxShadow:
     theme.palette.mode === "dark"
       ? "0 30px 80px rgba(0,0,0,.55)"
@@ -106,7 +105,7 @@ export default function AboutSplit60_40({
     "From oil changes and brake service to alignments and comprehensive troubleshooting, we explain the work clearly and provide upfront pricing—so you’re never surprised on pick-up.",
     "Drivers choose Dynamic Auto Repair for craftsmanship, communication, and long-term reliability. It’s how we keep you safe, efficient, and road-ready.",
   ],
-  image = "/placeholder.jpg",
+  image = "/about/computer.jpg",
   imageAlt = "Dynamic Auto Repair shop team working on a vehicle",
   align = "center",
   kicker = "Honesty • Reliability • Transparency",

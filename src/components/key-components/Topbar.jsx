@@ -317,9 +317,8 @@ export default function TopbarModern() {
                                 borderRadius: 2,
                                 minWidth: 240,
                                 background: "rgba(255,255,255,0.02)",
-                                border: `1px solid ${
-                                  theme.palette.mode === "dark" ? alpha("#fff", 0.08) : alpha("#000", 0.08)
-                                }`,
+                                border: `1px solid ${theme.palette.mode === "dark" ? alpha("#fff", 0.08) : alpha("#000", 0.08)
+                                  }`,
                                 backdropFilter: "blur(16px)",
                                 boxShadow:
                                   "0 24px 64px rgba(0,0,0,0.34), inset 0 1px 0 rgba(255,255,255,0.06)",

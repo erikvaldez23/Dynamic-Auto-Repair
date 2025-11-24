@@ -59,11 +59,10 @@ const ImageFrame = styled(Box)(({ theme }) => ({
   overflow: "hidden",
   background:
     theme.palette.mode === "dark" ? alpha("#fff", 0.04) : alpha("#000", 0.04),
-  border: `1px solid ${
-    theme.palette.mode === "dark"
-      ? alpha("#fff", 0.08)
-      : alpha(theme.palette.common.black, 0.08)
-  }`,
+  border: `1px solid ${theme.palette.mode === "dark"
+    ? alpha("#fff", 0.08)
+    : alpha(theme.palette.common.black, 0.08)
+    }`,
   boxShadow:
     theme.palette.mode === "dark"
       ? "0 30px 80px rgba(0,0,0,.55)"
@@ -122,7 +121,7 @@ export default function AboutPillars({
       title: "Affordable Auto Repair, Transparent Pricing",
       body:
         "At Dynamic Auto Repair, we deliver high-quality service without surprises. Our transparent estimates and competitive rates make professional maintenance and repairs easier to say yes to—so your vehicle stays safe, efficient, and road-ready.",
-      image: "/placeholder.jpg",
+      image: "/about/maintenance-1.jpg",
       imageAlt: "Technician performing affordable, high-quality auto repair",
       kicker: "Value You Can Trust",
       seoSuffix: " | Dynamic Auto Repair",
@@ -131,7 +130,7 @@ export default function AboutPillars({
       title: "Customer Satisfaction That Earns Repeat Business",
       body:
         "Every visit is built around clarity, communication, and craftsmanship. From diagnostics to delivery, we focus on doing the job right the first time—so you leave confident, refer friends, and come back for routine service with a shop you trust.",
-      image: "/placeholder.jpg",
+      image: "/about/check-engine.png",
       imageAlt: "Happy customer picking up vehicle after repair",
       kicker: "Service That Puts You First",
       seoSuffix: " | Dynamic Auto Repair",

@@ -238,7 +238,7 @@ export default function Contact({
       setLoadingMakes(true);
       try {
         const response = await fetch(
-          `https://vpic.nhtsa.dot.gov/api/vehicles/GetMakesForVehicleType/car?format=json`
+          `https://vpic.nhtsa.dot.gov/api/vehicles/GetMakesForVehicleType/car?format=json` // using National Highway Traffic Safety Administration API
         );
         const data = await response.json();
         if (data.Results) {
