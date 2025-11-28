@@ -18,7 +18,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
 // Google Reviews URL and logo
-const GOOGLE_REVIEWS_URL = "https://maps.app.goo.gl/oUyTRQm7dfdzJmvy9";
+const GOOGLE_REVIEWS_URL = "https://www.google.com/search?client=safari&sca_esv=6b9674ac0e0e23e6&rls=en&sxsrf=AE3TifNoSQ-b4ha-SeCy-xr2XKAiPwCdKQ:1764358851005&si=AMgyJEtREmoPL4P1I5IDCfuA8gybfVI2d5Uj7QMwYCZHKDZ-E_kofFru3REbk-tyaea_4QXwI_9kR8HkN2u0crGsYohvgmoWX0LoIjP0zTvayOhulymfQXFKQFbQqIbM25VJJtbjYPO36xEeDXmusQ5SmKZyiCjMPQ%3D%3D&q=Dynamic+Auto+Repair+Reviews&sa=X&ved=2ahUKEwj29sf0zJWRAxWRkmoFHUTHDtYQ0bkNegQIPxAE";
 const GOOGLE_LOGO = "/google-logo.png";
 
 // Fixed card heights
@@ -30,32 +30,42 @@ const SLIDE_GAP = 12; // px — tweak 12–16 for taste
 
 const reviews = [
   {
-    author_name: "Andrew Pham",
+    author_name: "Aya Chaaban",
     profile_photo_url: "https://via.placeholder.com/40",
     rating: 5,
     time: new Date().setDate(new Date().getDate() - 7) / 1000,
-    text: "I had a fantastic experience with this tint company! Their timing was spot on, and they communicated with me every step of the way. They offer great prices on a variety of tint options, making it easy to find exactly what I needed.",
+    text: `
+    EXCEPTIONAL Service, Honest People, and Quality Work – Dynamic Auto Repair Sets the Standard!
+    
+    Don't even second guess and choose Dynamic auto for all your car needs! Dynamic Auto Repair has completely redefined what it means to trust a mechanic. From the moment you walk in, you’re treated like family—greeted warmly, given honest and transparent estimates, and never pressured into unnecessary repairs. The team’s integrity and professionalism are unmatched.
+
+    I brought my vehicle in for diagnostics after hearing an unusual noise, and not only did they identify the issue quickly, they walked me through the repair process in a way that was easy to understand. No upselling. No guesswork. Just clear communication and expert workmanship.
+
+    The quality of their work speaks for itself—my car is running smoother than it has in years. On top of that, they finished the job ahead of schedule and kept me updated the entire time. Clean facility, friendly staff, and fair prices.
+
+    If you're looking for a reliable, experienced, and honest auto repair shop, Dynamic Auto Repair is the one. I wouldn’t take my car anywhere else!!!!!!!
+    `,
   },
   {
-    author_name: "Josue Chavez",
+    author_name: "Caroline Cortimilia",
     profile_photo_url: "https://via.placeholder.com/40",
     rating: 5,
     time: new Date().setDate(new Date().getDate() - 30) / 1000,
-    text: "Left my Tesla looking great! No problems whatsoever! Definitely recommend you bring your car here! Their customer service is top notch. I’ve never had a customer experience as good as this one!",
+    text: "Me and my family have been going here for years. Ryan is the absolute best and will take care of you 100%. The most trustworthy place to take your car. And if you need your car tinted, do not hesitate to go here.",
   },
   {
-    author_name: "Richanda Bryant",
+    author_name: "Mina B.",
     profile_photo_url: "https://via.placeholder.com/40",
     rating: 5,
     time: new Date().setDate(new Date().getDate() - 21) / 1000,
-    text: "I had a great experience at Tint Tek Plus! This is the first car I've had to purchase tint for as previous vehicles had it from the factory. I was very impressed with Ryan and team!",
+    text: `So glad I found Dynamic! These guys are really passionate about cars. Busy as they are, Ryan takes the time to explain what's going on with your car. Their top notch service, friendly attitude and competitive prices keep me coming back. I would recommend making an appointment so they can give your car their full attention. Thanks Ryan, Cameron, Orlando and Jose... you guys rock!`,
   },
   {
-    author_name: "Giovanni Romero",
+    author_name: "Stephanie Berrier",
     profile_photo_url: "https://via.placeholder.com/40",
     rating: 5,
     time: new Date().setDate(new Date().getDate() - 60) / 1000,
-    text: "I recently had the pleasure of working with Tint Tek Plus, and I couldn't be more satisfied with the entire experience! From the moment I contacted them, their customer service was outstanding. They were knowledgeable, friendly, and took care of everything!",
+    text: `I went there for a simple oil change and I was helped by Ryan and Jose, they were fast, helpful, and very welcoming. I will for sure make this my forever mechanic shop.`,
   },
 ];
 
@@ -88,12 +98,7 @@ const hoverDesktopSX = {
 
 const secondaryText = alpha("#fff", 0.7);
 
-const clampTextSX = {
-  display: "-webkit-box",
-  WebkitBoxOrient: "vertical",
-  WebkitLineClamp: 6,
-  overflow: "hidden",
-};
+
 
 const Testimonials = () => {
   const isMobile = useMediaQuery("(max-width: 768px)");
@@ -204,7 +209,19 @@ const Testimonials = () => {
                           fontStyle: "italic",
                           fontSize: "0.95rem",
                           lineHeight: 1.5,
-                          ...clampTextSX,
+                          overflowY: "auto",
+                          pr: 1,
+                          "&::-webkit-scrollbar": {
+                            width: "4px",
+                          },
+                          "&::-webkit-scrollbar-track": {
+                            background: "rgba(255,255,255,0.05)",
+                            borderRadius: "4px",
+                          },
+                          "&::-webkit-scrollbar-thumb": {
+                            background: "rgba(255,255,255,0.3)",
+                            borderRadius: "4px",
+                          },
                         }}
                       >
                         "{review.text}"
@@ -272,7 +289,23 @@ const Testimonials = () => {
                           fontSize: "0.95rem",
                           lineHeight: 1.5,
                           flexGrow: 1,
-                          ...clampTextSX,
+                          overflowY: "auto",
+                          pr: 1, // padding for scrollbar
+                          // Custom scrollbar
+                          "&::-webkit-scrollbar": {
+                            width: "4px",
+                          },
+                          "&::-webkit-scrollbar-track": {
+                            background: "rgba(255,255,255,0.05)",
+                            borderRadius: "4px",
+                          },
+                          "&::-webkit-scrollbar-thumb": {
+                            background: "rgba(255,255,255,0.3)",
+                            borderRadius: "4px",
+                          },
+                          "&::-webkit-scrollbar-thumb:hover": {
+                            background: "rgba(255,255,255,0.5)",
+                          },
                         }}
                       >
                         "{review.text}"

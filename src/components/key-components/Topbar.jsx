@@ -111,6 +111,7 @@ const NavLink = styled(MuiLink, {
   padding: "10px 12px",
   borderRadius: 10,
   transition: "color .18s ease, background-color .18s ease",
+  whiteSpace: "nowrap",
   "&:hover": { color: "#fff", backgroundColor: alpha("#fff", 0.06) },
   ...(active && {
     color: "#fff",
@@ -160,6 +161,7 @@ const NAV = [
   { label: "About Us", to: "/about" },
   { label: "Services", to: "/services", hasHoverMenu: true },
   { label: "Blogs", to: "/blogs" },
+  { label: "Gallery", to: "/gallery" },
   { label: "Contact", to: "/contact" },
 ];
 
@@ -256,7 +258,7 @@ export default function TopbarModern() {
                     alignItems: "center",
                   }}
                 >
-                  <Stack direction="row" spacing={1.5} alignItems="center">
+                  <Stack direction="row" spacing={1} alignItems="center">
                     {NAV.map((item) => {
                       if (!item.hasHoverMenu) {
                         return (

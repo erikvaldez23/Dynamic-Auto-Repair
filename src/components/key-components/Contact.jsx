@@ -1,5 +1,5 @@
 // src/components/contact/ContactSplit.jsx
-import React, { useState, useEffect } from "react";
+import React from "react";
 import {
   Box,
   Container,
@@ -15,6 +15,7 @@ import RoomRoundedIcon from "@mui/icons-material/RoomRounded";
 import ScheduleRoundedIcon from "@mui/icons-material/ScheduleRounded";
 import MailRoundedIcon from "@mui/icons-material/MailRounded";
 import ArrowForwardRoundedIcon from "@mui/icons-material/ArrowForwardRounded";
+import ContactForm from "./ContactForm";
 
 const ACCENT = "#f2c230";
 const ACCENT_HOVER = "#ffd95a";
@@ -52,6 +53,9 @@ const Card = styled(Box)(({ theme }) => ({
   )})`,
   boxShadow: `0 30px 70px ${alpha("#000", 0.45)}`,
   padding: theme.spacing(3),
+  [theme.breakpoints.down("sm")]: {
+    padding: theme.spacing(2.5),
+  },
 }));
 
 const Heading = styled(Typography)(({ theme }) => ({
@@ -78,7 +82,7 @@ const CTA = styled(Button)(({ theme }) => ({
 
 const GhostBtn = styled(Button)(({ theme }) => ({
   textTransform: "none",
-  fontWeight: 800,
+  fontWeight: 900,
   borderRadius: 12,
   color: alpha("#fff", 0.95),
   border: `1px solid ${alpha("#fff", 0.35)}`,
@@ -119,66 +123,6 @@ const InfoRow = ({ icon, title, children }) => (
   </Stack>
 );
 
-/* ------------------------- Form field styling -------------------------- */
-const FieldLabel = styled(Typography)(({ theme }) => ({
-  fontSize: 13,
-  opacity: 0.9,
-  marginBottom: 4,
-}));
-
-const Required = styled("span")(({ theme }) => ({
-  opacity: 0.9,
-}));
-
-const BaseControl = {
-  width: "100%",
-  borderRadius: 10,
-  border: `1px solid ${alpha("#fff", 0.16)}`,
-  background:
-    "linear-gradient(180deg, rgba(40,40,40,0.9), rgba(15,15,15,0.9))",
-  color: "#fff",
-  padding: "12px 14px",
-  fontSize: 14,
-  outline: "none",
-  boxSizing: "border-box",
-};
-
-const TextInput = styled("input")(({ theme }) => ({
-  ...BaseControl,
-  "&::placeholder": {
-    color: alpha("#fff", 0.55),
-  },
-  "&:focus": {
-    borderColor: ACCENT,
-    boxShadow: `0 0 0 1px ${alpha(ACCENT, 0.45)}`,
-  },
-}));
-
-const SelectInput = styled("select")(({ theme }) => ({
-  ...BaseControl,
-  appearance: "none",
-  "& option": {
-    color: "#000",
-  },
-  "&:focus": {
-    borderColor: ACCENT,
-    boxShadow: `0 0 0 1px ${alpha(ACCENT, 0.45)}`,
-  },
-}));
-
-const TextArea = styled("textarea")(({ theme }) => ({
-  ...BaseControl,
-  minHeight: 140,
-  resize: "vertical",
-  "&::placeholder": {
-    color: alpha("#fff", 0.55),
-  },
-  "&:focus": {
-    borderColor: ACCENT,
-    boxShadow: `0 0 0 1px ${alpha(ACCENT, 0.45)}`,
-  },
-}));
-
 /* Map container */
 const MapWrap = styled(Box)(({ theme }) => ({
   marginTop: theme.spacing(2.5),
@@ -214,89 +158,6 @@ export default function Contact({
   ],
   mapEmbedSrc = "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3347.889217980437!2d-96.7009056!3d32.8879152!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x864c1fd6f9c3b2c1%3A0x0000000000000000!2s2518%20W%20Kingsley%20Rd%20%23113%2C%20Garland%2C%20TX%2075041!5e0!3m2!1sen!2sus!4v1700000000000!5m2!1sen!2sus",
 }) {
-  // Vehicle data state
-  const [selectedYear, setSelectedYear] = useState("");
-  const [selectedMake, setSelectedMake] = useState("");
-  const [makes, setMakes] = useState([]);
-  const [models, setModels] = useState([]);
-  const [loadingMakes, setLoadingMakes] = useState(false);
-  const [loadingModels, setLoadingModels] = useState(false);
-
-  // Generate years (1981-2025) - NHTSA API supports vehicles from 1981 onwards
-  const years = Array.from({ length: 85 }, (_, i) => 2025 - i);
-
-  // Fetch makes when year is selected
-  useEffect(() => {
-    if (!selectedYear) {
-      setMakes([]);
-      setSelectedMake("");
-      setModels([]);
-      return;
-    }
-
-    const fetchMakes = async () => {
-      setLoadingMakes(true);
-      try {
-        const response = await fetch(
-          `https://vpic.nhtsa.dot.gov/api/vehicles/GetMakesForVehicleType/car?format=json` // using National Highway Traffic Safety Administration API
-        );
-        const data = await response.json();
-        if (data.Results) {
-          // Sort makes alphabetically
-          const sortedMakes = data.Results.sort((a, b) =>
-            a.MakeName.localeCompare(b.MakeName)
-          );
-          setMakes(sortedMakes);
-        }
-      } catch (error) {
-        console.error("Error fetching makes:", error);
-      } finally {
-        setLoadingMakes(false);
-      }
-    };
-
-    fetchMakes();
-  }, [selectedYear]);
-
-  // Fetch models when make is selected
-  useEffect(() => {
-    if (!selectedYear || !selectedMake) {
-      setModels([]);
-      return;
-    }
-
-    const fetchModels = async () => {
-      setLoadingModels(true);
-      try {
-        const response = await fetch(
-          `https://vpic.nhtsa.dot.gov/api/vehicles/GetModelsForMakeYear/make/${encodeURIComponent(
-            selectedMake
-          )}/modelyear/${selectedYear}?format=json`
-        );
-        const data = await response.json();
-        if (data.Results) {
-          // Sort models alphabetically
-          const sortedModels = data.Results.sort((a, b) =>
-            a.Model_Name.localeCompare(b.Model_Name)
-          );
-          setModels(sortedModels);
-        }
-      } catch (error) {
-        console.error("Error fetching models:", error);
-      } finally {
-        setLoadingModels(false);
-      }
-    };
-
-    fetchModels();
-  }, [selectedYear, selectedMake]);
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // TODO: wire this up to your backend or lead capture service
-    console.log("Lead form submitted");
-  };
-
   return (
     <Section>
       <Container maxWidth="xl">
@@ -403,159 +264,7 @@ export default function Contact({
               order: { xs: 1, md: 2 },
             }}
           >
-            <Stack spacing={2.5}>
-              <Heading variant="h2">Get Your Free Auto Tint Quote!</Heading>
-
-              <Box
-                component="form"
-                noValidate
-                onSubmit={handleSubmit}
-                sx={{ mt: 1 }}
-              >
-                <Stack spacing={2.4}>
-                  {/* Name */}
-                  <Box>
-                    <FieldLabel>
-                      Your Name <Required>(required)</Required>
-                    </FieldLabel>
-                    <TextInput
-                      required
-                      name="name"
-                      placeholder="Enter your full name"
-                    />
-                  </Box>
-
-                  {/* Phone */}
-                  <Box>
-                    <FieldLabel>
-                      Phone Number <Required>(required)</Required>
-                    </FieldLabel>
-                    <Box sx={{ position: "relative" }}>
-                      <Box
-                        sx={{
-                          position: "absolute",
-                          left: 14,
-                          top: "50%",
-                          transform: "translateY(-50%)",
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                          pointerEvents: "none",
-                          color: alpha("#fff", 0.7),
-                        }}
-                      >
-                        <CallRoundedIcon fontSize="small" />
-                      </Box>
-                      <TextInput
-                        required
-                        name="phone"
-                        placeholder="(555) 555-5555"
-                        style={{ paddingLeft: 44 }}
-                      />
-                    </Box>
-                  </Box>
-
-                  {/* Vehicle Year */}
-                  <Box>
-                    <FieldLabel>
-                      Vehicle Year <Required>(required)</Required>
-                    </FieldLabel>
-                    <SelectInput
-                      name="vehicleYear"
-                      value={selectedYear}
-                      onChange={(e) => {
-                        setSelectedYear(e.target.value);
-                        setSelectedMake("");
-                        setModels([]);
-                      }}
-                      required
-                    >
-                      <option value="" disabled>
-                        Select Year
-                      </option>
-                      {years.map((year) => (
-                        <option key={year} value={year}>
-                          {year}
-                        </option>
-                      ))}
-                    </SelectInput>
-                  </Box>
-
-                  {/* Vehicle Make */}
-                  <Box>
-                    <FieldLabel>
-                      Vehicle Make <Required>(required)</Required>
-                    </FieldLabel>
-                    <SelectInput
-                      name="vehicleMake"
-                      value={selectedMake}
-                      onChange={(e) => setSelectedMake(e.target.value)}
-                      disabled={!selectedYear || loadingMakes}
-                      required
-                    >
-                      <option value="" disabled>
-                        {loadingMakes
-                          ? "Loading makes..."
-                          : selectedYear
-                            ? "Select Make"
-                            : "Select year first"}
-                      </option>
-                      {makes.map((make) => (
-                        <option key={make.MakeId} value={make.MakeName}>
-                          {make.MakeName}
-                        </option>
-                      ))}
-                    </SelectInput>
-                  </Box>
-
-                  {/* Vehicle Model */}
-                  <Box>
-                    <FieldLabel>
-                      Vehicle Model <Required>(required)</Required>
-                    </FieldLabel>
-                    <SelectInput
-                      name="vehicleModel"
-                      disabled={!selectedMake || loadingModels}
-                      required
-                    >
-                      <option value="" disabled selected>
-                        {loadingModels
-                          ? "Loading models..."
-                          : selectedMake
-                            ? "Select Model"
-                            : "Select make first"}
-                      </option>
-                      {models.map((model) => (
-                        <option key={model.Model_ID} value={model.Model_Name}>
-                          {model.Model_Name}
-                        </option>
-                      ))}
-                    </SelectInput>
-                  </Box>
-
-                  {/* Message */}
-                  <Box>
-                    <FieldLabel>Your Message</FieldLabel>
-                    <TextArea
-                      name="message"
-                      placeholder="Tell us what services you’re interested in or any questions you have."
-                    />
-                  </Box>
-
-                  {/* Submit */}
-                  <Box sx={{ pt: 0.5 }}>
-                    <CTA
-                      type="submit"
-                      size="large"
-                      fullWidth
-                      endIcon={<ArrowForwardRoundedIcon />}
-                    >
-                      Get My Auto Quote
-                    </CTA>
-                  </Box>
-                </Stack>
-              </Box>
-            </Stack>
+            <ContactForm />
           </Card>
         </GridWrap>
       </Container>

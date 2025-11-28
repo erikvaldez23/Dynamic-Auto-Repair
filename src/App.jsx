@@ -1,11 +1,15 @@
 import { HashRouter as Router, Routes, Route } from "react-router-dom";
-import { createTheme, ThemeProvider, Box } from "@mui/material";
+import React, { useRef, useState } from "react";
+import { createTheme, ThemeProvider, Box, Dialog, IconButton } from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
 import "./App.css";
+import ScrollToTop from "./components/ScrollToTop";
 
 // Key Components
 import Topbar from "./components/key-components/Topbar";
 import Footer from "./components/key-components/Footer";
 import Contact from "./components/key-components/Contact";
+import ContactForm from "./components/key-components/ContactForm";
 
 // Landing Page
 import VideoHero from "./components/landing/VideoHero";
@@ -22,6 +26,7 @@ import AllServices from "./components/sub-pages/services/AllServices";
 import ContactPage from "./components/sub-pages/contact/ContactPage"
 import Testimonials from "./components/landing/Testimonials";
 import BlogPage from "./components/sub-pages/blogs/BlogPage";
+import Gallery from "./components/sub-pages/Gallery";
 
 const theme = createTheme({
   palette: {
@@ -30,6 +35,21 @@ const theme = createTheme({
 });
 
 function App() {
+  const contactRef = useRef(null);
+  const [contactOpen, setContactOpen] = useState(false);
+
+  const handleLearnMore = () => {
+    contactRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  const handleCtaClick = () => {
+    setContactOpen(true);
+  };
+
+  const handleCloseContact = () => {
+    setContactOpen(false);
+  };
+
   return (
     <ThemeProvider theme={theme}>
       <Box
@@ -49,15 +69,20 @@ function App() {
         }}
       >
         <Router>
-          {/* <ScrollToTop behavior="auto" /> */}
+          <ScrollToTop />
           <Topbar />
           <Routes>
             <Route
               path="/"
               element={
                 <>
-                  <VideoHero />
-                  <Contact />
+                  <VideoHero
+                    onLearnMore={handleLearnMore}
+                    onCtaClick={handleCtaClick}
+                  />
+                  <div ref={contactRef}>
+                    <Contact />
+                  </div>
                   <Testimonials />
                   {/* <Hero /> */}
                   <ServicesStrip />
@@ -72,8 +97,51 @@ function App() {
             <Route path="/contact" element={<ContactPage />} />
             <Route path="/services" element={<AllServices />} />
             <Route path="/blogs" element={<BlogPage />} />
+            <Route path="/gallery" element={<Gallery />} />
           </Routes>
           <Footer />
+
+          {/* Contact Modal */}
+          <Dialog
+            open={contactOpen}
+            onClose={handleCloseContact}
+            maxWidth="xl"
+            fullWidth
+            PaperProps={{
+              sx: {
+                bgcolor: "transparent",
+                boxShadow: "none",
+                backgroundImage: "none",
+                m: 2,
+              },
+            }}
+            slotProps={{
+              backdrop: {
+                sx: {
+                  backdropFilter: "blur(8px)",
+                  backgroundColor: "rgba(0,0,0,0.7)",
+                },
+              },
+            }}
+          >
+            <Box sx={{ position: "relative" }}>
+              <IconButton
+                onClick={handleCloseContact}
+                sx={{
+                  position: "absolute",
+                  right: 16,
+                  top: 16,
+                  zIndex: 999,
+                  color: "white",
+                  bgcolor: "rgba(0,0,0,0.5)",
+                  "&:hover": { bgcolor: "rgba(0,0,0,0.7)" },
+                }}
+              >
+                <CloseIcon />
+              </IconButton>
+              <ContactForm />
+            </Box>
+          </Dialog>
         </Router>
       </Box>
     </ThemeProvider>
