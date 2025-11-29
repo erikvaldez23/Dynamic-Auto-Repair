@@ -142,11 +142,11 @@ export default function Services({ items }) {
 
   // Defaults (replace with your real image URLs)
   const fallback = [
-    { title: "A/C & Heating", image: "/services/a-c.jpg", href: "/services/ac-heating" },
-    { title: "Check Engine Light", image: "/services/check-engine.jpg", href: "/services/check-engine" },
-    { title: "Oil Change", image: "/services/oil-change.jpg", href: "/services/oil-change" },
-    { title: "Suspension", image: "/services/suspension.jpg", href: "/services/suspension" },
-    { title: "Battery/Alternator", image: "/services/alternator.jpg", href: "/services/battery-alternator" },
+    { title: "A/C & Heating", image: "/services/a-c.jpg", href: "/#/services/ac-heating" },
+    { title: "Check Engine Light", image: "/services/check-engine.jpg", href: "/#/services/check-engine-light" },
+    { title: "Oil Change", image: "/services/oil-change.jpg", href: "/#/services/oil-change" },
+    { title: "Suspension", image: "/services/suspension.jpg", href: "/#/services/suspension-steering" },
+    { title: "Battery/Alternator", image: "/services/alternator.jpg", href: "/#/services/batteries" },
   ];
 
   const data = (items && items.length >= 5 ? items : fallback).slice(0, 5);
