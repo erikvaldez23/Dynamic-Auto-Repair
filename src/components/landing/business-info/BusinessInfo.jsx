@@ -73,12 +73,11 @@ const BusinessInfo = () => {
         >
           <FaClock className="business-icon" />
           <Typography variant="h6" className="business-text">
-            Mon - Fri, 8:30am - 6pm
+            Click for Hours
           </Typography>
         </Box>
       </Box>
 
-      {/* Styled Modal for Business Hours */}
       <Modal
         open={openHoursModal}
         onClose={handleCloseModal}
@@ -86,39 +85,72 @@ const BusinessInfo = () => {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          backdropFilter: "blur(4px)",
-          bgcolor: "rgba(0, 0, 0, 0.25)",
+          backdropFilter: "blur(5px)",
+          bgcolor: "rgba(0, 0, 0, 0.4)",
         }}
       >
         <Box
           sx={{
             width: { xs: "90%", sm: 400 },
-            bgcolor: "background.paper",
-            borderRadius: 2,
+            bgcolor: "rgba(20, 20, 20, 0.75)", // Dark transparent
+            backdropFilter: "blur(16px)",       // Strong blur
+            WebkitBackdropFilter: "blur(16px)",
+            borderRadius: "24px",
             p: 4,
-            boxShadow: 24,
-            border: "1px solid rgba(0, 0, 0, 0.1)",
+            boxShadow: "0 8px 32px rgba(0, 0, 0, 0.4)",
+            border: "1px solid rgba(255, 255, 255, 0.1)",
             textAlign: "center",
+            color: "#fff",
           }}
         >
           <Typography
-            variant="h6"
+            variant="h5"
             component="h2"
-            sx={{ fontWeight: "bold", mb: 2 }}
+            sx={{ fontWeight: 800, mb: 3, letterSpacing: 0.5 }}
           >
             Business Hours
           </Typography>
-          <Typography sx={{ mt: 1 }}>Monday: 9am - 6pm</Typography>
-          <Typography sx={{ mt: 1 }}>Tuesday: 9am - 6pm</Typography>
-          <Typography sx={{ mt: 1 }}>Wednesday: 9am - 6pm</Typography>
-          <Typography sx={{ mt: 1 }}>Thursday: 9am - 6pm</Typography>
-          <Typography sx={{ mt: 1 }}>Friday: 9am - 6pm</Typography>
-          <Typography sx={{ mt: 1 }}>Saturday: 9am - 6pm</Typography>
-          <Typography sx={{ mt: 1, mb: 2 }}>Sunday: Closed</Typography>
+
+          {[
+            { day: "Monday", time: "8:30 AM - 6:00 PM" },
+            { day: "Tuesday", time: "8:30 AM - 6:00 PM" },
+            { day: "Wednesday", time: "8:30 AM - 6:00 PM" },
+            { day: "Thursday", time: "8:30 AM - 6:00 PM" },
+            { day: "Friday", time: "8:30 AM - 6:00 PM" },
+            { day: "Saturday", time: "8:30 AM - 4:00 PM" },
+            { day: "Sunday", time: "Closed" },
+          ].map((item) => (
+            <Box
+              key={item.day}
+              sx={{
+                display: "flex",
+                justifyContent: "space-between",
+                mb: 1.5,
+                borderBottom: "1px solid rgba(255,255,255,0.1)",
+                pb: 0.5
+              }}
+            >
+              <Typography sx={{ opacity: 0.8, fontWeight: 500 }}>{item.day}</Typography>
+              <Typography sx={{ fontWeight: 600 }}>{item.time}</Typography>
+            </Box>
+          ))}
+
           <Button
             onClick={handleCloseModal}
-            variant="contained"
-            sx={{ borderRadius: 2, background: "#2794d2" }}
+            sx={{
+              mt: 3,
+              borderRadius: "12px",
+              color: "#000",
+              background: "#f2c230",
+              fontWeight: 700,
+              px: 4,
+              py: 1,
+              textTransform: "none",
+              fontSize: "1rem",
+              "&:hover": {
+                background: "#ffd95a",
+              },
+            }}
           >
             Close
           </Button>
