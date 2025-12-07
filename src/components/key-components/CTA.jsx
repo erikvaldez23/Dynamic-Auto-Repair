@@ -112,6 +112,7 @@ export default function CallToAction({
   formUrl = "/quote",      // internal route or full external URL
   useModal = false,        // true = open modal with embedded form
   phoneHref = "tel:+14699690043",
+  onCtaClick,              // Optional handler to open global modal
 }) {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
@@ -135,6 +136,10 @@ export default function CallToAction({
   };
 
   const handlePrimary = () => {
+    if (onCtaClick) {
+      onCtaClick();
+      return;
+    }
     if (useModal) {
       setOpenModal(true);
       return;
@@ -153,149 +158,149 @@ export default function CallToAction({
     //   viewport={{ once: true, amount: 0.3 }}
     //   variants={containerVariants}
     // >
-      <Box
-        sx={{
-          position: "relative",
-          py: 5,
-          px: { xs: 1, sm: 2, md: 3 },
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "center",
-          textAlign: "center",
-          backgroundColor: BG,
-          borderRadius: isMobile ? 10 : 20,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          color: TEXT_LIGHT,
-          mt: 5,
-          mb: 5,
-          overflow: "hidden",
-        }}
-      >
-        {/* subtle overlay */}
-        {/* <motion.div
+    <Box
+      sx={{
+        position: "relative",
+        py: 5,
+        px: { xs: 1, sm: 2, md: 3 },
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        textAlign: "center",
+        backgroundColor: BG,
+        borderRadius: isMobile ? 10 : 20,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        color: TEXT_LIGHT,
+        mt: 5,
+        mb: 5,
+        overflow: "hidden",
+      }}
+    >
+      {/* subtle overlay */}
+      {/* <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 0.45 }}
           transition={{ duration: 1 }}
           style={{ position: "absolute", inset: 0, zIndex: 1 }}
         /> */}
 
-        <Box sx={{ position: "relative", zIndex: 2, maxWidth: 1100, width: "100%" }}>
-          <Typography
-            variant={isMobile ? "h4" : "h2"}
-            component={motion.h3}
-            variants={fadeSlideVariant}
-            sx={{ fontWeight: 900, letterSpacing: 0.5, textTransform: "uppercase" }}
-          >
-            {copy.headline}
-          </Typography>
+      <Box sx={{ position: "relative", zIndex: 2, maxWidth: 1100, width: "100%" }}>
+        <Typography
+          variant={isMobile ? "h4" : "h2"}
+          component={motion.h3}
+          variants={fadeSlideVariant}
+          sx={{ fontWeight: 900, letterSpacing: 0.5, textTransform: "uppercase" }}
+        >
+          {copy.headline}
+        </Typography>
 
-          <Typography
-            variant="body1"
-            component={motion.p}
-            variants={fadeSlideVariant}
-            transition={{ delay: 0.2 }}
+        <Typography
+          variant="body1"
+          component={motion.p}
+          variants={fadeSlideVariant}
+          transition={{ delay: 0.2 }}
+          sx={{
+            mt: 2,
+            fontSize: isMobile ? "1rem" : "1.15rem",
+            lineHeight: 1.6,
+            opacity: 0.9,
+            mx: "auto",
+            maxWidth: 980,
+          }}
+        >
+          {copy.body}
+        </Typography>
+
+        <Box
+          sx={{
+            display: "flex",
+            gap: 1.5,
+            justifyContent: "center",
+            flexWrap: "wrap",
+            mt: 3,
+            width: { xs: "min(92vw, 560px)", sm: "auto" },
+            mx: "auto",
+          }}
+        >
+          {/* Primary — solid black */}
+          <Button
+            component={motion.button}
+            initial={{ scale: 0.95 }}
+            animate={{ scale: 1 }}
+            whileHover={{ scale: 1.07 }}
+            whileTap={{ scale: 0.97 }}
+            onClick={handlePrimary}
             sx={{
-              mt: 2,
-              fontSize: isMobile ? "1rem" : "1.15rem",
-              lineHeight: 1.6,
-              opacity: 0.9,
-              mx: "auto",
-              maxWidth: 980,
+              width: BTN_WIDTH,                 // equal width
+              backgroundColor: CTA_DARK,
+              color: "#fff",
+              fontWeight: 900,
+              px: { xs: 3, md: 4 },
+              py: { xs: 1.2, md: 1.4 },
+              borderRadius: "30px",
+              textTransform: "uppercase",
+              fontSize: { xs: "1rem", md: "1.05rem" },
             }}
           >
-            {copy.body}
-          </Typography>
+            Get a Free Quote
+          </Button>
 
-          <Box
+          {/* Secondary — clear background, black text, black border */}
+          <Button
+            onClick={() => (window.location.href = phoneHref)}
             sx={{
-              display: "flex",
-              gap: 1.5,
-              justifyContent: "center",
-              flexWrap: "wrap",
-              mt: 3,
-              width: { xs: "min(92vw, 560px)", sm: "auto" },
-              mx: "auto",
+              width: BTN_WIDTH,                 // equal width
+              borderRadius: "30px",
+              px: { xs: 3, md: 4 },
+              py: { xs: 1.2, md: 1.4 },
+              fontWeight: 900,
+              color: "#000",
+              border: "2px solid #000",
+              backgroundColor: "transparent",
+              textTransform: "uppercase",
+              fontSize: { xs: "1rem", md: "1.05rem" },
+              "&:hover": {
+                borderColor: "#000",
+                backgroundColor: alpha("#000", 0.06), // tiny tint on hover (still feels clear)
+              },
             }}
           >
-            {/* Primary — solid black */}
-            <Button
-              component={motion.button}
-              initial={{ scale: 0.95 }}
-              animate={{ scale: 1 }}
-              whileHover={{ scale: 1.07 }}
-              whileTap={{ scale: 0.97 }}
-              onClick={handlePrimary}
-              sx={{
-                width: BTN_WIDTH,                 // equal width
-                backgroundColor: CTA_DARK,
-                color: "#fff",
-                fontWeight: 900,
-                px: { xs: 3, md: 4 },
-                py: { xs: 1.2, md: 1.4 },
-                borderRadius: "30px",
-                textTransform: "uppercase",
-                fontSize: { xs: "1rem", md: "1.05rem" },
-              }}
-            >
-              Get a Free Quote
-            </Button>
-
-            {/* Secondary — clear background, black text, black border */}
-            <Button
-              onClick={() => (window.location.href = phoneHref)}
-              sx={{
-                width: BTN_WIDTH,                 // equal width
-                borderRadius: "30px",
-                px: { xs: 3, md: 4 },
-                py: { xs: 1.2, md: 1.4 },
-                fontWeight: 900,
-                color: "#000",
-                border: "2px solid #000",
-                backgroundColor: "transparent",
-                textTransform: "uppercase",
-                fontSize: { xs: "1rem", md: "1.05rem" },
-                "&:hover": {
-                  borderColor: "#000",
-                  backgroundColor: alpha("#000", 0.06), // tiny tint on hover (still feels clear)
-                },
-              }}
-            >
-              Call Now
-            </Button>
-          </Box>
+            Call Now
+          </Button>
         </Box>
-
-        {/* Optional modal with embedded form */}
-        {useModal && (
-          <Dialog open={openModal} onClose={() => setOpenModal(false)} fullWidth maxWidth="lg">
-            <Box sx={{ position: "relative" }}>
-              <IconButton
-                onClick={() => setOpenModal(false)}
-                sx={{
-                  position: "absolute",
-                  top: 8,
-                  right: 8,
-                  color: "#fff",
-                  backgroundColor: "rgba(0,0,0,0.5)",
-                  zIndex: 1,
-                  "&:hover": { backgroundColor: "rgba(0,0,0,0.7)" },
-                }}
-              >
-                <CloseIcon />
-              </IconButton>
-              <iframe
-                src={formUrl}
-                width="100%"
-                height="800"
-                style={{ border: "none" }}
-                title="Service Quote"
-              />
-            </Box>
-          </Dialog>
-        )}
       </Box>
+
+      {/* Optional modal with embedded form */}
+      {useModal && (
+        <Dialog open={openModal} onClose={() => setOpenModal(false)} fullWidth maxWidth="lg">
+          <Box sx={{ position: "relative" }}>
+            <IconButton
+              onClick={() => setOpenModal(false)}
+              sx={{
+                position: "absolute",
+                top: 8,
+                right: 8,
+                color: "#fff",
+                backgroundColor: "rgba(0,0,0,0.5)",
+                zIndex: 1,
+                "&:hover": { backgroundColor: "rgba(0,0,0,0.7)" },
+              }}
+            >
+              <CloseIcon />
+            </IconButton>
+            <iframe
+              src={formUrl}
+              width="100%"
+              height="800"
+              style={{ border: "none" }}
+              title="Service Quote"
+            />
+          </Box>
+        </Dialog>
+      )}
+    </Box>
     // </motion.div>
   );
 }

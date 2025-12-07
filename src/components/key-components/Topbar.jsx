@@ -41,8 +41,8 @@ const ACCENT_HOVER = "#ffd95a";
 const TOOLBAR_HEIGHT = 72;
 
 /* Socials */
-const INSTAGRAM_URL = "https://instagram.com/your-instagram";
-const FACEBOOK_URL = "https://facebook.com/your-facebook";
+const INSTAGRAM_URL = "https://www.instagram.com/dynamic_repair/";
+const FACEBOOK_URL = "https://www.facebook.com/Dynamicautorepairdfw/";
 
 /* Assets */
 const BASE_URL = (import.meta?.env?.BASE_URL ?? "/").replace(/\/+/g, "/");
@@ -160,8 +160,8 @@ const NAV = [
   { label: "Home", to: "/" },
   { label: "About Us", to: "/about" },
   { label: "Services", to: "/services", hasHoverMenu: true },
-  { label: "Blogs", to: "/blogs" },
-  { label: "Gallery", to: "/gallery" },
+  // { label: "Blogs", to: "/blogs" },  -- UNCOMMMENT THIS
+  // { label: "Gallery", to: "/gallery" }, -- UNCOMMMENT THIS
   { label: "Contact", to: "/contact" },
 ];
 

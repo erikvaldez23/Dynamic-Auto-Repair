@@ -174,10 +174,69 @@ export default function ContactForm() {
         fetchModels();
     }, [selectedYear, selectedMake]);
 
-    const handleSubmit = (e) => {
+    const [status, setStatus] = useState({
+        submitting: false,
+        info: { error: false, msg: null },
+    });
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        // TODO: wire this up to your backend or lead capture service
-        console.log("Lead form submitted");
+
+        // Basic validation
+        const formData = new FormData(e.target);
+        const data = Object.fromEntries(formData.entries());
+
+        // Add vehicle data from state
+        data.vehicleYear = selectedYear;
+        data.vehicleMake = selectedMake;
+        data.vehicleModel = data.vehicleModel; // already in form data but good to be explicit if we were building it manually
+
+        if (!data.name || !data.phone || !data.vehicleYear || !data.vehicleMake || !data.vehicleModel) {
+            setStatus({
+                submitting: false,
+                info: { error: true, msg: "Please fill in all required fields." },
+            });
+            return;
+        }
+
+        setStatus({
+            submitting: true,
+            info: { error: false, msg: null },
+        });
+
+        try {
+            const response = await fetch('http://localhost:3000/api/contact', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            });
+
+            const resData = await response.json();
+
+            if (response.ok) {
+                setStatus({
+                    submitting: false,
+                    info: { error: false, msg: "Message sent successfully! We'll be in touch soon." },
+                });
+                // Optional: Reset form here
+                e.target.reset();
+                setSelectedYear("");
+                setSelectedMake("");
+                setModels([]);
+            } else {
+                setStatus({
+                    submitting: false,
+                    info: { error: true, msg: resData.message || "An error occurred. Please try again." },
+                });
+            }
+        } catch (error) {
+            setStatus({
+                submitting: false,
+                info: { error: true, msg: "Failed to send message. Please check your connection." },
+            });
+        }
     };
 
     return (
@@ -327,10 +386,24 @@ export default function ContactForm() {
                             size="large"
                             fullWidth
                             endIcon={<ArrowForwardRoundedIcon />}
+                            disabled={status.submitting}
                         >
-                            Get My Auto Quote
+                            {status.submitting ? "Sending..." : "Get My Auto Quote"}
                         </CTA>
                     </Box>
+
+                    {status.info.msg && (
+                        <Typography
+                            sx={{
+                                color: status.info.error ? "#ff4d4d" : "#4caf50",
+                                textAlign: "center",
+                                fontSize: 14,
+                                mt: 2
+                            }}
+                        >
+                            {status.info.msg}
+                        </Typography>
+                    )}
                 </Stack>
             </Box>
         </Stack>

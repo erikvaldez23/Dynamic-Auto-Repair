@@ -71,12 +71,12 @@ const PrivacyPolicy = () => {
         "Dynamic Auto Repair greatly respects your privacy. We do maintain and reserve the right to contact you if needed for non-marketing purposes (such as bug alerts, security breaches, account issues, and/or changes in Dynamic Auto Repair products and services). In certain circumstances, we may use our website, newspapers, or other public means to post a notice.",
       ],
     },
-    {
-      title: "Children Under The Age of 13",
-      content: [
-        "Dynamic Auto Repair's website is not directed to, and does not knowingly collect personal identifiable information from, children under the age of thirteen (13). If it is determined that such information has been inadvertently collected on anyone under the age of thirteen (13), we shall immediately take the necessary steps to ensure that such information is deleted from our system's database, or in the alternative, that verifiable parental consent is obtained for the use and storage of such information. Anyone under the age of thirteen (13) must seek and obtain parent or guardian permission to use this website.",
-      ],
-    },
+    // {
+    //   title: "Children Under The Age of 13",
+    //   content: [
+    //     "Dynamic Auto Repair's website is not directed to, and does not knowingly collect personal identifiable information from, children under the age of thirteen (13). If it is determined that such information has been inadvertently collected on anyone under the age of thirteen (13), we shall immediately take the necessary steps to ensure that such information is deleted from our system's database, or in the alternative, that verifiable parental consent is obtained for the use and storage of such information. Anyone under the age of thirteen (13) must seek and obtain parent or guardian permission to use this website.",
+    //   ],
+    // },
     {
       title: "Unsubscribe or Opt-Out",
       content: [

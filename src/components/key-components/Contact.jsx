@@ -150,7 +150,7 @@ export default function Contact({
   email = "ryan@dynamicautorepair.com",
   emailHref = "mailto:service@dynamicautorepair.com",
   address = "2518 W. Kingsley RD #113, Garland, TX 75041",
-  mapsHref = "https://maps.google.com/?q=Dynamic+Auto+Repair+Plano",
+  mapsHref = "https://www.google.com/maps/place/Dynamic+Auto+Repair/@32.8784902,-96.7427999,13z/data=!4m10!1m2!2m1!1sdynamic+auto+repair!3m6!1s0x864ea186f12b72af:0x2942406bace809d6!8m2!3d32.8784902!4d-96.6665822!15sChNkeW5hbWljIGF1dG8gcmVwYWlyWhUiE2R5bmFtaWMgYXV0byByZXBhaXKSAQpjYXJfcmVwYWlymgEjQ2haRFNVaE5NRzluUzBWSlEwRm5TVU5vZUhCcGJrRm5FQUXgAQD6AQUIzwIQRw!16s%2Fg%2F11h3dnvgbz?entry=ttu&g_ep=EgoyMDI1MTIwMi4wIKXMDSoASAFQAw%3D%3D",
   hours = [
     { d: "Mon–Fri", h: "8:00 AM – 6:00 PM" },
     { d: "Saturday", h: "9:00 AM – 3:00 PM" },

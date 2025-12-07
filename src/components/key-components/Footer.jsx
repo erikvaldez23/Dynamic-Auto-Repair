@@ -77,7 +77,7 @@ const Footer = () => {
                 transition: "color 0.3s",
                 "&:hover": { color: "#f2c230" }, // Blue color on hover
               }}
-              href="https://www.facebook.com/people/Tinttekplus/61561991193951/"
+              href="https://www.facebook.com/Dynamicautorepairdfw/"
               target="_blank"
             >
               <FaFacebook size={isMobile ? 22 : 24} />
@@ -89,13 +89,13 @@ const Footer = () => {
                 transition: "color 0.3s",
                 "&:hover": { color: "#f2c230" },
               }}
-              href="https://www.instagram.com/tinttekplus/"
+              href="https://www.instagram.com/dynamic_repair/"
               target="_blank"
             >
               <FaInstagram size={isMobile ? 22 : 24} />
             </IconButton>
 
-            <IconButton
+            {/* <IconButton
               color="inherit"
               sx={{
                 transition: "color 0.3s",
@@ -104,8 +104,8 @@ const Footer = () => {
               href="https://www.tiktok.com/@tinttekplus"
               target="_blank"
             >
-              <FaTiktok size={isMobile ? 22 : 24} />
-            </IconButton>
+              <FaTiktok size={isMobile ? 22 : 24} /> */}
+            {/* </IconButton> */}
 
             {/* <IconButton
               color="inherit"
@@ -165,8 +165,8 @@ const Footer = () => {
         >
           © {new Date().getFullYear()} Dynamic Auto Repair . All rights reserved.
         </Typography>
-      </Container>
-    </Box>
+      </Container >
+    </Box >
   );
 };
 

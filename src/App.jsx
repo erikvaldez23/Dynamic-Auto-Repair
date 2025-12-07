@@ -87,7 +87,7 @@ function App() {
                   {/* <Hero /> */}
                   <ServicesStrip />
                   <Services />
-                  <CTA />
+                  <CTA onCtaClick={handleCtaClick} />
                 </>
               }
             />
