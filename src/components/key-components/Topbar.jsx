@@ -161,7 +161,7 @@ const NAV = [
   { label: "About Us", to: "/about" },
   { label: "Services", to: "/services", hasHoverMenu: true },
   // { label: "Blogs", to: "/blogs" },  -- UNCOMMMENT THIS
-  // { label: "Gallery", to: "/gallery" }, -- UNCOMMMENT THIS
+  { label: "Gallery", to: "/gallery" },
   { label: "Contact", to: "/contact" },
 ];
 

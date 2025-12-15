@@ -8,21 +8,21 @@ import BusinessInfo from "./business-info/BusinessInfo";
 const BASE_URL = (import.meta?.env?.BASE_URL ?? "/").replace(/\/+/g, "/");
 
 const DEFAULTS = {
-  // src: `/tesla-video.mov`,
+  src: `/videos/hero.mp4`,
   background: "transparent",
   poster: `${BASE_URL}images/hero.jpg`,
   heading: "Precision. Protection. Performance.",
   // subheading: "Expert window tinting & paint protection film.",
   ctaLabel: "Get a Free Quote",
   height: "100svh",
-  overlay: false,
-  overlayStrength: 0.55,
+  overlay: true,
+  overlayStrength: 0.2,
 };
 
 const ACCENT = "#f2c230";
 const ACCENT_HOVER = "#ffd95a";
 
-const NOOP = () => {};
+const NOOP = () => { };
 
 /* ------------------------------ Styled ------------------------------ */
 const Root = styled(Box, {
@@ -71,7 +71,6 @@ const Content = styled(Box)(({ theme }) => ({
 }));
 
 /** Bottom-left block (headline + subheading) */
-/** Bottom-left block (headline + subheading) */
 const LeftBlock = styled(Box)(({ theme }) => ({
   position: "absolute",
   left: "clamp(12px, 3vw, 10px)",
@@ -93,7 +92,6 @@ const LeftBlock = styled(Box)(({ theme }) => ({
 }));
 
 
-/** Bottom-right CTA block */
 /** Bottom-right CTA block */
 const RightCTA = styled(Box)(({ theme }) => ({
   position: "absolute",
@@ -191,7 +189,7 @@ export default function HeroVideoBackground({
     if (!v) return;
     const onLoadedMeta = () => {
       v.muted = true;
-      v.play().catch(() => {});
+      v.play().catch(() => { });
     };
     const onCanPlay = () => setCanPlay(true);
     v.addEventListener("loadedmetadata", onLoadedMeta);
