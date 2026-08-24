@@ -242,7 +242,7 @@ export default function ContactForm() {
 
     return (
         <Stack spacing={2.5}>
-            <Heading variant="h2">Get Your Free Auto Tint Quote!</Heading>
+            <Heading variant="h2">Get Your Free Auto Quote!</Heading>
 
             <Box
                 component="form"
